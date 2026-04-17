@@ -1,13 +1,13 @@
 {
   "name": "subussy-os",
   "version": "1.0.0",
-  "description": "Game OS launcher",
+  "description": "Local game launcher site",
   "main": "server.cjs",
   "type": "commonjs",
   "scripts": {
     "start": "node server.cjs"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.19.2"
   }
 }

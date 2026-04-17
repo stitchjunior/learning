@@ -4,15 +4,16 @@ const path = require("path");
 const app = express();
 const PORT = 8080;
 
-// serve everything from current folder
+// Serve everything in your folder (index.html, games, images, etc.)
 app.use(express.static(__dirname));
 
-// fallback to index.html
-app.get("*", (req, res) => {
+// Main route
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// Start server
 app.listen(PORT, () => {
-  console.log("🔥 subussy OS running at:");
-  console.log("👉 http://localhost:8080");
+  console.log("🔥 Server running at:");
+  console.log(`👉 http://localhost:${PORT}`);
 });
