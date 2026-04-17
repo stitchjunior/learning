@@ -1,0 +1,54 @@
+<html>
+<head>
+<script>
+window.gameconfig = {
+name: "Call of Duty 4",
+url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@2aa8e49096f37352d81500a212e2215e044cb568/Call%20of%20Duty%204%20-%20Modern%20Warfare%20(USA)/Call%20of%20Duty%204%20-%20Modern%20Warfare%20(USA).nds",
+core: "nds",
+min: 1,
+max: 4
+};
+</script>
+</head>
+
+<body style="margin:0;background:black;color:white;display:flex;justify-content:center;align-items:center;height:100vh;">
+<div id="game"></div>
+<div id="loading">Loading...</div>
+
+<script>
+function getParts(file,start,end){
+let parts=[];
+for(let i=start;i<=end;i++){
+parts.push(file+".part"+i);
+}
+return parts;
+}
+
+async function merge(parts){
+let buffers=[];
+for(let i=0;i<parts.length;i++){
+let r=await fetch(parts[i]);
+buffers.push(await r.arrayBuffer());
+}
+return URL.createObjectURL(new Blob(buffers));
+}
+
+(async()=>{
+let parts=getParts(window.gameconfig.url,window.gameconfig.min,window.gameconfig.max);
+let gameUrl=await merge(parts);
+
+EJS_player="#game";
+EJS_core=window.gameconfig.core;
+EJS_gameUrl=gameUrl;
+EJS_pathtodata="https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+
+let s=document.createElement("script");
+s.src="https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+document.body.appendChild(s);
+
+document.getElementById("loading").remove();
+})();
+</script>
+
+</body>
+</html>
