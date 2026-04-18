@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ultimate-subussy</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ultimate-subussy FINAL</title>
 <style>
   :root{
     --main:#00ff88;
@@ -14,6 +14,8 @@
     --text:#eafff4;
     --muted:#9ff5cb;
     --danger:#ff4d6d;
+    --accent:#00ff88;
+    --accent2:#7dffd0;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
@@ -33,9 +35,13 @@
       radial-gradient(circle at 20% 20%, rgba(0,255,136,.10), transparent 28%),
       radial-gradient(circle at 80% 18%, rgba(0,255,136,.07), transparent 24%),
       linear-gradient(180deg,#010101,#050505 50%,#000 100%);
+    transition:
+      background 800ms ease,
+      filter 200ms ease,
+      transform 120ms ease,
+      color 400ms ease;
   }
 
-  /* animated glow layer */
   body::before{
     content:"";
     position:fixed;
@@ -43,9 +49,10 @@
     pointer-events:none;
     z-index:-4;
     background:
-      radial-gradient(circle at 30% 35%, rgba(0,255,136,.10), transparent 35%),
-      radial-gradient(circle at 75% 70%, rgba(0,255,136,.08), transparent 32%);
+      radial-gradient(circle at 30% 35%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 35%),
+      radial-gradient(circle at 75% 70%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 32%);
     animation:bgPulse 8s ease-in-out infinite alternate;
+    transition:background 600ms ease;
   }
 
   @keyframes bgPulse{
@@ -59,10 +66,11 @@
     z-index:-5;
     opacity:.12;
     background:
-      linear-gradient(90deg, transparent 0 96%, rgba(0,255,136,.06) 96%),
-      linear-gradient(transparent 0 96%, rgba(0,255,136,.06) 96%);
+      linear-gradient(90deg, transparent 0 96%, color-mix(in srgb, var(--accent) 6%, transparent) 96%),
+      linear-gradient(transparent 0 96%, color-mix(in srgb, var(--accent) 6%, transparent) 96%);
     background-size:70px 70px;
     animation:gridMove 7s linear infinite;
+    transition:background 600ms ease, opacity 300ms ease;
   }
 
   @keyframes gridMove{
@@ -78,7 +86,16 @@
     height:100%;
   }
 
-  /* boot */
+  #themeFlash{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    z-index:300000;
+    background:radial-gradient(circle at center, rgba(255,255,255,.7), rgba(0,0,0,0) 55%);
+    transition:opacity .5s ease;
+  }
+
   #boot{
     position:fixed;
     inset:0;
@@ -93,20 +110,20 @@
   #bootCard{
     width:min(760px,95vw);
     min-height:260px;
-    border:1px solid rgba(0,255,136,.28);
+    border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
     border-radius:22px;
     background:rgba(0,0,0,.88);
-    box-shadow:0 0 35px rgba(0,255,136,.12);
+    box-shadow:0 0 35px color-mix(in srgb, var(--accent) 12%, transparent);
     padding:22px;
   }
 
   #bootTitle{
-    color:var(--main);
+    color:var(--accent);
     font-size:24px;
     font-weight:900;
     letter-spacing:2px;
     margin-bottom:14px;
-    text-shadow:0 0 12px rgba(0,255,136,.35);
+    text-shadow:0 0 12px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
   #terminal{
@@ -121,7 +138,7 @@
   #barWrap{
     width:100%;
     height:12px;
-    border:1px solid rgba(0,255,136,.35);
+    border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
     background:#06140d;
     border-radius:999px;
     overflow:hidden;
@@ -131,11 +148,10 @@
   #bar{
     width:0%;
     height:100%;
-    background:linear-gradient(90deg,var(--main),var(--main2));
-    box-shadow:0 0 15px rgba(0,255,136,.45);
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    box-shadow:0 0 15px color-mix(in srgb, var(--accent) 45%, transparent);
   }
 
-  /* top */
   #top{
     position:fixed;
     top:14px;
@@ -149,10 +165,11 @@
     padding:14px 16px;
     border-radius:22px;
     background:rgba(0,0,0,.50);
-    border:1px solid rgba(0,255,136,.18);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
     backdrop-filter:blur(12px);
-    box-shadow:0 0 24px rgba(0,255,136,.08);
+    box-shadow:0 0 24px color-mix(in srgb, var(--accent) 8%, transparent);
     z-index:1100;
+    transition:border-color .5s ease, box-shadow .5s ease, background .5s ease;
   }
 
   #titleWrap{
@@ -166,9 +183,10 @@
     width:16px;
     height:16px;
     border-radius:50%;
-    background:var(--main);
-    box-shadow:0 0 16px rgba(0,255,136,.65);
+    background:var(--accent);
+    box-shadow:0 0 16px color-mix(in srgb, var(--accent) 65%, transparent);
     animation:dotPulse 1.7s infinite;
+    transition:background .5s ease, box-shadow .5s ease;
   }
 
   @keyframes dotPulse{
@@ -177,11 +195,12 @@
   }
 
   #title{
-    color:var(--main);
+    color:var(--accent);
     font-size:24px;
     font-weight:900;
     letter-spacing:2px;
-    text-shadow:0 0 16px rgba(0,255,136,.22);
+    text-shadow:0 0 16px color-mix(in srgb, var(--accent) 22%, transparent);
+    transition:color .5s ease, text-shadow .5s ease;
   }
 
   #subTitle{
@@ -191,17 +210,16 @@
     margin-top:3px;
   }
 
-  .searchWrap{
-    position:relative;
-  }
+  .searchWrap{position:relative}
 
   #searchIcon{
     position:absolute;
     left:14px;
     top:50%;
     transform:translateY(-50%);
-    color:var(--main);
+    color:var(--accent);
     pointer-events:none;
+    transition:color .5s ease;
   }
 
   #search{
@@ -209,14 +227,15 @@
     padding:13px 16px 13px 40px;
     border-radius:16px;
     background:rgba(0,0,0,.85);
-    border:1px solid rgba(0,255,136,.22);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     outline:none;
     color:var(--text);
+    transition:border-color .5s ease, box-shadow .3s ease;
   }
 
   #search:focus{
-    border-color:var(--main);
-    box-shadow:0 0 16px rgba(0,255,136,.14);
+    border-color:var(--accent);
+    box-shadow:0 0 16px color-mix(in srgb, var(--accent) 14%, transparent);
   }
 
   #topRight{
@@ -230,16 +249,16 @@
     height:42px;
     border:none;
     border-radius:14px;
-    color:var(--main);
+    color:var(--accent);
     background:rgba(0,0,0,.85);
-    border:1px solid rgba(0,255,136,.22);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     cursor:pointer;
-    transition:.18s ease;
+    transition:.18s ease, color .5s ease, border-color .5s ease;
   }
 
   .topBtn:hover{
     transform:translateY(-1px);
-    box-shadow:0 0 14px rgba(0,255,136,.16);
+    box-shadow:0 0 14px color-mix(in srgb, var(--accent) 16%, transparent);
   }
 
   #clock{
@@ -247,14 +266,14 @@
     padding:8px 12px;
     border-radius:14px;
     background:rgba(0,0,0,.85);
-    border:1px solid rgba(0,255,136,.22);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     font-size:12px;
     line-height:1.35;
     text-align:right;
     color:#d8ffe9;
+    transition:border-color .5s ease;
   }
 
-  /* desktop icons */
   #desktopIcons{
     position:fixed;
     inset:86px 0 60px 0;
@@ -275,7 +294,7 @@
   }
 
   .icon:hover{
-    background:rgba(0,255,136,.06);
+    background:color-mix(in srgb, var(--accent) 6%, transparent);
     transform:translateY(-2px);
   }
 
@@ -288,8 +307,9 @@
     place-items:center;
     color:#041a11;
     font-size:24px;
-    background:linear-gradient(180deg,#abffd5,var(--main));
-    box-shadow:0 0 20px rgba(0,255,136,.18);
+    background:linear-gradient(180deg,#abffd5,var(--accent));
+    box-shadow:0 0 20px color-mix(in srgb, var(--accent) 18%, transparent);
+    transition:background .5s ease, box-shadow .5s ease;
   }
 
   .iconLabel{
@@ -299,7 +319,6 @@
     text-shadow:0 0 12px rgba(0,0,0,.7);
   }
 
-  /* main area */
   #mainArea{
     position:fixed;
     inset:92px 18px 68px 18px;
@@ -346,15 +365,15 @@
     background:#000;
     cursor:pointer;
     transform-style:preserve-3d;
-    transition:transform .28s ease, box-shadow .28s ease;
-    border:1px solid rgba(0,255,136,.15);
+    transition:transform .28s ease, box-shadow .28s ease, border-color .5s ease, background .3s ease;
+    border:1px solid color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .card:hover{
     transform:rotateY(5deg) rotateX(4deg) scale(1.04);
     box-shadow:
       0 18px 40px rgba(0,0,0,.48),
-      0 0 34px rgba(0,255,136,.18);
+      0 0 34px color-mix(in srgb, var(--accent) 18%, transparent);
   }
 
   .card img{
@@ -414,15 +433,17 @@
     text-transform:uppercase;
     letter-spacing:1px;
     background:rgba(0,0,0,.65);
-    border:1px solid rgba(0,255,136,.2);
+    border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
     color:#d8ffe9;
+    transition:border-color .5s ease;
   }
 
   .playBadge{
-    background:linear-gradient(180deg,#b8ffde,var(--main));
+    background:linear-gradient(180deg,#b8ffde,var(--accent));
     color:#032116;
     border:none;
     font-weight:900;
+    transition:background .5s ease;
   }
 
   .cardName{
@@ -430,10 +451,11 @@
     font-weight:900;
     color:#fff;
     text-shadow:
-      0 1px 0 #00ff88,
-      0 2px 0 #00cc66,
-      0 4px 10px rgba(0,255,136,.4),
-      0 0 18px rgba(0,255,136,.35);
+      0 1px 0 var(--accent),
+      0 2px 0 color-mix(in srgb, var(--accent) 80%, #003000),
+      0 4px 10px color-mix(in srgb, var(--accent) 40%, transparent),
+      0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+    transition:text-shadow .5s ease;
   }
 
   .cardMeta{
@@ -445,7 +467,6 @@
     color:#8dd7ad;
   }
 
-  /* player */
   #player{
     position:fixed;
     inset:0;
@@ -486,8 +507,9 @@
     border-radius:16px;
     color:#031c11;
     font-weight:800;
-    background:linear-gradient(180deg,#abffd5,var(--main));
-    box-shadow:0 0 18px rgba(0,255,136,.18);
+    background:linear-gradient(180deg,#abffd5,var(--accent));
+    box-shadow:0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
+    transition:background .5s ease, box-shadow .5s ease;
   }
 
   .playerBtn.danger{
@@ -495,25 +517,6 @@
     color:#2a000a;
   }
 
-  /* random */
-  #randomBtn{
-    position:fixed;
-    left:18px;
-    bottom:70px;
-    width:54px;
-    height:54px;
-    border:none;
-    border-radius:18px;
-    z-index:1200;
-    cursor:pointer;
-    background:linear-gradient(180deg,#abffd5,var(--main));
-    color:#042116;
-    font-size:20px;
-    font-weight:900;
-    box-shadow:0 0 22px rgba(0,255,136,.22);
-  }
-
-  /* taskbar */
   #taskbar{
     position:fixed;
     left:10px;
@@ -528,8 +531,9 @@
     gap:12px;
     padding:0 10px;
     background:rgba(0,0,0,.74);
-    border:1px solid rgba(0,255,136,.18);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
     backdrop-filter:blur(12px);
+    transition:border-color .5s ease;
   }
 
   #taskLeft{
@@ -544,9 +548,10 @@
     border:none;
     border-radius:12px;
     cursor:pointer;
-    background:linear-gradient(180deg,#a7ffd2,var(--main));
+    background:linear-gradient(180deg,#a7ffd2,var(--accent));
     color:#032116;
     font-weight:900;
+    transition:background .5s ease;
   }
 
   #taskApps{
@@ -560,7 +565,7 @@
     height:34px;
     padding:0 12px;
     border-radius:12px;
-    border:1px solid rgba(0,255,136,.14);
+    border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
     background:rgba(255,255,255,.04);
     color:#dfffee;
     cursor:pointer;
@@ -576,9 +581,10 @@
   #onlineBadge{
     padding:5px 9px;
     border-radius:999px;
-    background:rgba(0,255,136,.11);
+    background:color-mix(in srgb, var(--accent) 11%, transparent);
     color:var(--muted);
     font-size:11px;
+    transition:background .5s ease;
   }
 
   #taskClock{
@@ -588,7 +594,6 @@
     color:#deffec;
   }
 
-  /* start menu */
   #startMenu{
     position:fixed;
     left:12px;
@@ -600,22 +605,23 @@
     overflow:hidden;
     z-index:1300;
     background:rgba(0,0,0,.88);
-    border:1px solid rgba(0,255,136,.22);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     border-radius:22px;
-    box-shadow:0 0 30px rgba(0,255,136,.1);
+    box-shadow:0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
     backdrop-filter:blur(14px);
+    transition:border-color .5s ease, box-shadow .5s ease;
   }
 
   #startHead{
     padding:14px;
-    border-bottom:1px solid rgba(0,255,136,.12);
+    border-bottom:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   #startSearch{
     width:100%;
     padding:12px 14px;
     border-radius:14px;
-    border:1px solid rgba(0,255,136,.18);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
     background:rgba(0,0,0,.74);
     color:#eafff2;
     outline:none;
@@ -644,12 +650,12 @@
     border-radius:14px;
     color:#e8fff2;
     background:rgba(255,255,255,.035);
-    border:1px solid rgba(0,255,136,.10);
+    border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
     cursor:pointer;
   }
 
   .startItem:hover{
-    background:rgba(0,255,136,.08);
+    background:color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .startItem small{
@@ -658,7 +664,6 @@
     color:#90d8b0;
   }
 
-  /* windows */
   #windowLayer{
     position:fixed;
     inset:0;
@@ -668,16 +673,17 @@
 
   .window{
     position:absolute;
-    width:min(420px,calc(100vw - 24px));
+    width:min(440px,calc(100vw - 24px));
     max-height:min(76vh,720px);
     display:flex;
     flex-direction:column;
     overflow:hidden;
     border-radius:20px;
     background:rgba(0,0,0,.9);
-    border:1px solid rgba(0,255,136,.18);
-    box-shadow:0 14px 34px rgba(0,0,0,.42), 0 0 24px rgba(0,255,136,.08);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+    box-shadow:0 14px 34px rgba(0,0,0,.42), 0 0 24px color-mix(in srgb, var(--accent) 8%, transparent);
     pointer-events:auto;
+    transition:border-color .5s ease, box-shadow .5s ease;
   }
 
   .titleBar{
@@ -686,10 +692,11 @@
     justify-content:space-between;
     gap:12px;
     padding:10px 12px;
-    background:linear-gradient(180deg, rgba(0,255,136,.14), rgba(0,255,136,.05));
-    border-bottom:1px solid rgba(0,255,136,.12);
+    background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 14%, transparent), color-mix(in srgb, var(--accent) 5%, transparent));
+    border-bottom:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
     cursor:move;
     user-select:none;
+    transition:background .5s ease;
   }
 
   .titleBarText{
@@ -727,8 +734,9 @@
   .winCard{
     padding:12px;
     border-radius:14px;
-    border:1px solid rgba(0,255,136,.10);
+    border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
     background:rgba(255,255,255,.03);
+    transition:border-color .5s ease;
   }
 
   .rowBtns{
@@ -744,8 +752,9 @@
     cursor:pointer;
     border-radius:12px;
     color:#032116;
-    background:linear-gradient(180deg,#b9ffdd,var(--main));
+    background:linear-gradient(180deg,#b9ffdd,var(--accent));
     font-weight:800;
+    transition:background .5s ease;
   }
 
   .ghostBtn{
@@ -755,7 +764,7 @@
     border-radius:12px;
     color:#dfffee;
     background:rgba(255,255,255,.055);
-    border:1px solid rgba(0,255,136,.14);
+    border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
   }
 
   .settingItem{
@@ -765,7 +774,7 @@
     gap:12px;
     padding:12px;
     border-radius:14px;
-    border:1px solid rgba(0,255,136,.10);
+    border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
     background:rgba(255,255,255,.03);
   }
 
@@ -777,10 +786,10 @@
     cursor:pointer;
     color:#032116;
     font-weight:800;
-    background:linear-gradient(180deg,#baffdf,var(--main));
+    background:linear-gradient(180deg,#baffdf,var(--accent));
+    transition:background .5s ease;
   }
 
-  /* ai */
   #aiPanel{
     position:fixed;
     right:20px;
@@ -790,24 +799,26 @@
     display:flex;
     flex-direction:column;
     background:rgba(0,0,0,.90);
-    border:1px solid rgba(0,255,136,.26);
+    border:1px solid color-mix(in srgb, var(--accent) 26%, transparent);
     border-radius:18px;
-    box-shadow:0 0 25px rgba(0,255,136,.14);
+    box-shadow:0 0 25px color-mix(in srgb, var(--accent) 14%, transparent);
     z-index:1500;
     animation:aiPulse 3s infinite;
+    transition:border-color .5s ease, box-shadow .5s ease;
   }
 
   @keyframes aiPulse{
-    0%,100%{box-shadow:0 0 20px rgba(0,255,136,.16)}
-    50%{box-shadow:0 0 34px rgba(0,255,136,.28)}
+    0%,100%{box-shadow:0 0 20px color-mix(in srgb, var(--accent) 16%, transparent)}
+    50%{box-shadow:0 0 34px color-mix(in srgb, var(--accent) 28%, transparent)}
   }
 
   #aiHeader{
     padding:10px 12px;
     font-weight:900;
-    color:var(--main);
-    border-bottom:1px solid rgba(0,255,136,.16);
+    color:var(--accent);
+    border-bottom:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
     letter-spacing:1px;
+    transition:color .5s ease;
   }
 
   #aiChat{
@@ -825,14 +836,13 @@
 
   #aiInput{
     border:none;
-    border-top:1px solid rgba(0,255,136,.12);
+    border-top:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
     padding:10px;
     background:#000;
     color:#00ff88;
     outline:none;
   }
 
-  /* idle */
   #idleBox{
     position:fixed;
     bottom:470px;
@@ -841,8 +851,8 @@
     padding:14px;
     border-radius:16px;
     background:rgba(0,0,0,.88);
-    border:1px solid rgba(0,255,136,.24);
-    box-shadow:0 0 20px rgba(0,255,136,.12);
+    border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+    box-shadow:0 0 20px color-mix(in srgb, var(--accent) 12%, transparent);
     display:none;
     z-index:1500;
     animation:idlePop .3s ease;
@@ -864,20 +874,19 @@
     line-height:1.4;
   }
 
-  /* cursor */
   #cursor{
     position:fixed;
     width:22px;
     height:22px;
-    border:2px solid #00ff88;
+    border:2px solid var(--accent);
     border-radius:50%;
     pointer-events:none;
     z-index:200000;
     transform:translate(-50%,-50%);
     box-shadow:
-      0 0 20px rgba(0,255,136,.8),
-      inset 0 0 10px rgba(0,255,136,.4);
-    transition:width .12s ease,height .12s ease,opacity .2s ease;
+      0 0 20px color-mix(in srgb, var(--accent) 80%, transparent),
+      inset 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+    transition:width .12s ease,height .12s ease,opacity .2s ease,border-color .5s ease;
   }
 
   #cursorDot{
@@ -885,11 +894,12 @@
     width:5px;
     height:5px;
     border-radius:50%;
-    background:#00ff88;
+    background:var(--accent);
     pointer-events:none;
     z-index:200001;
     transform:translate(-50%,-50%);
-    box-shadow:0 0 12px rgba(0,255,136,.8);
+    box-shadow:0 0 12px color-mix(in srgb, var(--accent) 80%, transparent);
+    transition:background .5s ease;
   }
 
   .cursor-hover{
@@ -910,7 +920,7 @@
     border-radius:50%;
     pointer-events:none;
     z-index:199999;
-    box-shadow:0 0 14px rgba(0,255,136,.45);
+    box-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
     animation:trailFade .34s forwards;
   }
 
@@ -925,7 +935,15 @@
     filter:hue-rotate(90deg) contrast(1.8);
   }
 
-  /* fight */
+  .screenFlash{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:250000;
+    background:#fff;
+    opacity:0;
+  }
+
   #fightScene{
     position:fixed;
     inset:0;
@@ -935,20 +953,22 @@
     align-items:center;
     flex-direction:column;
     background:
-      radial-gradient(circle at center, rgba(0,255,136,.12), transparent 35%),
+      radial-gradient(circle at center, color-mix(in srgb, var(--accent) 12%, transparent), transparent 35%),
       linear-gradient(180deg,#000,#040404 55%,#000);
     overflow:hidden;
+    transition:opacity .45s ease, background .5s ease;
   }
 
   #fightNames{
     position:relative;
     z-index:2;
     font-size:28px;
-    color:var(--main);
-    text-shadow:0 0 18px rgba(0,255,136,.55);
+    color:var(--accent);
+    text-shadow:0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
     margin-bottom:18px;
     text-align:center;
     padding:0 16px;
+    transition:color .5s ease, text-shadow .5s ease;
   }
 
   #fightBars{
@@ -966,14 +986,14 @@
     border-radius:999px;
     overflow:hidden;
     background:#0d0d0d;
-    border:1px solid rgba(0,255,136,.22);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .barFill{
     width:100%;
     height:100%;
-    background:linear-gradient(90deg,var(--main),#c8ffe3);
-    transition:width .16s linear;
+    background:linear-gradient(90deg,var(--accent),#c8ffe3);
+    transition:width .16s linear, background .5s ease;
   }
 
   #fighters{
@@ -1001,38 +1021,113 @@
   }
 
   .fighter{
-    width:160px;
-    height:160px;
-    border-radius:28px;
-    background:
-      radial-gradient(circle at 30% 30%, rgba(255,255,255,.15), transparent 22%),
-      linear-gradient(180deg,#93ffd0,var(--main) 55%, #03341f);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.25),
-      0 0 26px rgba(0,255,136,.34);
-    transition:transform .11s ease, filter .11s ease, box-shadow .12s ease;
+    width:190px;
+    height:190px;
     position:relative;
-    overflow:hidden;
+    transition:transform .11s ease, filter .11s ease, box-shadow .12s ease;
+    overflow:visible;
   }
 
+  .fighterCore{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .fighterBody{
+    position:relative;
+    width:120px;
+    height:170px;
+    filter:drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 40%, transparent));
+  }
+
+  .head{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#b9ffdf,var(--accent));
+    margin:0 auto;
+    position:relative;
+    box-shadow:0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .face{
+    position:absolute;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:11px;
+    color:#02160f;
+    font-weight:900;
+    width:24px;
+    text-align:center;
+    letter-spacing:-1px;
+    user-select:none;
+  }
+
+  .torso{
+    width:8px;
+    height:56px;
+    margin:5px auto 0;
+    border-radius:999px;
+    background:linear-gradient(180deg,#b9ffdf,var(--accent));
+    box-shadow:0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .arm{
+    position:absolute;
+    top:56px;
+    width:48px;
+    height:8px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#b9ffdf,var(--accent));
+    box-shadow:0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .arm.left{ left:8px; transform:rotate(28deg); transform-origin:right center; }
+  .arm.right{ right:8px; transform:rotate(-28deg); transform-origin:left center; }
+
+  .leg{
+    position:absolute;
+    top:98px;
+    width:8px;
+    height:58px;
+    border-radius:999px;
+    background:linear-gradient(180deg,#b9ffdf,var(--accent));
+    box-shadow:0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .leg.left{ left:46px; transform:rotate(16deg); transform-origin:top center; }
+  .leg.right{ right:46px; transform:rotate(-16deg); transform-origin:top center; }
+
   .fighter.left.attack{
-    transform:translateX(54px) rotate(-8deg) scale(1.03);
+    transform:translateX(48px) rotate(-8deg) scale(1.03);
   }
 
   .fighter.right.attack{
-    transform:translateX(-54px) rotate(8deg) scale(1.03);
+    transform:translateX(-48px) rotate(8deg) scale(1.03);
+  }
+
+  .fighter.left.kick{
+    transform:translateX(40px) rotate(-6deg) scale(1.06);
+  }
+
+  .fighter.right.kick{
+    transform:translateX(-40px) rotate(6deg) scale(1.06);
   }
 
   .fighter.left.dash{
-    transform:translateX(88px) scale(1.06);
+    transform:translateX(84px) scale(1.08);
   }
 
   .fighter.right.dash{
-    transform:translateX(-88px) scale(1.06);
+    transform:translateX(-84px) scale(1.08);
   }
 
   .fighter.hit{
-    transform:scale(.92) translateY(4px);
+    transform:scale(.92) translateY(4px) rotate(-4deg);
     filter:brightness(1.55) grayscale(1);
   }
 
@@ -1044,6 +1139,54 @@
   .fighter.clash{
     transform:scale(1.08);
     filter:brightness(1.8);
+  }
+
+  .fist{
+    position:absolute;
+    width:26px;
+    height:18px;
+    border-radius:999px;
+    background:#fff;
+    top:62px;
+    opacity:0;
+    box-shadow:0 0 14px rgba(255,255,255,.65);
+  }
+
+  .fighter1 .fist{ right:12px; }
+  .fighter2 .fist{ left:12px; }
+
+  .kickTrail{
+    position:absolute;
+    width:62px;
+    height:12px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#fff,transparent);
+    top:116px;
+    opacity:0;
+    filter:blur(1px);
+  }
+
+  .fighter1 .kickTrail{ right:-18px; transform-origin:left center; }
+  .fighter2 .kickTrail{ left:-18px; transform:scaleX(-1); transform-origin:right center; }
+
+  .fist.active{
+    animation:fistBlast .16s linear;
+  }
+
+  .kickTrail.active{
+    animation:kickBlast .2s linear;
+  }
+
+  @keyframes fistBlast{
+    0%{opacity:0;transform:scale(1)}
+    40%{opacity:1;transform:scale(1.5)}
+    100%{opacity:0;transform:scale(1)}
+  }
+
+  @keyframes kickBlast{
+    0%{opacity:0;transform:scaleX(1)}
+    40%{opacity:1;transform:scaleX(1.35)}
+    100%{opacity:0;transform:scaleX(1.7)}
   }
 
   #fightText{
@@ -1070,17 +1213,89 @@
     border-radius:16px;
     background:rgba(0,0,0,.84);
     color:#d8ffe9;
-    border:1px solid rgba(0,255,136,.24);
-    box-shadow:0 0 22px rgba(0,255,136,.1);
+    border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+    box-shadow:0 0 22px color-mix(in srgb, var(--accent) 10%, transparent);
     text-align:center;
     font-size:13px;
+    transition:border-color .5s ease, box-shadow .5s ease;
+  }
+
+  .bubble{
+    position:fixed;
+    top:18%;
+    padding:12px 14px;
+    max-width:240px;
+    background:rgba(0,0,0,.92);
+    border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    color:#d8ffe9;
+    border-radius:16px;
+    box-shadow:0 0 18px color-mix(in srgb, var(--accent) 10%, transparent);
+    z-index:200100;
+    animation:bubbleIn .2s ease;
+  }
+
+  @keyframes bubbleIn{
+    from{transform:translateY(10px);opacity:0}
+    to{transform:translateY(0);opacity:1}
+  }
+
+  .hitSpark{
+    position:fixed;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 20px #fff, 0 0 40px color-mix(in srgb, var(--accent) 50%, transparent);
+    pointer-events:none;
+    z-index:250001;
+    animation:sparkPop .22s forwards;
+  }
+
+  @keyframes sparkPop{
+    to{
+      transform:scale(3.4);
+      opacity:0;
+    }
+  }
+
+  .comboGlow{
+    animation:comboGlow .45s ease;
+  }
+
+  @keyframes comboGlow{
+    0%{box-shadow:0 0 0 transparent}
+    50%{box-shadow:0 0 40px color-mix(in srgb, var(--accent) 50%, transparent)}
+    100%{box-shadow:0 0 0 transparent}
+  }
+
+  .hitFreeze{
+    animation:freezeHit .09s linear;
+  }
+
+  @keyframes freezeHit{
+    0%{transform:scale(1.01)}
+    100%{transform:scale(1)}
+  }
+
+  @keyframes screenShake{
+    0%{transform:translate(0,0)}
+    20%{transform:translate(10px,-8px)}
+    40%{transform:translate(-10px,7px)}
+    60%{transform:translate(7px,10px)}
+    80%{transform:translate(-7px,-8px)}
+    100%{transform:translate(0,0)}
   }
 
   @media (max-width:900px){
     #top{grid-template-columns:1fr}
     #topRight{justify-content:space-between}
     #fighters{width:min(94vw,720px)}
-    .fighter{width:120px;height:120px}
+    .fighter{width:140px;height:160px}
+    .fighterBody{width:96px;height:140px}
+    .arm.left{left:4px}
+    .arm.right{right:4px}
+    .leg.left{left:36px}
+    .leg.right{right:36px}
     #fightNames{font-size:22px}
     #fightText{font-size:19px}
   }
@@ -1089,7 +1304,15 @@
     #mainArea{inset:126px 12px 68px 12px}
     #grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
     .card{height:240px}
-    .fighter{width:96px;height:96px;border-radius:22px}
+    .fighter{width:110px;height:135px}
+    .fighterBody{width:78px;height:120px}
+    .head{width:32px;height:32px}
+    .torso{height:42px}
+    .arm{width:30px;top:46px}
+    .leg{height:42px;top:82px}
+    .leg.left{left:28px}
+    .leg.right{right:28px}
+    .kickTrail{top:98px}
     #fightBars{gap:10px}
     #aiPanel{width:260px;height:320px}
   }
@@ -1097,6 +1320,7 @@
 </head>
 <body>
 
+<div id="themeFlash"></div>
 <div id="wallpaper"></div>
 <canvas id="bg"></canvas>
 
@@ -1122,12 +1346,38 @@
   <div id="fighters">
     <div class="fighterWrap">
       <div class="fighterLabel" id="f1Label">player</div>
-      <div class="fighter left" id="fighter1"></div>
+      <div class="fighter fighter1 left" id="fighter1">
+        <div class="fighterCore">
+          <div class="fighterBody">
+            <div class="head"><div class="face" id="face1">• •</div></div>
+            <div class="torso"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+            <div class="fist"></div>
+            <div class="kickTrail"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="fighterWrap">
       <div class="fighterLabel" id="f2Label">school blocker</div>
-      <div class="fighter right" id="fighter2"></div>
+      <div class="fighter fighter2 right" id="fighter2">
+        <div class="fighterCore">
+          <div class="fighterBody">
+            <div class="head"><div class="face" id="face2">• •</div></div>
+            <div class="torso"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+            <div class="fist"></div>
+            <div class="kickTrail"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1150,6 +1400,7 @@
   </div>
 
   <div id="topRight">
+    <button class="topBtn" id="submitGameBtn" title="submit game">＋</button>
     <button class="topBtn" id="userBtn" title="change username">👤</button>
     <button class="topBtn" id="settingsBtnTop" title="settings">⚙</button>
     <div id="clock"></div>
@@ -1167,8 +1418,6 @@
     <div id="grid"></div>
   </div>
 </div>
-
-<button id="randomBtn" title="random game">🎲</button>
 
 <div id="player">
   <div id="playerBar">
@@ -1219,7 +1468,7 @@ const wallpapers = [
   "linear-gradient(160deg,#000,#031a12 45%,#000), radial-gradient(circle at 80% 20%, rgba(0,255,136,.15), transparent 20%)"
 ];
 
-const games = [
+const builtInGames = [
   { name:"Cookie Clicker", file:"cookieclicker.html", img:"images/cookieclicker.jpg", category:"idle" },
   { name:"Superhot Miami", file:"superhotlinemiami.html", img:"images/superhotlinemiami.jpg", category:"action" },
   { name:"Superhot", file:"superhot.html", img:"images/superhot.jpg", category:"action" },
@@ -1237,8 +1486,16 @@ const games = [
   { name:"Madden 94", file:"madden94.html", img:"images/madden94.jpg", category:"sports" }
 ];
 
+const themePresets = {
+  green:{accent:"#00ff88", accent2:"#7dffd0"},
+  cyan:{accent:"#35e1ff", accent2:"#9af3ff"},
+  purple:{accent:"#b868ff", accent2:"#e0b4ff"},
+  orange:{accent:"#ff9f43", accent2:"#ffd08a"},
+  red:{accent:"#ff5c7a", accent2:"#ffb2c1"}
+};
+
 const aiIdleMessages = [
-  "you came here to watch the amazing games and not play?",
+  "you came here to watch the amazing game and not play?",
   "bro really just staring at the screen 💀",
   "system waiting...",
   "click something.",
@@ -1256,38 +1513,44 @@ const aiRandomLines = [
 ];
 
 const enemyPool = ["School Blocker","Firewall X","Admin Lock","System Guard","Proxy Crusher"];
-
-const ultimateMoves = [
-  {
-    name:"OVERLOAD STRIKE",
-    dialog:"GGs stupid blocker.",
-    text:"OVERLOAD STRIKE"
-  },
-  {
-    name:"DATA WIPE",
-    dialog:"deleted.",
-    text:"DATA WIPE"
-  },
-  {
-    name:"SYSTEM BREAK",
-    dialog:"you were never a challenge.",
-    text:"SYSTEM BREAK"
-  },
-  {
-    name:"FINAL EXECUTION",
-    dialog:"too easy.",
-    text:"FINAL EXECUTION"
-  }
+const attackDialogs = [
+  "KEEP GOING...",
+  "TOO SLOW.",
+  "NICE HIT.",
+  "SYSTEM BREACH.",
+  "YOU MISSED.",
+  "NOT BAD."
 ];
+const kickDialogs = [
+  "KICK CONFIRMED.",
+  "HIGH KICK.",
+  "LOW SWEEP.",
+  "NICE LEG WORK.",
+  "CRACKED."
+];
+const winDialogs = [
+  "access granted.",
+  "he was never winning.",
+  "easy work.",
+  "system override complete."
+];
+const loseDialogs = [
+  "access denied.",
+  "that blocker cooked you.",
+  "try again.",
+  "system pushed back."
+];
+
+let games = [];
 
 /* =========================
    STATE
 ========================= */
 let username = localStorage.getItem("subussy_user") || "Player";
-let lowFX = JSON.parse(localStorage.getItem("subussy_lowfx") ?? "false");
-let currentTheme = localStorage.getItem("subussy_theme") || "green";
-let currentWallpaper = localStorage.getItem("subussy_wallpaper") || wallpapers[0];
 let taskZ = 1500;
+let currentWallpaper = localStorage.getItem("subussy_wallpaper") || wallpapers[0];
+let currentTheme = localStorage.getItem("subussy_theme") || "green";
+let aiMode = localStorage.getItem("subussy_ai_mode") || "normal";
 
 let hp1 = 100;
 let hp2 = 100;
@@ -1295,9 +1558,14 @@ let combo1 = 0;
 let combo2 = 0;
 let enemyName = enemyPool[Math.floor(Math.random()*enemyPool.length)];
 let currentFightLoop = null;
-
-let aiMode = "normal";
+let fightOver = false;
 let idleTime = 0;
+let clickCount = 0;
+let totalWins = Number(localStorage.getItem("subussy_wins") || "0");
+let totalLosses = Number(localStorage.getItem("subussy_losses") || "0");
+let gameOpenCount = Number(localStorage.getItem("subussy_game_opens") || "0");
+let recentGame = localStorage.getItem("subussy_recent_game") || "";
+let gameStats = JSON.parse(localStorage.getItem("subussy_game_stats") || "{}");
 
 /* =========================
    DOM
@@ -1331,6 +1599,7 @@ const startMenu = document.getElementById("startMenu");
 const startSearch = document.getElementById("startSearch");
 const startBody = document.getElementById("startBody");
 
+const submitGameBtn = document.getElementById("submitGameBtn");
 const userBtn = document.getElementById("userBtn");
 const settingsBtnTop = document.getElementById("settingsBtnTop");
 
@@ -1343,6 +1612,7 @@ const idleText = document.getElementById("idleText");
 
 const cursor = document.getElementById("cursor");
 const cursorDot = document.getElementById("cursorDot");
+const themeFlash = document.getElementById("themeFlash");
 
 const fightScene = document.getElementById("fightScene");
 const fightNames = document.getElementById("fightNames");
@@ -1354,6 +1624,13 @@ const fighter1 = document.getElementById("fighter1");
 const fighter2 = document.getElementById("fighter2");
 const f1Label = document.getElementById("f1Label");
 const f2Label = document.getElementById("f2Label");
+const face1 = document.getElementById("face1");
+const face2 = document.getElementById("face2");
+
+const fighter1Fist = fighter1.querySelector(".fist");
+const fighter2Fist = fighter2.querySelector(".fist");
+const fighter1Kick = fighter1.querySelector(".kickTrail");
+const fighter2Kick = fighter2.querySelector(".kickTrail");
 
 /* =========================
    AUDIO
@@ -1365,7 +1642,6 @@ function safeResumeAudio(){
     audioCtx.resume().catch(()=>{});
   }
 }
-
 document.addEventListener("click", safeResumeAudio);
 
 function beep(freq=440, duration=0.05, type="sine", volume=0.03, delay=0){
@@ -1386,17 +1662,36 @@ function soundUIHover(){ beep(660, 0.04, "square", 0.016); }
 function soundUIClick(){ beep(520, 0.05, "square", 0.022); }
 function soundUIOpen(){ beep(420, 0.03, "triangle", 0.02); beep(700, 0.05, "triangle", 0.018, 0.03); }
 function soundWhoosh(){ beep(180, 0.07, "sawtooth", 0.03); beep(120, 0.06, "triangle", 0.02, 0.01); }
+function soundKick(){ beep(150, 0.08, "square", 0.05); beep(80, 0.05, "triangle", 0.03, 0.01); }
 function soundHitA(){ beep(95, 0.06, "square", 0.04); beep(150, 0.05, "triangle", 0.022, 0.015); }
 function soundHitB(){ beep(110, 0.07, "square", 0.038); beep(220, 0.04, "triangle", 0.018, 0.01); }
 function soundClash(){ beep(620, 0.05, "square", 0.022); beep(840, 0.08, "triangle", 0.02, 0.01); }
 function soundBlock(){ beep(300, 0.05, "square", 0.02); beep(220, 0.05, "triangle", 0.016, 0.02); }
 function soundFinisher(){ beep(85, 0.12, "sawtooth", 0.05); beep(160, 0.18, "triangle", 0.04, 0.03); }
+function soundCombo(){ beep(500, 0.04, "square", 0.03); beep(720, 0.05, "triangle", 0.02, 0.02); }
+function soundTheme(){ beep(310, 0.06, "triangle", 0.03); beep(520, 0.06, "triangle", 0.02, 0.05); }
 
 /* =========================
    UTILS
 ========================= */
 function clamp(n,min,max){
   return Math.max(min, Math.min(max, n));
+}
+
+function saveStats(){
+  localStorage.setItem("subussy_wins", String(totalWins));
+  localStorage.setItem("subussy_losses", String(totalLosses));
+  localStorage.setItem("subussy_game_opens", String(gameOpenCount));
+  localStorage.setItem("subussy_recent_game", recentGame);
+  localStorage.setItem("subussy_game_stats", JSON.stringify(gameStats));
+}
+
+function aiSay(text){
+  const m = document.createElement("div");
+  m.className = "aiMsg";
+  m.textContent = "> " + text;
+  aiChat.appendChild(m);
+  aiChat.scrollTop = aiChat.scrollHeight;
 }
 
 function showDialog(text, ms=1400){
@@ -1408,27 +1703,15 @@ function showDialog(text, ms=1400){
   }, ms);
 }
 
-function aiSay(text){
-  const m = document.createElement("div");
-  m.className = "aiMsg";
-  m.textContent = "> " + text;
-  aiChat.appendChild(m);
-  aiChat.scrollTop = aiChat.scrollHeight;
+function showBubble(text, side="left", ms=1500){
+  const b = document.createElement("div");
+  b.className = "bubble";
+  b.textContent = text;
+  b.style[side] = "8%";
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), ms);
 }
 
-function showToast(text){
-  aiSay(text);
-}
-
-function setWallpaper(value){
-  currentWallpaper = value;
-  localStorage.setItem("subussy_wallpaper", value);
-  wallpaperEl.style.background = value;
-}
-
-/* =========================
-   CLOCK
-========================= */
 function updateClock(){
   const now = new Date();
   clock.innerHTML = `${now.toLocaleTimeString()}<br>${now.toLocaleDateString()}`;
@@ -1436,6 +1719,23 @@ function updateClock(){
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+function setTheme(themeName){
+  const theme = themePresets[themeName] || themePresets.green;
+  currentTheme = themeName;
+  localStorage.setItem("subussy_theme", themeName);
+  document.documentElement.style.setProperty("--accent", theme.accent);
+  document.documentElement.style.setProperty("--accent2", theme.accent2);
+  themeFlash.style.opacity = "1";
+  setTimeout(()=>themeFlash.style.opacity = "0", 350);
+  soundTheme();
+}
+
+function setWallpaper(value){
+  currentWallpaper = value;
+  localStorage.setItem("subussy_wallpaper", value);
+  wallpaperEl.style.background = value;
+}
 
 /* =========================
    CURSOR
@@ -1456,7 +1756,7 @@ function addCursorTrail(x,y){
   t.className = "trail";
   t.style.left = x + "px";
   t.style.top = y + "px";
-  t.style.background = `rgba(${Math.floor(Math.random()*80)},255,150,.85)`;
+  t.style.background = `color-mix(in srgb, var(--accent) 85%, white)`;
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 300);
 }
@@ -1525,7 +1825,7 @@ initDots();
 
 function drawBg(){
   bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
-  bgCtx.fillStyle = "#00ff88";
+  bgCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#00ff88";
 
   for(const d of dots){
     d.x += d.vx;
@@ -1585,7 +1885,7 @@ function runBoot(){
         boot.style.transition = "opacity .35s ease";
         setTimeout(()=>{
           boot.remove();
-          startFightIntro();
+          startFight();
         }, 360);
       }, 380);
     }
@@ -1614,17 +1914,23 @@ function changeUser(){
 userBtn.addEventListener("click", changeUser);
 
 /* =========================
-   GRID
+   GAMES
 ========================= */
+function buildGames(){
+  const customGames = JSON.parse(localStorage.getItem("custom_games") || "[]");
+  games = [...builtInGames, ...customGames];
+}
+buildGames();
+
 function createCard(game){
   const c = document.createElement("div");
   c.className = "card";
 
   c.innerHTML = `
-    <img src="${game.img}" alt="${game.name}" loading="lazy" onerror="this.src='';this.style.background='#0a0a0a'">
+    <img src="${game.img || ""}" alt="${game.name}" loading="lazy" onerror="this.src='';this.style.background='#0a0a0a'">
     <div class="cardContent">
       <div class="cardTopRow">
-        <span class="badge">${game.category}</span>
+        <span class="badge">${game.category || "custom"}</span>
         <span class="badge playBadge">PLAY</span>
       </div>
       <div class="cardName">${game.name}</div>
@@ -1639,7 +1945,7 @@ function createCard(game){
     const rect = c.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    c.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0,255,136,.16), #000 60%)`;
+    c.style.background = `radial-gradient(circle at ${x}px ${y}px, color-mix(in srgb, var(--accent) 16%, transparent), #000 60%)`;
   });
 
   c.addEventListener("mouseleave", ()=>{
@@ -1670,7 +1976,7 @@ function filterGames(v){
 
   const filtered = games.filter(g =>
     g.name.toLowerCase().includes(value) ||
-    g.category.toLowerCase().includes(value)
+    (g.category || "").toLowerCase().includes(value)
   );
 
   renderGames(filtered);
@@ -1696,6 +2002,13 @@ function addTaskApp(label, action){
   return t;
 }
 
+function registerGameOpen(name){
+  gameOpenCount++;
+  recentGame = name;
+  gameStats[name] = (gameStats[name] || 0) + 1;
+  saveStats();
+}
+
 function openGame(url, name="game"){
   soundUIOpen();
 
@@ -1714,8 +2027,12 @@ function openGame(url, name="game"){
         player.classList.add("active");
       }, 100);
 
+      registerGameOpen(name);
       addTaskApp(`🎮 ${name}`, ()=>openGame(url, name));
       aiReact("game");
+      if(gameStats[name] >= 3){
+        aiSay(`you really like ${name}.`);
+      }
     })
     .catch(()=>{
       aiSay("error loading game");
@@ -1735,21 +2052,6 @@ closeBtn.addEventListener("click", closeGame);
 fullBtn.addEventListener("click", ()=>{
   if(frame.requestFullscreen) frame.requestFullscreen();
 });
-
-setInterval(()=>{
-  if(player.classList.contains("active") && frame.src === ""){
-    closeGame();
-  }
-},3000);
-
-/* =========================
-   RANDOM
-========================= */
-function randomGame(){
-  const g = games[Math.floor(Math.random()*games.length)];
-  openGame(g.file, g.name);
-}
-randomBtn.addEventListener("click", randomGame);
 
 /* =========================
    START MENU
@@ -1773,6 +2075,14 @@ startSearch.addEventListener("input", e=>{
   renderStartMenu(e.target.value.trim().toLowerCase());
 });
 
+function getRecommendedGame(){
+  const entries = Object.entries(gameStats);
+  if(!entries.length) return games[0] || null;
+  entries.sort((a,b)=>b[1]-a[1]);
+  const found = games.find(g=>g.name === entries[0][0]);
+  return found || games[0] || null;
+}
+
 function renderStartMenu(query=""){
   startBody.innerHTML = "";
   const q = query.toLowerCase();
@@ -1785,7 +2095,11 @@ function renderStartMenu(query=""){
   const apps = [
     {name:"Settings", desc:"themes, wallpaper, ai mode", action:openSettings},
     {name:"Profile", desc:"username and info", action:openProfile},
-    {name:"Random Game", desc:"launch a random local game", action:randomGame}
+    {name:"Submit Game", desc:"add custom games", action:openSubmitGame},
+    {name:"Recommended", desc:getRecommendedGame() ? `play ${getRecommendedGame().name}` : "nothing yet", action:()=> {
+      const rec = getRecommendedGame();
+      if(rec) openGame(rec.file, rec.name);
+    }}
   ].filter(a => !q || a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q));
 
   apps.forEach(a=>{
@@ -1805,11 +2119,11 @@ function renderStartMenu(query=""){
   startBody.appendChild(gameSection);
 
   games
-    .filter(g => !q || g.name.toLowerCase().includes(q) || g.category.toLowerCase().includes(q))
+    .filter(g => !q || g.name.toLowerCase().includes(q) || (g.category || "").toLowerCase().includes(q))
     .forEach(g=>{
       const b = document.createElement("button");
       b.className = "startItem";
-      b.innerHTML = `${g.name}<small>${g.category}</small>`;
+      b.innerHTML = `${g.name}<small>${g.category || "custom"}</small>`;
       b.addEventListener("click", ()=>{
         openGame(g.file, g.name);
         startMenu.style.display = "none";
@@ -1895,6 +2209,9 @@ function openWindow(title, html){
 }
 
 function openProfile(){
+  const favoriteEntry = Object.entries(gameStats).sort((a,b)=>b[1]-a[1])[0];
+  const favoriteText = favoriteEntry ? `${favoriteEntry[0]} (${favoriteEntry[1]})` : "none yet";
+
   openWindow("Profile", `
     <div class="winGrid">
       <div class="winCard">
@@ -1904,7 +2221,14 @@ function openProfile(){
         </div>
       </div>
       <div class="winCard">
-        <b>Library</b><br>${games.length} manual games loaded
+        <b>Library</b><br>${games.length} total games loaded
+      </div>
+      <div class="winCard">
+        <b>Stats</b><br>
+        Wins: ${totalWins}<br>
+        Losses: ${totalLosses}<br>
+        Recent Game: ${recentGame || "none"}<br>
+        Favorite: ${favoriteText}
       </div>
       <div class="winCard">
         <b>Mode</b><br>No code injection into games
@@ -1929,10 +2253,20 @@ function openSettings(){
         </div>
       </div>
       <div class="winCard">
+        <b>Theme</b>
+        <div class="rowBtns">
+          <button class="ghostBtn" data-theme="green">Green</button>
+          <button class="ghostBtn" data-theme="cyan">Cyan</button>
+          <button class="ghostBtn" data-theme="purple">Purple</button>
+          <button class="ghostBtn" data-theme="orange">Orange</button>
+          <button class="ghostBtn" data-theme="red">Red</button>
+        </div>
+      </div>
+      <div class="winCard">
         <b>Quick Keys</b><br>
-        G = random game<br>
         U = change username<br>
         S = open settings<br>
+        N = submit game<br>
         Esc = close game
       </div>
     </div>
@@ -1944,6 +2278,7 @@ function openSettings(){
   modeBtn.addEventListener("click", ()=>{
     const modes = ["normal","helper","toxic"];
     aiMode = modes[(modes.indexOf(aiMode)+1) % modes.length];
+    localStorage.setItem("subussy_ai_mode", aiMode);
     modeBtn.textContent = aiMode.toUpperCase();
     aiSay("mode changed to " + aiMode);
   });
@@ -1953,8 +2288,69 @@ function openSettings(){
       setWallpaper(wallpapers[Number(btn.dataset.wall)]);
     });
   });
+
+  bodyEl.querySelectorAll("[data-theme]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      setTheme(btn.dataset.theme);
+    });
+  });
 }
 settingsBtnTop.addEventListener("click", openSettings);
+
+/* =========================
+   SUBMIT GAME UI
+========================= */
+function openSubmitGame(){
+  const win = openWindow("Submit Game", `
+    <div class="winGrid">
+      <div class="winCard">
+        <b>Add New Game</b><br><br>
+        <input id="gName" placeholder="Game Name" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
+        <input id="gFile" placeholder="file.html" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
+        <input id="gImg" placeholder="images/file.jpg (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
+        <input id="gCat" placeholder="category (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
+        <div class="rowBtns">
+          <button class="smallBtn" id="saveGameBtn">Add Game</button>
+        </div>
+      </div>
+    </div>
+  `);
+
+  setTimeout(()=>{
+    const saveBtn = win.querySelector("#saveGameBtn");
+    const gName = win.querySelector("#gName");
+    const gFile = win.querySelector("#gFile");
+    const gImg = win.querySelector("#gImg");
+    const gCat = win.querySelector("#gCat");
+
+    saveBtn.onclick = ()=>{
+      const name = gName.value.trim();
+      const file = gFile.value.trim();
+      const img = gImg.value.trim();
+      const category = gCat.value.trim() || "custom";
+
+      if(!name || !file){
+        aiSay("name and file are required.");
+        return;
+      }
+
+      const custom = JSON.parse(localStorage.getItem("custom_games") || "[]");
+      custom.push({
+        name,
+        file,
+        img: img || "",
+        category
+      });
+      localStorage.setItem("custom_games", JSON.stringify(custom));
+      buildGames();
+      renderGames(games);
+      renderStartMenu();
+      aiSay("game added: " + name);
+      win.remove();
+    };
+  }, 50);
+}
+submitGameBtn.addEventListener("click", openSubmitGame);
 
 /* =========================
    ICONS
@@ -2003,7 +2399,7 @@ function addIcon(name, emoji, x, y, action){
 addIcon("Games", "🎮", 18, 110, ()=>{});
 addIcon("Settings", "⚙", 18, 210, openSettings);
 addIcon("Profile", "👤", 18, 310, openProfile);
-addIcon("Random", "🎲", 18, 410, randomGame);
+addIcon("Submit", "📩", 18, 410, openSubmitGame);
 attachHoverCursor(desktopIcons);
 
 /* =========================
@@ -2028,6 +2424,20 @@ function aiReact(event){
   }
   if(event === "spam"){
     aiSay("you clicking too fast.");
+    return;
+  }
+  if(event === "win"){
+    const line = aiMode === "toxic" ? "about time you won." : "nice win.";
+    aiSay(line);
+    return;
+  }
+  if(event === "lose"){
+    const line = aiMode === "toxic" ? "that blocker cooked you." : "rough round.";
+    aiSay(line);
+    return;
+  }
+  if(event === "combo"){
+    aiSay("combo climbing.");
   }
 }
 
@@ -2036,38 +2446,33 @@ function aiReply(input){
 
   if(input === "toxic mode"){
     aiMode = "toxic";
+    localStorage.setItem("subussy_ai_mode", aiMode);
     aiSay("toxic mode enabled.");
     return;
   }
 
   if(input === "helper mode"){
     aiMode = "helper";
+    localStorage.setItem("subussy_ai_mode", aiMode);
     aiSay("helper mode enabled.");
     return;
   }
 
   if(input === "normal mode"){
     aiMode = "normal";
+    localStorage.setItem("subussy_ai_mode", aiMode);
     aiSay("normal mode.");
     return;
   }
 
-  if(input.includes("play sonic")){
-    openGame("sonic.html","Sonic");
-    aiSay("sonic launched.");
-    return;
-  }
-
-  if(input.includes("play mk")){
-    openGame("mk1.html","MK1");
-    aiSay("mk launched.");
-    return;
-  }
-
-  if(input.includes("play")){
-    aiSay("launching...");
-    randomGame();
-    return;
+  if(input.includes("play ")){
+    const name = input.replace("play ","").trim();
+    const found = games.find(g=>g.name.toLowerCase().includes(name));
+    if(found){
+      openGame(found.file, found.name);
+      aiSay(found.name + " launched.");
+      return;
+    }
   }
 
   if(input.includes("close game")){
@@ -2090,9 +2495,9 @@ function aiReply(input){
     return;
   }
 
-  if(input === "god mode"){
-    aiSay("system unlocked.");
-    body.style.transform = "scale(1.02)";
+  if(input === "submit"){
+    openSubmitGame();
+    aiSay("open submit window.");
     return;
   }
 
@@ -2104,7 +2509,7 @@ function aiReply(input){
   }
 
   if(input === "help"){
-    aiSay("commands: play, play sonic, play mk, search, settings, close game, helper mode, toxic mode, normal mode, glitch");
+    aiSay("commands: play <game>, search <word>, settings, close game, submit, helper mode, toxic mode, normal mode, glitch");
     return;
   }
 
@@ -2122,9 +2527,9 @@ function aiReply(input){
 
   if(aiMode === "helper"){
     const helper = [
-      "try typing 'play' to start a game.",
+      "try typing 'play sonic'.",
       "you can search for games.",
-      "use random for a quick pick.",
+      "open submit to add a new game.",
       "open settings to customize."
     ];
     aiSay(helper[Math.floor(Math.random()*helper.length)]);
@@ -2157,9 +2562,9 @@ setInterval(()=>{
 },10000);
 
 /* spam detect */
-let clickCount = 0;
 document.addEventListener("click", ()=>{
   clickCount++;
+
   if(clickCount > 10){
     aiReact("spam");
     clickCount = 0;
@@ -2196,20 +2601,58 @@ setInterval(()=>{
   if(idleTime === 15){
     idleText.textContent = "ok now you're just wasting time";
   }
-
-  if(idleTime === 20){
-    idleText.textContent = "fine. launching something for you.";
-    randomGame();
-    resetIdle();
-  }
 },1000);
 
 /* =========================
-   FIGHT
+   FIGHT HELPERS
 ========================= */
 function setFightBars(){
   hp1Bar.style.width = clamp(hp1,0,100) + "%";
   hp2Bar.style.width = clamp(hp2,0,100) + "%";
+}
+
+function setFace(face, state){
+  if(state === "idle") face.textContent = "• •";
+  if(state === "hit") face.textContent = "x x";
+  if(state === "attack") face.textContent = "> <";
+  if(state === "kick") face.textContent = "^ <";
+  if(state === "win") face.textContent = "⌐■";
+  if(state === "angry") face.textContent = "› ‹";
+}
+
+function flashHitEffect(){
+  const flash = document.createElement("div");
+  flash.className = "screenFlash";
+  document.body.appendChild(flash);
+  flash.style.opacity = "0.95";
+  setTimeout(()=>flash.style.background = "#000", 160);
+  setTimeout(()=>flash.style.opacity = "0", 520);
+  setTimeout(()=>flash.remove(), 820);
+}
+
+function shakeScreen(power=10, duration=220){
+  document.body.style.animation = `screenShake ${duration}ms linear`;
+  setTimeout(()=>body.style.animation = "", duration);
+}
+
+function freezeHit(){
+  body.classList.add("hitFreeze");
+  setTimeout(()=>body.classList.remove("hitFreeze"), 90);
+}
+
+function spawnSpark(target){
+  const rect = target.getBoundingClientRect();
+  const spark = document.createElement("div");
+  spark.className = "hitSpark";
+  spark.style.left = rect.left + rect.width/2 - 9 + "px";
+  spark.style.top = rect.top + rect.height/2 - 9 + "px";
+  document.body.appendChild(spark);
+  setTimeout(()=>spark.remove(), 240);
+}
+
+function showComboGlow(el){
+  el.classList.add("comboGlow");
+  setTimeout(()=>el.classList.remove("comboGlow"), 450);
 }
 
 function dashAttack(attacker){
@@ -2225,27 +2668,57 @@ function dashAttack(attacker){
   }, 130);
 }
 
-function animateHit(attacker){
+function animatePunch(attacker){
   if(attacker === 1){
     fighter1.classList.add("attack");
+    fighter1Fist.classList.add("active");
+    setFace(face1,"attack");
   }else{
     fighter2.classList.add("attack");
+    fighter2Fist.classList.add("active");
+    setFace(face2,"attack");
   }
 
   setTimeout(()=>{
     fighter1.classList.remove("attack");
     fighter2.classList.remove("attack");
-  }, 110);
+    fighter1Fist.classList.remove("active");
+    fighter2Fist.classList.remove("active");
+  }, 130);
 }
 
-function markHit(target){
+function animateKick(attacker){
+  if(attacker === 1){
+    fighter1.classList.add("kick");
+    fighter1Kick.classList.add("active");
+    setFace(face1,"kick");
+  }else{
+    fighter2.classList.add("kick");
+    fighter2Kick.classList.add("active");
+    setFace(face2,"kick");
+  }
+
+  setTimeout(()=>{
+    fighter1.classList.remove("kick");
+    fighter2.classList.remove("kick");
+    fighter1Kick.classList.remove("active");
+    fighter2Kick.classList.remove("active");
+  }, 180);
+}
+
+function markHit(target, whichFace){
   target.classList.add("hit");
-  setTimeout(()=>target.classList.remove("hit"), 100);
+  setFace(whichFace, "hit");
+  setTimeout(()=>{
+    target.classList.remove("hit");
+  }, 130);
 }
 
 function markBlock(target){
   target.classList.add("block");
-  setTimeout(()=>target.classList.remove("block"), 100);
+  setTimeout(()=>{
+    target.classList.remove("block");
+  }, 110);
 }
 
 function markClash(){
@@ -2254,18 +2727,91 @@ function markClash(){
   setTimeout(()=>{
     fighter1.classList.remove("clash");
     fighter2.classList.remove("clash");
-  }, 110);
+  }, 120);
+}
+
+function attackSequence(attacker, type, dmg, comboCount){
+  const isYou = attacker === 1;
+  const target = isYou ? fighter2 : fighter1;
+  const targetFace = isYou ? face2 : face1;
+
+  dashAttack(attacker);
+
+  if(type === "kick"){
+    soundKick();
+    animateKick(attacker);
+  }else{
+    soundWhoosh();
+    animatePunch(attacker);
+  }
+
+  setTimeout(()=>{
+    if(type === "kick"){
+      soundHitA();
+      shakeScreen(14, 260);
+    }else{
+      isYou ? soundHitA() : soundHitB();
+      shakeScreen(10, 220);
+    }
+
+    flashHitEffect();
+    freezeHit();
+    markHit(target, targetFace);
+    spawnSpark(target);
+
+    if(comboCount >= 5){
+      showComboGlow(isYou ? fighter1 : fighter2);
+      aiReact("combo");
+    }
+
+    if(type === "kick"){
+      fightText.textContent = comboCount >= 3 ? `COMBO x${comboCount} // KICK ${dmg}` : `KICK ${dmg}`;
+      showDialog(kickDialogs[Math.floor(Math.random()*kickDialogs.length)]);
+    }else{
+      fightText.textContent = comboCount >= 3 ? `COMBO x${comboCount} // ${dmg}` : `${dmg} DAMAGE`;
+      showDialog(attackDialogs[Math.floor(Math.random()*attackDialogs.length)]);
+    }
+
+    setTimeout(()=>{
+      setFace(face1, "idle");
+      setFace(face2, "idle");
+    }, 180);
+  }, 80);
+}
+
+/* =========================
+   FIGHT SYSTEM
+========================= */
+function startFight(){
+  hp1 = 100;
+  hp2 = 100;
+  combo1 = 0;
+  combo2 = 0;
+  fightOver = false;
+  enemyName = enemyPool[Math.floor(Math.random()*enemyPool.length)];
+  updateFightNames();
+  setFightBars();
+  setFace(face1, "idle");
+  setFace(face2, "idle");
+  fightText.textContent = "FIGHT START";
+  setTimeout(()=>showDialog("you really thought this blocker would win?", 1200), 500);
+
+  currentFightLoop = setInterval(()=>{
+    doFightAction();
+  }, 580);
 }
 
 function doFightAction(){
-  if(hp2 <= 18 && Math.random() < 0.25){
+  if(fightOver) return;
+
+  if((hp2 <= 18 || hp1 <= 18) && Math.random() < 0.22){
     doUltimateMove();
     return;
   }
 
   const roll = Math.random();
 
-  if(roll < 0.55){
+  if(roll < 0.42){
     const attacker = Math.random() > 0.35 ? 1 : 2;
     const base = Math.floor(Math.random()*6)+6;
 
@@ -2274,72 +2820,58 @@ function doFightAction(){
       combo2 = 0;
       const dmg = base + combo1;
       hp2 -= dmg;
-      animateAttack(1, dmg, combo1);
+      attackSequence(1, "punch", dmg, combo1);
     } else {
       combo2++;
       combo1 = 0;
       const dmg = base + combo2;
       hp1 -= dmg;
-      animateAttack(2, dmg, combo2);
+      attackSequence(2, "punch", dmg, combo2);
     }
-  } else if(roll < 0.8){
-    animateBlock();
+  } else if(roll < 0.68){
+    const attacker = Math.random() > 0.45 ? 1 : 2;
+    const base = Math.floor(Math.random()*7)+8;
+
+    if(attacker === 1){
+      combo1++;
+      combo2 = 0;
+      const dmg = base + combo1;
+      hp2 -= dmg;
+      attackSequence(1, "kick", dmg, combo1);
+    } else {
+      combo2++;
+      combo1 = 0;
+      const dmg = base + combo2;
+      hp1 -= dmg;
+      attackSequence(2, "kick", dmg, combo2);
+    }
+  } else if(roll < 0.84){
+    const defender = Math.random() > 0.5 ? fighter1 : fighter2;
+    markBlock(defender);
+    soundBlock();
+    fightText.textContent = "BLOCKED";
+    showDialog("DEFENSE ACTIVE");
   } else {
-    animateClash();
+    markClash();
+    soundClash();
+    fightText.textContent = "CLASH ⚡";
+    showDialog("POWER STRUGGLE...");
+    flashHitEffect();
+    shakeScreen(8, 180);
   }
 
   setFightBars();
   checkFightEnd();
 }
 
-function animateAttack(attacker, dmg, combo){
-  const isYou = attacker === 1;
-  const target = isYou ? fighter2 : fighter1;
-
-  soundWhoosh();
-  dashAttack(attacker);
-  animateHit(attacker);
-
-  setTimeout(()=>{
-    target.classList.add("hit");
-    if(isYou){
-      soundHitA();
-    } else {
-      soundHitB();
-    }
-
-    fightText.textContent = combo >= 3 ? `COMBO x${combo} // ${dmg}` : `${dmg} DAMAGE`;
-
-    if(combo >= 3){
-      showDialog(isYou ? "SYSTEM BREACH IN PROGRESS" : "ACCESS DENIED");
-    } else {
-      showDialog(isYou ? "KEEP GOING..." : "TRY AGAIN");
-    }
-
-    setTimeout(()=>{
-      fighter1.classList.remove("hit");
-      fighter2.classList.remove("hit");
-    }, 120);
-  }, 80);
-}
-
-function animateBlock(){
-  const defender = Math.random() > 0.5 ? fighter1 : fighter2;
-  markBlock(defender);
-  soundBlock();
-  fightText.textContent = "BLOCKED";
-  showDialog("DEFENSE ACTIVE");
-}
-
-function animateClash(){
-  markClash();
-  soundClash();
-  fightText.textContent = "CLASH ⚡";
-  showDialog("POWER STRUGGLE...");
-}
-
 function doUltimateMove(){
-  const move = ultimateMoves[Math.floor(Math.random()*ultimateMoves.length)];
+  const move = [
+    {text:"OVERLOAD STRIKE", dialog:"GGs stupid blocker."},
+    {text:"DATA WIPE", dialog:"deleted."},
+    {text:"SYSTEM BREAK", dialog:"you were never a challenge."},
+    {text:"FINAL EXECUTION", dialog:"too easy."}
+  ][Math.floor(Math.random()*4)];
+
   currentFightLoop && clearInterval(currentFightLoop);
 
   fightText.textContent = "ULTIMATE READY";
@@ -2349,9 +2881,13 @@ function doUltimateMove(){
     fightText.textContent = move.text;
     showDialog(move.dialog, 1800);
     soundFinisher();
+    flashHitEffect();
+    shakeScreen(18, 480);
 
     fighter1.classList.add("dash");
     fighter2.classList.add("hit");
+    setFace(face1, "angry");
+    setFace(face2, "hit");
 
     setTimeout(()=>{
       fighter1.classList.remove("dash");
@@ -2359,61 +2895,65 @@ function doUltimateMove(){
       hp2 = 0;
       setFightBars();
       checkFightEnd();
-    }, 500);
+    }, 550);
   }, 400);
 }
 
 function checkFightEnd(){
   if(hp1 <= 0 || hp2 <= 0){
+    fightOver = true;
     currentFightLoop && clearInterval(currentFightLoop);
 
-    hp1 = Math.max(hp1, 18);
-    hp2 = 0;
-    setFightBars();
+    const userWins = hp2 <= 0 && hp1 > hp2;
 
-    fightText.textContent = username + " WINS";
-    showDialog("Access granted.", 1200);
+    if(userWins){
+      totalWins++;
+      setFace(face1, "win");
+      setFace(face2, "hit");
+      fightText.textContent = username + " WINS";
+      showDialog(winDialogs[Math.floor(Math.random()*winDialogs.length)], 1300);
+      aiReact("win");
+    } else {
+      totalLosses++;
+      setFace(face2, "win");
+      setFace(face1, "hit");
+      fightText.textContent = enemyName + " WINS";
+      showDialog(loseDialogs[Math.floor(Math.random()*loseDialogs.length)], 1300);
+      aiReact("lose");
+    }
+
+    saveStats();
 
     setTimeout(()=>{
       fightScene.style.opacity = "0";
-      fightScene.style.transition = "opacity .45s ease";
       setTimeout(()=>{
         if(fightScene.parentNode) fightScene.remove();
       }, 460);
-    }, 1200);
+    }, 1500);
   }
-}
-
-function startFightIntro(){
-  updateFightNames();
-  setFightBars();
-  fightText.textContent = "FIGHT START";
-
-  setTimeout(()=>showDialog("you really thought this blocker would win?", 1200), 500);
-
-  currentFightLoop = setInterval(()=>{
-    doFightAction();
-  }, 550);
 }
 
 /* =========================
    KEYS
 ========================= */
 document.addEventListener("keydown", e=>{
-  if(e.key.toLowerCase() === "g") randomGame();
   if(e.key.toLowerCase() === "u") changeUser();
   if(e.key.toLowerCase() === "s") openSettings();
+  if(e.key.toLowerCase() === "n") openSubmitGame();
   if(e.key === "Escape" && player.classList.contains("active")) closeGame();
 });
 
 /* =========================
    INIT
 ========================= */
+setTheme(currentTheme);
 setWallpaper(currentWallpaper);
 updateFightNames();
 setFightBars();
 attachHoverCursor(document);
 aiSay("system online.");
+startFight();
 </script>
+
 </body>
 </html>
