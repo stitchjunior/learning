@@ -2922,6 +2922,31 @@ function checkFightEnd(){
     showDialog(loseDialogs[Math.floor(Math.random()*loseDialogs.length)], 3000);
     aiReact("lose");
     clearInterval(currentFightLoop);
+
+    setTimeout(()=>{
+      fightScene.style.opacity = "0";
+      fightScene.style.transition = "opacity .45s ease";
+
+      setTimeout(()=>{
+        fightScene.style.display = "none";
+        fightScene.style.opacity = "1";
+
+        hp1 = 100;
+        hp2 = 100;
+        combo1 = 0;
+        combo2 = 0;
+        fightOver = false;
+        currentBossPhase = 1;
+        body.style.filter = "";
+
+        setFightBars();
+        updateComboCounter(0);
+        fightText.textContent = "LOADING BATTLE...";
+        switchPage("home");
+        stopBossMusic();
+      }, 400);
+    }, 2500);
+
     return;
   }
 
@@ -2934,6 +2959,31 @@ function checkFightEnd(){
     showDialog(winDialogs[Math.floor(Math.random()*winDialogs.length)], 3000);
     aiReact("win");
     clearInterval(currentFightLoop);
+
+    setTimeout(()=>{
+      fightScene.style.opacity = "0";
+      fightScene.style.transition = "opacity .45s ease";
+
+      setTimeout(()=>{
+        fightScene.style.display = "none";
+        fightScene.style.opacity = "1";
+
+        hp1 = 100;
+        hp2 = 100;
+        combo1 = 0;
+        combo2 = 0;
+        fightOver = false;
+        currentBossPhase = 1;
+        body.style.filter = "";
+
+        setFightBars();
+        updateComboCounter(0);
+        fightText.textContent = "LOADING BATTLE...";
+        switchPage("home");
+        stopBossMusic();
+      }, 400);
+    }, 2500);
+
     return;
   }
 }
