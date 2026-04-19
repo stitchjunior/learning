@@ -3881,5 +3881,1041 @@ document.addEventListener("click",e=>{
 });
 </script>
 
+
+<style>
+/* ===== V13 FINAL BOSS UI ===== */
+.desktop{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+.desktop-layer{
+    position:absolute;
+    inset:0;
+    transition:opacity .3s;
+}
+.desktop-layer.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+</style>
+
+<script>
+console.log("V13 FINAL BOSS");
+
+/* ===== MULTI DESKTOP ===== */
+let desktops = [];
+let currentDesktop = 0;
+
+function createDesktop(){
+    let d = document.createElement("div");
+    d.className="desktop-layer";
+    document.body.appendChild(d);
+    desktops.push(d);
+}
+
+function switchDesktop(i){
+    desktops.forEach((d,idx)=>{
+        d.classList.toggle("hidden", idx !== i);
+    });
+    currentDesktop = i;
+}
+
+createDesktop();
+createDesktop();
+switchDesktop(0);
+
+/* hotkey switch */
+document.addEventListener("keydown",e=>{
+    if(e.key==="1") switchDesktop(0);
+    if(e.key==="2") switchDesktop(1);
+});
+
+/* ===== APP MANAGER ===== */
+function listApps(){
+    let wins=document.querySelectorAll(".window");
+    alert("Running apps: "+wins.length);
+}
+
+/* ===== ENHANCED COMBAT VISUAL ===== */
+window.attack = function(){
+    createBlood();
+    document.body.style.transform="scale(1.05)";
+    setTimeout(()=>document.body.style.transform="",100);
+};
+
+/* ===== UI REACTIVE ENGINE ===== */
+document.addEventListener("mousemove",e=>{
+    document.body.style.backgroundPosition = e.clientX/10+"px "+e.clientY/10+"px";
+});
+
+/* ===== AI SYSTEM (BASIC SMART) ===== */
+window.aiSuggest = function(){
+    let data = JSON.parse(localStorage.getItem("data")||"{}");
+    if(data.games && data.games.length){
+        alert("Try: "+data.games[0].name);
+    }
+};
+
+/* ===== GLOBAL HOTKEYS ===== */
+document.addEventListener("keydown",e=>{
+    if(e.key==="F2") listApps();
+    if(e.key==="F3") aiSuggest();
+});
+</script>
+
+
+<style>
+/* ===== V20 ULTRA CORE ===== */
+body{
+    background: radial-gradient(circle at center, #001a12, #000);
+    overflow:hidden;
+}
+
+/* taskbar */
+#taskbar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:35px;
+    background:#020;
+    display:flex;
+    gap:5px;
+    padding:5px;
+    z-index:999999;
+}
+
+/* start menu */
+#startMenu{
+    position:fixed;
+    bottom:40px;
+    left:5px;
+    width:250px;
+    background:#000;
+    border:1px solid #0f0;
+    display:none;
+    padding:10px;
+    z-index:999999;
+}
+
+/* window focus */
+.window{
+    transition:0.2s;
+}
+.window.active{
+    box-shadow:0 0 40px #0f0;
+}
+
+/* animations */
+@keyframes pulseFast{
+    from{transform:scale(1);}
+    to{transform:scale(1.03);}
+}
+.card{
+    animation:pulseFast 2s infinite alternate;
+}
+</style>
+
+<div id="taskbar">
+<button onclick="toggleStart()">START</button>
+</div>
+
+<div id="startMenu">
+<button onclick="openRequestHub()">Request Hub</button>
+<button onclick="listApps()">Apps</button>
+<button onclick="alert('System V20')">About</button>
+</div>
+
+<script>
+console.log("V20 ULTRA CORE");
+
+/* ===== START MENU ===== */
+function toggleStart(){
+    let m=document.getElementById("startMenu");
+    m.style.display = m.style.display==="block"?"none":"block";
+}
+
+/* ===== WINDOW FOCUS SYSTEM ===== */
+document.addEventListener("click",e=>{
+    document.querySelectorAll(".window").forEach(w=>w.classList.remove("active"));
+    let w=e.target.closest(".window");
+    if(w) w.classList.add("active");
+});
+
+/* ===== BACKGROUND ENGINE V20 ===== */
+(function(){
+function loop(t){
+    document.body.style.backgroundPosition =
+        Math.sin(t/1000)*20 + "px " + Math.cos(t/1000)*20 + "px";
+    requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+
+/* ===== ADVANCED PARTICLE BURST ===== */
+function burst(x,y){
+    for(let i=0;i<20;i++){
+        let p=document.createElement("div");
+        p.style.position="fixed";
+        p.style.left=x+"px";
+        p.style.top=y+"px";
+        p.style.width="4px";
+        p.style.height="4px";
+        p.style.background="#0f0";
+        document.body.appendChild(p);
+
+        let vx=Math.random()*8-4;
+        let vy=Math.random()*8-4;
+
+        let life=0;
+        function move(){
+            life++;
+            x+=vx;
+            y+=vy;
+            p.style.left=x+"px";
+            p.style.top=y+"px";
+            if(life<50) requestAnimationFrame(move);
+            else p.remove();
+        }
+        move();
+    }
+}
+
+document.addEventListener("click",e=>{
+    burst(e.clientX,e.clientY);
+});
+
+/* ===== REAL MULTITASK SYSTEM ===== */
+let zIndex=1000;
+document.addEventListener("mousedown",e=>{
+    let w=e.target.closest(".window");
+    if(w){
+        zIndex++;
+        w.style.zIndex=zIndex;
+    }
+});
+
+/* ===== AUTO SAVE SYSTEM ===== */
+window.addEventListener("beforeunload",()=>{
+    localStorage.setItem("v20_state","saved");
+});
+
+/* ===== AI AUTO SUGGEST V20 ===== */
+setInterval(()=>{
+    let data=JSON.parse(localStorage.getItem("data")||"{}");
+    if(data.games && data.games.length>2){
+        console.log("V20 AI Suggest:", data.games[Math.floor(Math.random()*data.games.length)].name);
+    }
+},5000);
+
+/* ===== COMBAT V20 ===== */
+let rage=0;
+window.attack=function(){
+    rage++;
+    createBlood();
+    if(rage>5){
+        document.body.style.filter="hue-rotate(90deg)";
+        setTimeout(()=>document.body.style.filter="",300);
+        rage=0;
+    }
+};
+</script>
+
+
+<style>
+#colorWipe{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999999;
+  background:linear-gradient(90deg, transparent 0%, #0f0 50%, transparent 100%);
+  transform:translateX(-100%);
+  opacity:0;
+}
+.wipeAnim{
+  animation:wipeMove .6s ease;
+}
+@keyframes wipeMove{
+  0%{transform:translateX(-100%);opacity:1;}
+  50%{transform:translateX(0%);opacity:1;}
+  100%{transform:translateX(100%);opacity:0;}
+}
+.splitColor{
+  background:linear-gradient(90deg, var(--c1) 50%, var(--c2) 50%) !important;
+}
+</style>
+
+<div id="colorWipe"></div>
+
+<script>
+const colors=[
+"#00ff88","#00ffff","#ff0088","#ff0000","#ffaa00",
+"#00ff00","#0099ff","#cc00ff","#ff4444","#00ffaa",
+"#ffffff","#8888ff","#ff66cc","#66ff66","#ffaaee"
+];
+
+let currentColor="#00ff88";
+
+function switchColor(){
+  let wipe=document.getElementById("colorWipe");
+  let rare=Math.random()<0.1;
+
+  if(rare){
+    let c1=colors[Math.floor(Math.random()*colors.length)];
+    let c2=colors[Math.floor(Math.random()*colors.length)];
+    document.body.style.setProperty("--c1",c1);
+    document.body.style.setProperty("--c2",c2);
+    document.body.classList.add("splitColor");
+    setTimeout(()=>document.body.classList.remove("splitColor"),1200);
+  } else {
+    currentColor=colors[Math.floor(Math.random()*colors.length)];
+    document.body.style.color=currentColor;
+    document.querySelectorAll(".card,.window,#taskbar,#startMenu").forEach(el=>{
+      el.style.borderColor=currentColor;
+      el.style.boxShadow="0 0 20px "+currentColor;
+    });
+  }
+
+  wipe.style.background=`linear-gradient(90deg, transparent, ${currentColor}, transparent)`;
+  wipe.classList.remove("wipeAnim");
+  void wipe.offsetWidth;
+  wipe.classList.add("wipeAnim");
+}
+
+setInterval(switchColor,8000);
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="c") switchColor();
+});
+</script>
+
+
+<style>
+/* ===== V25 GOD SYSTEM ===== */
+#volumeControl{
+position:fixed;
+top:10px;
+right:10px;
+z-index:999999;
+}
+</style>
+
+<div id="volumeControl">
+<button onclick="toggleSound()">🔊</button>
+</div>
+
+<script>
+console.log("V25 GOD SYSTEM");
+
+/* ===== SOUND SYSTEM ===== */
+let soundOn = true;
+
+let hitSound = new Audio("https://www.soundjay.com/button/sounds/button-16.mp3");
+let bossSound = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+
+function toggleSound(){
+soundOn = !soundOn;
+alert("Sound: " + (soundOn ? "ON" : "OFF"));
+}
+
+/* hook into attack */
+let oldAttack = window.attack;
+window.attack = function(){
+if(oldAttack) oldAttack();
+
+if(soundOn){
+hitSound.currentTime = 0;
+hitSound.play();
+}
+
+if(Math.random() < 0.2){ // boss hit chance
+if(soundOn){
+bossSound.currentTime = 0;
+bossSound.play();
+}
+document.body.style.boxShadow = "0 0 100px red inset";
+setTimeout(()=>document.body.style.boxShadow="",200);
+}
+};
+
+/* ===== MINI MAP SYSTEM ===== */
+let mini = document.createElement("div");
+mini.style.position="fixed";
+mini.style.bottom="50px";
+mini.style.right="10px";
+mini.style.width="120px";
+mini.style.height="80px";
+mini.style.background="#000";
+mini.style.border="1px solid #0f0";
+mini.innerHTML="<small>Mini System</small>";
+document.body.appendChild(mini);
+
+/* ===== AUTO EVENT SYSTEM ===== */
+setInterval(()=>{
+if(Math.random()<0.1){
+alert("SYSTEM EVENT: BOOST MODE");
+document.body.style.filter="brightness(1.5)";
+setTimeout(()=>document.body.style.filter="",1000);
+}
+},7000);
+
+/* ===== UI SHAKE ENGINE ===== */
+function shake(){
+document.body.style.transform="translate(5px,5px)";
+setTimeout(()=>document.body.style.transform="",100);
+}
+
+/* attach to combat */
+let oldAttack2 = window.attack;
+window.attack = function(){
+if(oldAttack2) oldAttack2();
+shake();
+};
+
+/* ===== FAST OPEN HOTKEY ===== */
+document.addEventListener("keydown",e=>{
+if(e.key==="g"){
+alert("Quick Game Launch!");
+}
+});
+
+/* ===== SYSTEM CLOCK ===== */
+let clock = document.createElement("div");
+clock.style.position="fixed";
+clock.style.top="10px";
+clock.style.left="10px";
+clock.style.color="#0f0";
+document.body.appendChild(clock);
+
+setInterval(()=>{
+let d=new Date();
+clock.textContent=d.toLocaleTimeString();
+},1000);
+
+</script>
+
+
+<style>
+/* ===== V100 ULTIMATE SYSTEM ===== */
+#settingsPanel{
+position:fixed;
+top:50px;
+right:10px;
+width:220px;
+background:#000;
+border:2px solid #0f0;
+padding:10px;
+z-index:999999;
+display:none;
+}
+.desktopIcon{
+position:absolute;
+width:60px;
+text-align:center;
+color:#0f0;
+cursor:pointer;
+}
+</style>
+
+<div id="settingsPanel">
+<b>Settings</b><br>
+<button onclick="toggleParticles()">Particles</button><br>
+<button onclick="toggleColors()">Colors</button><br>
+<button onclick="toggleCombat()">Combat</button>
+</div>
+
+<script>
+console.log("V100 ULTIMATE SYSTEM");
+
+/* ===== SETTINGS ===== */
+let particlesOn=true, colorsOn=true, combatOn=true;
+
+function toggleParticles(){particlesOn=!particlesOn;}
+function toggleColors(){colorsOn=!colorsOn;}
+function toggleCombat(){combatOn=!combatOn;}
+
+document.addEventListener("keydown",e=>{
+if(e.key==="s") document.getElementById("settingsPanel").style.display="block";
+});
+
+/* ===== DESKTOP ICON SYSTEM ===== */
+function createIcon(name,x,y,url){
+let icon=document.createElement("div");
+icon.className="desktopIcon";
+icon.style.left=x+"px";
+icon.style.top=y+"px";
+icon.innerHTML="📁<br>"+name;
+icon.ondblclick=()=>createWindow(name,url);
+document.body.appendChild(icon);
+}
+
+createIcon("Games",100,200,"https://example.com");
+createIcon("Movies",200,200,"https://example.com");
+
+/* ===== BACKGROUND MUSIC ===== */
+let music=new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+music.loop=true;
+
+document.addEventListener("click",()=>{
+if(music.paused) music.play();
+},{once:true});
+
+/* ===== BOSS SYSTEM ===== */
+let bossHP=200;
+
+function bossFight(){
+alert("BOSS APPEARED!");
+}
+
+window.attack=function(){
+if(!combatOn) return;
+
+bossHP-=Math.floor(Math.random()*20)+5;
+createBlood();
+
+if(bossHP<100){
+document.body.style.background="darkred";
+}
+
+if(bossHP<=0){
+alert("BOSS DEFEATED!");
+bossHP=200;
+}
+};
+
+/* ===== ADVANCED PARTICLES ===== */
+function particle(x,y){
+if(!particlesOn) return;
+
+let p=document.createElement("div");
+p.style.position="fixed";
+p.style.left=x+"px";
+p.style.top=y+"px";
+p.style.width="3px";
+p.style.height="3px";
+p.style.background="#0f0";
+document.body.appendChild(p);
+
+let vx=Math.random()*10-5;
+let vy=Math.random()*10-5;
+let life=0;
+
+function move(){
+life++;
+x+=vx;
+y+=vy;
+p.style.left=x+"px";
+p.style.top=y+"px";
+if(life<60) requestAnimationFrame(move);
+else p.remove();
+}
+move();
+}
+
+document.addEventListener("mousemove",e=>{
+if(Math.random()<0.3) particle(e.clientX,e.clientY);
+});
+
+/* ===== COLOR CONTROL ===== */
+setInterval(()=>{
+if(!colorsOn) return;
+document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
+},5000);
+
+/* ===== AUTO EVENTS ===== */
+setInterval(()=>{
+if(Math.random()<0.15){
+bossFight();
+}
+},8000);
+
+</script>
+
+
+<style>
+/* ===== V1000 INFINITY ENGINE ===== */
+#aiCore{
+position:fixed;
+left:10px;
+bottom:50px;
+width:220px;
+background:#000;
+border:2px solid #0ff;
+padding:8px;
+z-index:999999;
+font-size:12px;
+}
+
+.infinityGlow{
+animation:infGlow 1.5s infinite alternate;
+}
+@keyframes infGlow{
+from{box-shadow:0 0 10px #0ff;}
+to{box-shadow:0 0 40px #0ff;}
+}
+</style>
+
+<div id="aiCore" class="infinityGlow">
+<b>AI CORE</b><br>
+<div id="aiLog">System Ready...</div>
+</div>
+
+<script>
+console.log("V1000 INFINITY ENGINE");
+
+/* ===== AI CORE SYSTEM ===== */
+function aiLog(msg){
+let log=document.getElementById("aiLog");
+if(!log) return;
+let div=document.createElement("div");
+div.textContent=msg;
+log.appendChild(div);
+if(log.children.length>6) log.removeChild(log.children[0]);
+}
+
+setInterval(()=>{
+let data=JSON.parse(localStorage.getItem("data")||"{}");
+if(data.games && data.games.length){
+let g=data.games[Math.floor(Math.random()*data.games.length)];
+aiLog("Try: "+g.name);
+}
+},4000);
+
+/* ===== SYSTEM EVOLUTION ===== */
+let level=1;
+setInterval(()=>{
+level++;
+aiLog("System Level ↑ "+level);
+
+if(level%5===0){
+document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
+}
+},6000);
+
+/* ===== SUPER EVENT ENGINE ===== */
+setInterval(()=>{
+if(Math.random()<0.2){
+aiLog("⚠ EVENT: SYSTEM SURGE");
+document.body.style.transform="scale(1.05)";
+setTimeout(()=>document.body.style.transform="",300);
+}
+},5000);
+
+/* ===== ADVANCED COMBAT ===== */
+let combo=0;
+window.attack=function(){
+combo++;
+createBlood();
+
+aiLog("Combo: "+combo);
+
+if(combo>10){
+aiLog("🔥 OVERDRIVE");
+document.body.style.filter="brightness(2)";
+setTimeout(()=>document.body.style.filter="",200);
+combo=0;
+}
+};
+
+/* ===== PARTICLE FIELD ===== */
+(function(){
+function loop(){
+for(let i=0;i<2;i++){
+let p=document.createElement("div");
+p.style.position="fixed";
+p.style.left=Math.random()*innerWidth+"px";
+p.style.top=Math.random()*innerHeight+"px";
+p.style.width="2px";
+p.style.height="2px";
+p.style.background="#0ff";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),2000);
+}
+requestAnimationFrame(loop);
+}
+loop();
+})();
+
+/* ===== GLOBAL HOTKEYS ===== */
+document.addEventListener("keydown",e=>{
+if(e.key==="F9") aiLog("Manual Boost Triggered");
+if(e.key==="F10") document.body.style.filter="invert(1)";
+});
+</script>
+
+
+<!-- ===== MERGED ACTUAL FULL UPGRADE ===== -->
+<style id="merged-upgrade-style">
+#updateOverlay, #tutorialOverlay { display:none !important; }
+
+#bossBarWrap{
+  position:fixed; top:8px; left:50%; transform:translateX(-50%);
+  width:min(380px,78vw); z-index:250000; pointer-events:none;
+}
+#bossBarShell{
+  height:12px; border-radius:999px; overflow:hidden; background:#24070f;
+  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+}
+#bossBarFill{
+  height:100%; width:100%;
+  background:linear-gradient(90deg,#ff416c,#ff6c8f,var(--accent));
+  transition:width .2s linear;
+}
+#bossBarLabel{
+  text-align:center; font-size:12px; color:#fff; margin-bottom:6px;
+  text-shadow:0 0 10px rgba(255,255,255,.2),0 0 14px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+#colorWipeFx{
+  position:fixed; inset:0; pointer-events:none; z-index:400000; opacity:0;
+  transform:translateX(-120%);
+  background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 38%, var(--accent) 50%, rgba(255,255,255,0) 62%, transparent 100%);
+}
+#colorWipeFx.play{ animation:mergedWipe .68s cubic-bezier(.2,.7,.2,1); }
+@keyframes mergedWipe{
+  0%{ transform:translateX(-120%); opacity:1; }
+  55%{ transform:translateX(0%); opacity:1; }
+  100%{ transform:translateX(120%); opacity:0; }
+}
+
+#aiCoreDock{
+  position:fixed; left:18px; bottom:18px; z-index:180000;
+  width:min(250px,92vw); border-radius:18px;
+  background:rgba(0,0,0,.88);
+  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  box-shadow:0 0 24px color-mix(in srgb, var(--accent) 14%, transparent);
+  padding:10px 12px; backdrop-filter:blur(10px);
+}
+#aiCoreTitle{
+  font-size:12px; letter-spacing:1.4px; color:var(--accent); margin-bottom:8px; font-weight:900;
+}
+#aiCoreLog{ display:grid; gap:6px; max-height:120px; overflow:auto; }
+.aiCoreRow{
+  padding:7px 9px; border-radius:12px; font-size:12px; line-height:1.35;
+  color:#dfffee; background:rgba(255,255,255,.035);
+  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.vfxRareSplit{
+  background:linear-gradient(90deg,var(--rareA) 0 49.5%, var(--rareB) 50.5% 100%) !important;
+}
+
+.card.v-upgraded{
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+  will-change:transform;
+}
+.card.v-upgraded:hover{
+  box-shadow:0 18px 40px rgba(0,0,0,.48), 0 0 42px color-mix(in srgb, var(--accent) 28%, transparent) !important;
+}
+.cardRipple{
+  position:absolute; width:14px; height:14px; border-radius:50%;
+  transform:translate(-50%,-50%) scale(0); opacity:.45;
+  background:color-mix(in srgb, var(--accent) 80%, white 12%);
+  pointer-events:none; z-index:4; animation:cardRipplePop .45s ease forwards;
+}
+@keyframes cardRipplePop{
+  to{ transform:translate(-50%,-50%) scale(18); opacity:0; }
+}
+
+.bloodDrop{
+  position:fixed; width:6px; height:6px; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #ffb4c1, #a70017 70%);
+  pointer-events:none; z-index:260000; box-shadow:0 0 10px rgba(255,80,110,.35);
+}
+
+#volumeChip, #requestHubBtn{
+  min-width:42px; height:42px; border:none; border-radius:14px; cursor:pointer;
+  color:var(--accent); background:rgba(0,0,0,.85);
+  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  transition:.18s ease;
+}
+#volumeChip:hover, #requestHubBtn:hover{
+  transform:translateY(-1px); box-shadow:0 0 14px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+</style>
+
+<div id="bossBarWrap">
+  <div id="bossBarLabel">BOSS HP</div>
+  <div id="bossBarShell"><div id="bossBarFill"></div></div>
+</div>
+<div id="colorWipeFx"></div>
+<div id="aiCoreDock">
+  <div id="aiCoreTitle">AI CORE</div>
+  <div id="aiCoreLog"></div>
+</div>
+
+<script id="merged-upgrade-script">
+(function(){
+  if(window.__SUBUSSY_REAL_UPGRADE__) return;
+  window.__SUBUSSY_REAL_UPGRADE__ = true;
+
+  const colorSet = [
+    "#00ff88","#35e1ff","#b868ff","#ff9f43","#ff5c7a",
+    "#00ffd0","#7cff4f","#ff4d4d","#ffd93d","#7dffd0",
+    "#9f7bff","#00b7ff","#ff66cc","#ffb84d","#ffffff",
+    "#8df0ff","#66ff66","#ffaaee"
+  ];
+
+  const root = document.documentElement;
+  const body = document.body;
+  const wipe = document.getElementById("colorWipeFx");
+  const bossFill = document.getElementById("bossBarFill");
+  const aiCoreLog = document.getElementById("aiCoreLog");
+
+  function coreLog(msg){
+    if(!aiCoreLog) return;
+    const row = document.createElement("div");
+    row.className = "aiCoreRow";
+    row.textContent = msg;
+    aiCoreLog.prepend(row);
+    while(aiCoreLog.children.length > 6){
+      aiCoreLog.removeChild(aiCoreLog.lastElementChild);
+    }
+  }
+
+  const topRight = document.getElementById("topRight");
+  if(topRight && !document.getElementById("volumeChip")){
+    const vol = document.createElement("button");
+    vol.id = "volumeChip";
+    vol.title = "sound";
+    vol.textContent = "🔊";
+    topRight.insertBefore(vol, topRight.firstChild);
+
+    const req = document.createElement("button");
+    req.id = "requestHubBtn";
+    req.title = "quick add";
+    req.textContent = "＋";
+    topRight.insertBefore(req, topRight.firstChild);
+
+    req.addEventListener("click", ()=>{
+      try{
+        const name = prompt("Game name?");
+        if(!name) return;
+        const pathOrUrl = prompt("Game URL or local file path?");
+        if(!pathOrUrl) return;
+        const img = prompt("Image URL (optional)") || "";
+        const existing = JSON.parse(localStorage.getItem("subussy_custom_games") || "[]");
+        existing.unshift({
+          id:"custom-"+Date.now(),
+          type:"game",
+          name:name,
+          file:pathOrUrl,
+          img:img,
+          category:"custom"
+        });
+        localStorage.setItem("subussy_custom_games", JSON.stringify(existing));
+        coreLog("added game: " + name);
+        location.reload();
+      }catch(e){}
+    });
+  }
+
+  window.__soundOn = true;
+  let ctx = null;
+  function ensureAudio(){
+    if(ctx) return ctx;
+    const A = window.AudioContext || window.webkitAudioContext;
+    if(!A) return null;
+    ctx = new A();
+    return ctx;
+  }
+  function synth(freq, duration, type, volume, delay){
+    if(!window.__soundOn) return;
+    const ac = ensureAudio();
+    if(!ac) return;
+    if(ac.state === "suspended"){ ac.resume().catch(()=>{}); }
+    const t = ac.currentTime + (delay || 0);
+    const o = ac.createOscillator();
+    const g = ac.createGain();
+    o.type = type || "sine";
+    o.frequency.value = freq || 220;
+    g.gain.value = volume || 0.03;
+    o.connect(g); g.connect(ac.destination);
+    o.start(t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (duration || 0.08));
+    o.stop(t + (duration || 0.08));
+  }
+  document.addEventListener("click", ()=>ensureAudio(), {once:true});
+
+  function playHitSound(){
+    synth(130,.08,"square",.04,0);
+    synth(210,.05,"triangle",.025,.02);
+  }
+  function playBossSound(){
+    synth(70,.15,"sawtooth",.055,0);
+    synth(125,.18,"triangle",.035,.04);
+    synth(240,.06,"square",.022,.08);
+  }
+
+  const volChip = document.getElementById("volumeChip");
+  if(volChip){
+    volChip.addEventListener("click", ()=>{
+      window.__soundOn = !window.__soundOn;
+      volChip.textContent = window.__soundOn ? "🔊" : "🔇";
+      coreLog("sound " + (window.__soundOn ? "enabled" : "muted"));
+    });
+  }
+
+  function colorSwitch(){
+    const rare = Math.random() < 0.10;
+    if(rare){
+      const a = colorSet[(Math.random()*colorSet.length)|0];
+      let b = colorSet[(Math.random()*colorSet.length)|0];
+      if(a === b) b = colorSet[(Math.random()*colorSet.length)|0];
+      body.style.setProperty("--rareA", a);
+      body.style.setProperty("--rareB", b);
+      body.classList.add("vfxRareSplit");
+      root.style.setProperty("--accent", a);
+      root.style.setProperty("--accent2", b);
+      setTimeout(()=>body.classList.remove("vfxRareSplit"), 1200);
+      coreLog("rare split color triggered");
+    }else{
+      const c = colorSet[(Math.random()*colorSet.length)|0];
+      const c2 = colorSet[(Math.random()*colorSet.length)|0];
+      root.style.setProperty("--accent", c);
+      root.style.setProperty("--accent2", c2);
+    }
+    if(wipe){
+      wipe.classList.remove("play");
+      void wipe.offsetWidth;
+      wipe.classList.add("play");
+    }
+  }
+  setInterval(colorSwitch, 8000);
+
+  function wireCards(){
+    document.querySelectorAll(".card").forEach(card=>{
+      if(card.dataset.vup) return;
+      card.dataset.vup = "1";
+      card.classList.add("v-upgraded");
+      card.addEventListener("mousemove", e=>{
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const rx = ((y / r.height) - .5) * 7;
+        const ry = ((x / r.width) - .5) * -7;
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(1.04)`;
+      });
+      card.addEventListener("mouseleave", ()=>{
+        card.style.transform = "";
+      });
+      card.addEventListener("click", e=>{
+        const rp = document.createElement("div");
+        rp.className = "cardRipple";
+        rp.style.left = e.offsetX + "px";
+        rp.style.top = e.offsetY + "px";
+        card.appendChild(rp);
+        setTimeout(()=>rp.remove(), 460);
+      });
+    });
+  }
+
+  function makeBlood(x, y){
+    for(let i=0;i<10;i++){
+      const d = document.createElement("div");
+      d.className = "bloodDrop";
+      d.style.left = x + "px";
+      d.style.top = y + "px";
+      document.body.appendChild(d);
+      let vx = Math.random()*8 - 4;
+      let vy = Math.random()*-7 - 1;
+      let life = 0;
+      function step(){
+        life++;
+        x += vx;
+        y += vy;
+        vy += 0.23;
+        d.style.left = x + "px";
+        d.style.top = y + "px";
+        d.style.opacity = String(Math.max(0, 1 - life/38));
+        if(life < 38) requestAnimationFrame(step);
+        else d.remove();
+      }
+      requestAnimationFrame(step);
+    }
+  }
+
+  let bossHP = 300;
+  const oldAttack = window.attack;
+  window.attack = function(){
+    if(typeof oldAttack === "function") oldAttack();
+    playHitSound();
+    bossHP -= (Math.random()*18 + 6);
+    bossFill.style.width = Math.max(0, bossHP/3.0) + "%";
+    const f2 = document.getElementById("fighter2");
+    const r = f2 ? f2.getBoundingClientRect() : {left:innerWidth/2, top:innerHeight/2, width:0, height:0};
+    makeBlood(r.left + r.width/2, r.top + r.height/2);
+    if(Math.random() < 0.2){
+      playBossSound();
+      body.style.boxShadow = "0 0 120px rgba(255,50,80,.45) inset";
+      setTimeout(()=>body.style.boxShadow = "", 180);
+      coreLog("boss surge");
+    }
+    if(bossHP <= 0){
+      bossHP = 300;
+      bossFill.style.width = "100%";
+      coreLog("boss reset");
+    }
+  };
+
+  if(typeof window.endFight === "function"){
+    const oldEndFight = window.endFight;
+    window.endFight = function(){
+      try{
+        clearInterval(window.currentFightLoop);
+        clearInterval(window.fightLoop);
+        body.style.animation = "none";
+        body.style.transform = "";
+        body.style.boxShadow = "";
+      }catch(e){}
+      return oldEndFight.apply(this, arguments);
+    };
+  }
+
+  setInterval(()=>{
+    const pool = [
+      "system stable",
+      "watching combat loop",
+      "cursor sync normal",
+      "render path clean",
+      "awaiting command",
+      "effects online"
+    ];
+    coreLog(pool[(Math.random()*pool.length)|0]);
+  }, 4500);
+
+  ["bossBtn","heroPlay"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && !el.dataset.soundwired){
+      el.dataset.soundwired = "1";
+      el.addEventListener("click", ()=>playBossSound());
+    }
+  });
+
+  const aiPanel = document.getElementById("aiPanel");
+  const aiMinBtn = document.getElementById("aiMinBtn");
+  const aiHideBtn = document.getElementById("aiHideBtn");
+  const userBtn = document.getElementById("userBtn");
+  const settingsBtnTop = document.getElementById("settingsBtnTop");
+  if(aiMinBtn) aiMinBtn.addEventListener("click", ()=>aiPanel && aiPanel.classList.toggle("ai-min"));
+  if(aiHideBtn) aiHideBtn.addEventListener("click", ()=>aiPanel && aiPanel.classList.add("ai-hidden"));
+  if(userBtn) userBtn.addEventListener("dblclick", ()=>aiPanel && aiPanel.classList.remove("ai-hidden"));
+  if(settingsBtnTop) settingsBtnTop.addEventListener("dblclick", ()=>aiPanel && aiPanel.classList.remove("ai-hidden"));
+
+  document.addEventListener("keydown", e=>{
+    if(e.key.toLowerCase() === "c") colorSwitch();
+    if(e.key.toLowerCase() === "m"){
+      window.__soundOn = !window.__soundOn;
+      if(volChip) volChip.textContent = window.__soundOn ? "🔊" : "🔇";
+      coreLog("sound " + (window.__soundOn ? "enabled" : "muted"));
+    }
+  });
+
+  wireCards();
+  coreLog("upgrade merged into full index");
+})();
+</script>
+
 </body>
 </html>
