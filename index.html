@@ -755,6 +755,7 @@ canvas#bg{
 }
 
 #aiPanel{
+  display:none !important;
   position:fixed;
   right:20px;
   bottom:80px;
@@ -798,6 +799,7 @@ canvas#bg{
 }
 
 #idleBox{
+  display:none !important;
   position:fixed;
   bottom:470px;
   right:20px;
@@ -819,6 +821,7 @@ canvas#bg{
 #idleText{color:#d7ffea;font-size:13px;line-height:1.4}
 
 #updateOverlay{
+  display:none !important;
   position:fixed;
   inset:0;
   z-index:280000;
@@ -1339,6 +1342,7 @@ canvas#bg{
   color:#dfffee;background:rgba(255,255,255,.08);
 }
 #tutorialOverlay{
+  display:none !important;
   position:fixed;inset:0;display:none;align-items:center;justify-content:center;
   z-index:290000;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
 }
@@ -1412,7 +1416,7 @@ canvas#bg{
     <div id="logoDot"></div>
     <div>
       <div id="title">SUBUSSY OS</div>
-      <div id="subTitle">games • movies • docs • boss mode</div>
+      <div id="subTitle">games • movies • docs</div>
     </div>
   </div>
 
@@ -1447,7 +1451,7 @@ canvas#bg{
       <div class="panel">
         <div class="featuredHero">
           <h2>Featured System</h2>
-          <p>movies, docs, games, boss mode, update log, favorites, and optional sound all in one place.</p>
+          <p>movies, docs, games, favorites, and a cleaner hacker-style dashboard all in one place.</p>
           <div class="rowBtns">
             <button class="smallBtn" id="heroPlay">Play Recommended</button>
             <button class="ghostBtn" id="heroMovies">Open Movies</button>
@@ -1560,10 +1564,10 @@ canvas#bg{
     <div id="updateList">
       <div class="updateItem">✔ movies system added</div>
       <div class="updateItem">✔ docs system added</div>
-      <div class="updateItem">✔ combat upgraded</div>
+      <div class="updateItem">✔ loading upgraded</div>
       <div class="updateItem">✔ layout redesigned</div>
       <div class="updateItem">✔ randomizer removed</div>
-      <div class="updateItem">✔ sound is optional</div>
+      <div class="updateItem">✔ settings colors added</div>
     </div>
     <div class="rowBtns">
       <button class="smallBtn" id="updateOkBtn">OK</button>
@@ -4863,6 +4867,173 @@ if(e.key==="F10") document.body.style.filter="invert(1)";
 
   wireCards();
   coreLog("upgrade merged into full index");
+})();
+</script>
+
+
+<script id="v11-merged-upgrade">
+(function(){
+  // kill any old fight/boss references left over
+  ["fightScene","bossBtn"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.remove();
+  });
+  window.playHitSound = ()=>{};
+  window.playBossSound = ()=>{};
+  window.soundEnabled = false;
+
+  // remove random color switching if older code exists
+  window.switchColor = function(){};
+
+  // keep hacker green default unless a saved color exists
+  const root = document.documentElement;
+  const savedAccent = localStorage.getItem("accent");
+  root.style.setProperty("--accent", savedAccent || "#00ff88");
+  root.style.setProperty("--accent2", "#7dffd0");
+
+  // robust loading override
+  const boot = document.getElementById("boot");
+  const terminal = document.getElementById("terminal");
+  const bar = document.getElementById("bar");
+  if (boot && terminal && bar) {
+    let progress = 0;
+    const errorMode = Math.random() < 0.30;
+    const slow = errorMode ? (1.1 + Math.random() * 0.2) : 1;
+
+    const phases = [
+      "BOOTING CORE...",
+      "LOADING MODULES...",
+      "SYNCING DASHBOARD...",
+      "FINALIZING..."
+    ];
+
+    function typeLine(text){
+      return new Promise(resolve=>{
+        let i = 0;
+        const t = setInterval(()=>{
+          terminal.textContent += text[i] || "";
+          i++;
+          if(i > text.length){
+            terminal.textContent += "\n";
+            clearInterval(t);
+            resolve();
+          }
+        }, 8);
+      });
+    }
+
+    async function runBoot(){
+      terminal.textContent = "";
+      bar.style.width = "0%";
+
+      if(errorMode){
+        boot.style.background = "#200000";
+        await typeLine("SYSTEM ERROR...");
+        await typeLine("RECOVERING...");
+      } else {
+        boot.style.background = "#000";
+      }
+
+      for(const p of phases){
+        await typeLine(p);
+        await new Promise(r=>setTimeout(r, 210 * slow));
+      }
+
+      const int = setInterval(()=>{
+        progress += Math.random() * 6;
+        if(progress >= 100){
+          progress = 100;
+          clearInterval(int);
+          boot.style.opacity = "0";
+          setTimeout(()=>boot.remove(), 420);
+        }
+        bar.style.width = progress + "%";
+      }, 120 * slow);
+    }
+
+    runBoot();
+  }
+
+  // settings color panel with 10 options
+  const colors = [
+    "#00ff88", "#00ffff", "#ff0088", "#ffaa00", "#00ff00",
+    "#0099ff", "#cc00ff", "#ff4444", "#00ffaa", "#ffffff"
+  ];
+
+  function ensureSettingsColors(){
+    const panelHost = document.getElementById("startBody") || document.getElementById("contentWrap") || document.body;
+    let box = document.getElementById("mergedColorPanel");
+    if(box) return;
+
+    box = document.createElement("div");
+    box.id = "mergedColorPanel";
+    box.style.cssText = `
+      position:fixed; top:74px; right:18px; z-index:99999;
+      background:rgba(0,0,0,.88); border:1px solid var(--accent);
+      border-radius:16px; padding:12px; display:grid;
+      grid-template-columns:repeat(5, 28px); gap:8px;
+      box-shadow:0 0 18px rgba(0,255,136,.12);
+      backdrop-filter:blur(10px);
+    `;
+
+    colors.forEach(c=>{
+      const b = document.createElement("button");
+      b.type = "button";
+      b.title = c;
+      b.style.cssText = `
+        width:28px; height:28px; border:none; border-radius:8px;
+        background:${c}; cursor:pointer;
+      `;
+      b.addEventListener("click", ()=>{
+        root.style.setProperty("--accent", c);
+        localStorage.setItem("accent", c);
+      });
+      box.appendChild(b);
+    });
+
+    // hidden by default, toggled by settings buttons
+    box.style.display = "none";
+    document.body.appendChild(box);
+
+    function toggle(){
+      box.style.display = box.style.display === "none" ? "grid" : "none";
+    }
+
+    const a = document.getElementById("settingsBtnTop");
+    const b = document.getElementById("settingsSideBtn");
+    if(a) a.addEventListener("click", toggle);
+    if(b) b.addEventListener("click", toggle);
+  }
+  ensureSettingsColors();
+
+  // better card interactions, no random style spam
+  document.querySelectorAll(".card").forEach(card=>{
+    if(card.dataset.v11wired) return;
+    card.dataset.v11wired = "1";
+
+    card.addEventListener("click", ()=>{
+      card.style.transform = "scale(.96)";
+      setTimeout(()=>card.style.transform = "", 110);
+    });
+
+    card.addEventListener("mousemove", e=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      card.style.transform = `rotateX(${y*7}deg) rotateY(${x*7}deg) scale(1.04)`;
+    });
+
+    card.addEventListener("mouseleave", ()=>{
+      card.style.transform = "";
+    });
+  });
+
+  // smooth idle dim
+  let lastMove = Date.now();
+  document.addEventListener("mousemove", ()=>{ lastMove = Date.now(); });
+  setInterval(()=>{
+    document.body.style.filter = (Date.now() - lastMove > 8000) ? "brightness(.85)" : "";
+  }, 1000);
 })();
 </script>
 
