@@ -1394,56 +1394,6 @@ canvas#bg{
 <div id="cursor"></div>
 <div id="cursorDot"></div>
 
-<div id="fightScene">
-  <div id="fightWarning">system defense activated</div>
-  <div id="fightNames"></div>
-  <div id="fightBars">
-    <div class="bar"><div id="hp1" class="barFill"></div></div>
-    <div class="bar"><div id="hp2" class="barFill"></div></div>
-  </div>
-
-  <div id="fighters">
-    <div class="fighterWrap">
-      <div class="fighterLabel" id="f1Label">player</div>
-      <div class="fighter fighter1 left" id="fighter1">
-        <div class="fighterCore">
-          <div class="fighterBody">
-            <div class="head"><div class="face" id="face1">• •</div></div>
-            <div class="torso"></div>
-            <div class="arm left"></div>
-            <div class="arm right"></div>
-            <div class="leg left"></div>
-            <div class="leg right"></div>
-            <div class="fist"></div>
-            <div class="kickTrail"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fighterWrap">
-      <div class="fighterLabel" id="f2Label">school blocker</div>
-      <div class="fighter fighter2 right" id="fighter2">
-        <div class="fighterCore">
-          <div class="fighterBody">
-            <div class="head"><div class="face" id="face2">• •</div></div>
-            <div class="torso"></div>
-            <div class="arm left"></div>
-            <div class="arm right"></div>
-            <div class="leg left"></div>
-            <div class="leg right"></div>
-            <div class="fist"></div>
-            <div class="kickTrail"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="fightText">LOADING BATTLE...</div>
-  <div id="comboCounter"></div>
-  <div id="dialog"></div>
-</div>
 
 <div id="sidebar">
   <button class="sideBtn active" data-page="home" title="home">🏠</button>
@@ -1453,8 +1403,7 @@ canvas#bg{
   <button class="sideBtn" data-page="favorites" title="favorites">⭐</button>
 
   <div id="sideBottom">
-    <button class="sideBtn" id="bossBtn" title="boss mode">⚔</button>
-    <button class="sideBtn" id="settingsSideBtn" title="settings">⚙</button>
+        <button class="sideBtn" id="settingsSideBtn" title="settings">⚙</button>
   </div>
 </div>
 
@@ -1727,7 +1676,7 @@ let taskZ = 1500;
 let currentWallpaper = localStorage.getItem("subussy_wallpaper") || wallpapers[0];
 let currentTheme = localStorage.getItem("subussy_theme") || "green";
 let aiMode = localStorage.getItem("subussy_ai_mode") || "normal";
-let soundEnabled = JSON.parse(localStorage.getItem("subussy_sound_enabled") ?? "false");
+let soundEnabled = false;
 
 let hp1 = 100;
 let hp2 = 100;
