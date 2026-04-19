@@ -3313,5 +3313,573 @@ saveStats();
 applyLayoutMode();
 </script>
 
+
+<style>
+/* ===== V9 MASSIVE VISUAL UPGRADE ===== */
+body{
+background:radial-gradient(circle at center,#001a12,#000);
+transition:0.5s;
+}
+.card{
+transition:0.2s !important;
+transform-style:preserve-3d;
+}
+.card:hover{
+transform:scale(1.1) rotateX(6deg) rotateY(-6deg) !important;
+box-shadow:0 0 40px #00ff88, 0 0 80px rgba(0,255,136,.4);
+}
+.glowPulse{
+animation:glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse{
+from{filter:brightness(1);}
+to{filter:brightness(1.4);}
+}
+
+/* floating AI stronger */
+#ai,#aiPanel{
+box-shadow:0 0 40px #0f0;
+backdrop-filter:blur(6px);
+}
+
+/* animated background particles */
+#v9bg{
+position:fixed;
+inset:0;
+z-index:-1;
+background:radial-gradient(circle,#00ff8820,transparent);
+animation:bgAnim 10s infinite alternate;
+}
+@keyframes bgAnim{
+from{transform:scale(1);}
+to{transform:scale(1.3);}
+}
+</style>
+
+<div id="v9bg"></div>
+
+<script>
+console.log("V9 GOD MODE LOADED");
+
+/* ===== MASS UI ANIMATION ENGINE ===== */
+(function(){
+let last=0;
+function loop(t){
+let delta=t-last;
+last=t;
+
+document.querySelectorAll(".card").forEach((c,i)=>{
+let s=1+Math.sin((t+i*100)/800)*0.02;
+c.style.scale=s;
+});
+
+requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+
+/* ===== SUPER BLOOD PHYSICS ===== */
+window.createBlood=function(){
+for(let i=0;i<15;i++){
+let b=document.createElement("div");
+b.className="blood";
+b.style.left=Math.random()*innerWidth+"px";
+b.style.top=Math.random()*innerHeight+"px";
+b.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
+b.style.opacity=Math.random();
+document.body.appendChild(b);
+setTimeout(()=>b.remove(),800);
+}
+};
+
+/* ===== REAL COMBAT IMPACT ===== */
+window.attack=function(){
+let target=Math.random()>0.5?document.getElementById("p1"):document.getElementById("p2");
+if(!target)return;
+target.style.transform="scale(1.2)";
+setTimeout(()=>target.style.transform="",150);
+
+createBlood();
+document.body.style.background="#200";
+setTimeout(()=>document.body.style.background="",100);
+};
+
+/* ===== FORCE AI IMPROVE ===== */
+(function(){
+let ai=document.getElementById("ai")||document.getElementById("aiPanel");
+if(ai){
+ai.style.display="flex";
+ai.style.flexDirection="column";
+
+let hide=document.createElement("button");
+hide.textContent="HIDE";
+hide.style="background:red;color:white;border:none;margin:5px;";
+hide.onclick=()=>ai.style.display="none";
+ai.appendChild(hide);
+}
+})();
+
+/* ===== SMART GAME ADD (VISIBLE CHANGE) ===== */
+window.addGame=function(){
+let input=prompt("ADD GAME (name or url)");
+if(!input)return;
+
+let url=input.startsWith("http")?input:"https://"+input;
+
+let data=JSON.parse(localStorage.getItem("data")||"{}");
+if(!data.games)data.games=[];
+
+data.games.unshift({
+name:input,
+url:url,
+img:"https://www.google.com/s2/favicons?domain="+url
+});
+
+localStorage.setItem("data",JSON.stringify(data));
+
+alert("GAME ADDED (V9 SYSTEM)");
+location.reload();
+};
+
+/* ===== EXTREME CURSOR EFFECT ===== */
+document.addEventListener("mousemove",e=>{
+let trail=document.createElement("div");
+trail.style.position="fixed";
+trail.style.width="6px";
+trail.style.height="6px";
+trail.style.background="#0f0";
+trail.style.left=e.clientX+"px";
+trail.style.top=e.clientY+"px";
+trail.style.pointerEvents="none";
+document.body.appendChild(trail);
+setTimeout(()=>trail.remove(),300);
+});
+
+/* ===== FORCE PERFORMANCE SAFE ===== */
+window.addEventListener("error",e=>{
+console.warn("V9 guard caught:",e.message);
+});
+</script>
+
+
+<style>
+/* ===== V10 GOD MODE VISUAL ===== */
+body{
+    background: radial-gradient(circle at center, #00281c, #000);
+    overflow:hidden;
+}
+
+/* window system */
+.window{
+    position:fixed;
+    width:400px;
+    height:300px;
+    background:#000;
+    border:2px solid #0f0;
+    box-shadow:0 0 20px #0f0;
+    top:50px;
+    left:50px;
+    resize:both;
+    overflow:hidden;
+    z-index:9999;
+}
+.window-header{
+    background:#0f0;
+    color:black;
+    padding:5px;
+    cursor:move;
+    font-weight:bold;
+}
+</style>
+
+<script>
+console.log("V10 BREAK LIMITS");
+
+/* ===== DRAG WINDOW SYSTEM ===== */
+function createWindow(title, url){
+    let win = document.createElement("div");
+    win.className = "window";
+
+    let header = document.createElement("div");
+    header.className = "window-header";
+    header.textContent = title;
+
+    let frame = document.createElement("iframe");
+    frame.src = url;
+    frame.style.width = "100%";
+    frame.style.height = "calc(100% - 25px)";
+    frame.style.border = "none";
+
+    win.appendChild(header);
+    win.appendChild(frame);
+    document.body.appendChild(win);
+
+    let offsetX=0, offsetY=0, dragging=false;
+
+    header.onmousedown = (e)=>{
+        dragging=true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+    };
+
+    document.onmouseup = ()=>dragging=false;
+    document.onmousemove = (e)=>{
+        if(dragging){
+            win.style.left = (e.clientX-offsetX)+"px";
+            win.style.top = (e.clientY-offsetY)+"px";
+        }
+    };
+}
+
+/* ===== OVERRIDE CARD CLICK ===== */
+document.querySelectorAll(".card").forEach(c=>{
+    c.addEventListener("dblclick", ()=>{
+        let url = c.querySelector("img")?.src || "https://example.com";
+        createWindow("App", url);
+    });
+});
+
+/* ===== REAL HP COMBAT ===== */
+let hp1 = 100, hp2 = 100;
+
+window.attack = function(){
+    let dmg = Math.floor(Math.random()*15)+5;
+    if(Math.random()>0.5){
+        hp1 -= dmg;
+    } else {
+        hp2 -= dmg;
+    }
+
+    createBlood();
+
+    if(hp1 <= 0 || hp2 <= 0){
+        alert("FINISHER!");
+        hp1 = 100;
+        hp2 = 100;
+    }
+};
+
+/* ===== PARTICLE ENGINE ===== */
+function particle(x,y){
+    let p = document.createElement("div");
+    p.style.position="fixed";
+    p.style.left=x+"px";
+    p.style.top=y+"px";
+    p.style.width="4px";
+    p.style.height="4px";
+    p.style.background="#0f0";
+    document.body.appendChild(p);
+
+    let vx = Math.random()*4-2;
+    let vy = Math.random()*4-2;
+
+    let life=0;
+    function move(){
+        life++;
+        x+=vx;
+        y+=vy;
+        p.style.left=x+"px";
+        p.style.top=y+"px";
+        if(life<30){
+            requestAnimationFrame(move);
+        } else {
+            p.remove();
+        }
+    }
+    move();
+}
+
+document.addEventListener("click",e=>{
+    for(let i=0;i<10;i++) particle(e.clientX,e.clientY);
+});
+</script>
+
+
+<style>
+/* ===== V11 ENGINE MODE ===== */
+.tabbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:30px;
+    background:#001;
+    display:flex;
+    gap:5px;
+    z-index:99999;
+}
+.tab{
+    padding:5px 10px;
+    background:#0f0;
+    color:black;
+    cursor:pointer;
+    font-size:12px;
+}
+</style>
+
+<div class="tabbar" id="tabbar"></div>
+
+<script>
+console.log("V11 ENGINE MODE");
+
+/* ===== TAB SYSTEM ===== */
+let tabs = [];
+
+function addTab(title, win){
+    let tab = document.createElement("div");
+    tab.className = "tab";
+    tab.textContent = title;
+
+    tab.onclick = ()=>{
+        document.querySelectorAll(".window").forEach(w=>w.style.display="none");
+        win.style.display="block";
+    };
+
+    document.getElementById("tabbar").appendChild(tab);
+    tabs.push({tab, win});
+}
+
+/* patch window creation */
+let oldCreate = window.createWindow;
+window.createWindow = function(title, url){
+    let win = document.createElement("div");
+    win.className = "window";
+
+    let header = document.createElement("div");
+    header.className = "window-header";
+    header.textContent = title;
+
+    let frame = document.createElement("iframe");
+    frame.src = url;
+    frame.style.width = "100%";
+    frame.style.height = "calc(100% - 25px)";
+    frame.style.border = "none";
+
+    win.appendChild(header);
+    win.appendChild(frame);
+    document.body.appendChild(win);
+
+    addTab(title, win);
+
+    let offsetX=0, offsetY=0, dragging=false;
+    header.onmousedown = (e)=>{
+        dragging=true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+    };
+    document.onmouseup = ()=>dragging=false;
+    document.onmousemove = (e)=>{
+        if(dragging){
+            win.style.left = (e.clientX-offsetX)+"px";
+            win.style.top = (e.clientY-offsetY)+"px";
+        }
+    };
+};
+
+/* ===== REQUEST HUB ===== */
+function openRequestHub(){
+    let win = document.createElement("div");
+    win.className="window";
+    win.innerHTML = `
+        <div class="window-header">Request Hub</div>
+        <div style="padding:10px">
+            <input id="reqInput" placeholder="Enter game URL or name" style="width:100%">
+            <button onclick="submitRequest()">Submit</button>
+            <div id="reqList"></div>
+        </div>
+    `;
+    document.body.appendChild(win);
+}
+
+window.submitRequest = function(){
+    let val = document.getElementById("reqInput").value;
+    if(!val)return;
+
+    let list = document.getElementById("reqList");
+    let item = document.createElement("div");
+    item.textContent = "Added: "+val;
+    list.appendChild(item);
+
+    let url = val.startsWith("http")?val:"https://"+val;
+
+    let data = JSON.parse(localStorage.getItem("data")||"{}");
+    if(!data.games)data.games=[];
+    data.games.unshift({
+        name:val,
+        url:url,
+        img:"https://www.google.com/s2/favicons?domain="+url
+    });
+
+    localStorage.setItem("data",JSON.stringify(data));
+};
+
+/* ===== HOTKEYS ===== */
+document.addEventListener("keydown",e=>{
+    if(e.key==="`") openRequestHub();
+});
+
+/* ===== ADVANCED PARTICLES ===== */
+document.addEventListener("mousemove",e=>{
+    if(Math.random()<0.2){
+        let p=document.createElement("div");
+        p.style.position="fixed";
+        p.style.left=e.clientX+"px";
+        p.style.top=e.clientY+"px";
+        p.style.width="3px";
+        p.style.height="3px";
+        p.style.background="#0f0";
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),300);
+    }
+});
+</script>
+
+
+<style>
+/* ===== V12 GOD ENGINE ===== */
+.window.minimized{
+    height:30px !important;
+    overflow:hidden;
+}
+.processPanel{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:30px;
+    background:#010;
+    display:flex;
+    gap:5px;
+    padding:2px;
+    z-index:99999;
+}
+.proc{
+    background:#0f0;
+    color:black;
+    padding:2px 6px;
+    font-size:11px;
+}
+</style>
+
+<div class="processPanel" id="processPanel"></div>
+
+<script>
+console.log("V12 GOD ENGINE");
+
+/* ===== PROCESS MANAGER ===== */
+let processes = [];
+
+function addProcess(name, win){
+    let p=document.createElement("div");
+    p.className="proc";
+    p.textContent=name;
+    p.onclick=()=>win.style.display="block";
+
+    document.getElementById("processPanel").appendChild(p);
+    processes.push({p,win});
+}
+
+/* ===== EXTEND WINDOW ===== */
+let oldCreateWin = window.createWindow;
+window.createWindow = function(title,url){
+    let win=document.createElement("div");
+    win.className="window";
+
+    let header=document.createElement("div");
+    header.className="window-header";
+    header.innerHTML=title+" <span style='float:right'>_ [ ] X</span>";
+
+    let frame=document.createElement("iframe");
+    frame.src=url;
+    frame.style.width="100%";
+    frame.style.height="calc(100% - 25px)";
+    frame.style.border="none";
+
+    win.appendChild(header);
+    win.appendChild(frame);
+    document.body.appendChild(win);
+
+    addProcess(title,win);
+
+    let dragging=false,ox=0,oy=0;
+    header.onmousedown=(e)=>{
+        dragging=true;
+        ox=e.clientX-win.offsetLeft;
+        oy=e.clientY-win.offsetTop;
+    };
+    document.onmouseup=()=>dragging=false;
+    document.onmousemove=(e)=>{
+        if(dragging){
+            win.style.left=(e.clientX-ox)+"px";
+            win.style.top=(e.clientY-oy)+"px";
+        }
+    };
+
+    /* controls */
+    header.onclick=(e)=>{
+        if(e.target.textContent.includes("_")){
+            win.classList.toggle("minimized");
+        }
+        if(e.target.textContent.includes("X")){
+            win.remove();
+        }
+    };
+};
+
+/* ===== PERFORMANCE MONITOR ===== */
+let fps=0,last=performance.now();
+function perfLoop(now){
+    fps=Math.round(1000/(now-last));
+    last=now;
+    document.title="FPS:"+fps+" | V12 ENGINE";
+    requestAnimationFrame(perfLoop);
+}
+requestAnimationFrame(perfLoop);
+
+/* ===== COMBAT UPGRADE ===== */
+let combo=0;
+window.attack=function(){
+    combo++;
+    let dmg=Math.floor(Math.random()*20)+combo;
+    createBlood();
+
+    if(combo>5){
+        document.body.style.filter="brightness(2)";
+        setTimeout(()=>document.body.style.filter="",200);
+    }
+};
+
+/* ===== ADVANCED PARTICLES ===== */
+function particle(x,y){
+    let p=document.createElement("div");
+    p.style.position="fixed";
+    p.style.left=x+"px";
+    p.style.top=y+"px";
+    p.style.width="3px";
+    p.style.height="3px";
+    p.style.background="#0f0";
+    document.body.appendChild(p);
+
+    let vx=Math.random()*6-3;
+    let vy=Math.random()*6-3;
+
+    let life=0;
+    function move(){
+        life++;
+        x+=vx;
+        y+=vy;
+        p.style.left=x+"px";
+        p.style.top=y+"px";
+        if(life<40) requestAnimationFrame(move);
+        else p.remove();
+    }
+    move();
+}
+
+document.addEventListener("click",e=>{
+    for(let i=0;i<15;i++) particle(e.clientX,e.clientY);
+});
+</script>
+
 </body>
 </html>
