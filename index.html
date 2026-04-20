@@ -4,1394 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SUBUSSY OS FINAL BOSS</title>
+
 <style>
-:root{
-  --accent:#00ff88;
-  --accent2:#7dffd0;
-  --bg:#030303;
-  --panel:rgba(0,0,0,.72);
-  --panel-strong:rgba(0,0,0,.9);
-  --text:#eafff4;
-  --muted:#9ff5cb;
-  --danger:#ff4d6d;
-  --sidebar-w:78px;
-  --top-h:70px;
-  --taskbar-h:48px;
-  --glow:0 0 24px rgba(0,255,136,.22);
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#000}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--text);
-  cursor:none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(0,255,136,.10), transparent 28%),
-    radial-gradient(circle at 80% 18%, rgba(0,255,136,.07), transparent 24%),
-    linear-gradient(180deg,#010101,#050505 50%,#000 100%);
-  transition:background .6s ease,color .4s ease,filter .3s ease,transform .12s ease;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-5;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 30% 35%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 35%),
-    radial-gradient(circle at 75% 70%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 32%);
-  animation:bgPulse 8s ease-in-out infinite alternate;
-}
-@keyframes bgPulse{
-  from{transform:scale(1)}
-  to{transform:scale(1.12)}
-}
-
-#wallpaper{
-  position:fixed;
-  inset:0;
-  z-index:-6;
-  opacity:.12;
-  background:
-    linear-gradient(90deg, transparent 0 96%, color-mix(in srgb, var(--accent) 6%, transparent) 96%),
-    linear-gradient(transparent 0 96%, color-mix(in srgb, var(--accent) 6%, transparent) 96%);
-  background-size:70px 70px;
-  animation:gridMove 7s linear infinite;
-}
-@keyframes gridMove{
-  from{transform:translate(0,0)}
-  to{transform:translate(-70px,-70px)}
-}
-
-canvas#bg{
-  position:fixed;
-  inset:0;
-  z-index:-4;
-  width:100%;
-  height:100%;
-}
-
-#themeWipe{
-  position:fixed;
-  inset:0;
-  z-index:300000;
-  pointer-events:none;
-  opacity:0;
-}
-#wipeOld,
-#wipeNew,
-#wipeLine{
-  position:absolute;
-  inset:0;
-}
-#wipeOld{background:transparent}
-#wipeNew{
-  clip-path:inset(0 100% 0 0);
-}
-#wipeLine{
-  width:16px;
-  left:-20px;
-  background:linear-gradient(180deg,#fff,var(--accent),#fff);
-  box-shadow:
-    0 0 20px #fff,
-    0 0 60px color-mix(in srgb, var(--accent) 80%, transparent),
-    0 0 120px color-mix(in srgb, var(--accent) 45%, transparent);
-}
-
-#boot{
-  position:fixed;
-  inset:0;
-  z-index:999999;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-#bootCard{
-  width:min(760px,95vw);
-  min-height:260px;
-  border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-  border-radius:22px;
-  background:rgba(0,0,0,.88);
-  box-shadow:0 0 35px color-mix(in srgb, var(--accent) 12%, transparent);
-  padding:22px;
-}
-#bootTitle{
-  color:var(--accent);
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin-bottom:14px;
-  text-shadow:0 0 12px color-mix(in srgb, var(--accent) 35%, transparent);
-}
-#terminal{
-  min-height:150px;
-  white-space:pre-wrap;
-  color:#caffdf;
-  line-height:1.55;
-  font-family:Consolas, monospace;
-  font-size:13px;
-}
-#barWrap{
-  width:100%;
-  height:12px;
-  border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  background:#06140d;
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:18px;
-}
-#bar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  box-shadow:0 0 15px color-mix(in srgb, var(--accent) 45%, transparent);
-}
-
-#sidebar{
-  position:fixed;
-  left:10px;
-  top:10px;
-  bottom:10px;
-  width:var(--sidebar-w);
-  border-radius:22px;
-  background:rgba(0,0,0,.78);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  backdrop-filter:blur(12px);
-  z-index:1200;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-  padding:14px 10px;
-  box-shadow:var(--glow);
-}
-.sideBtn{
-  width:54px;
-  height:54px;
-  border:none;
-  border-radius:16px;
-  background:rgba(255,255,255,.03);
-  color:var(--accent);
-  cursor:pointer;
-  font-size:22px;
-  transition:.2s ease;
-  border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-}
-.sideBtn:hover,.sideBtn.active{
-  transform:translateY(-2px) scale(1.05);
-  background:color-mix(in srgb, var(--accent) 12%, transparent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-#sideBottom{
-  margin-top:auto;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-#top{
-  position:fixed;
-  left:calc(var(--sidebar-w) + 24px);
-  right:14px;
-  top:14px;
-  height:var(--top-h);
-  border-radius:22px;
-  background:rgba(0,0,0,.55);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  display:grid;
-  grid-template-columns:1fr minmax(260px,520px) auto;
-  align-items:center;
-  gap:12px;
-  padding:14px 16px;
-  z-index:1100;
-  box-shadow:var(--glow);
-  backdrop-filter:blur(12px);
-}
-#titleWrap{display:flex;align-items:center;gap:12px}
-#logoDot{
-  width:16px;height:16px;border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 65%, transparent);
-  animation:dotPulse 1.7s infinite;
-}
-@keyframes dotPulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.2)}
-}
-#title{
-  color:var(--accent);
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-#subTitle{
-  color:var(--muted);
-  font-size:11px;
-  letter-spacing:1px;
-  margin-top:3px;
-}
-.searchWrap{position:relative}
-#searchIcon{
-  position:absolute;
-  left:14px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--accent);
-}
-#search{
-  width:100%;
-  padding:13px 16px 13px 40px;
-  border-radius:16px;
-  background:rgba(0,0,0,.85);
-  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  outline:none;
-  color:var(--text);
-}
-#search:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 14%, transparent);
-}
-#topRight{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.topBtn{
-  min-width:42px;
-  height:42px;
-  border:none;
-  border-radius:14px;
-  color:var(--accent);
-  background:rgba(0,0,0,.85);
-  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  cursor:pointer;
-  transition:.18s ease;
-}
-.topBtn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 0 14px color-mix(in srgb, var(--accent) 16%, transparent);
-}
-#clock{
-  min-width:140px;
-  padding:8px 12px;
-  border-radius:14px;
-  background:rgba(0,0,0,.85);
-  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  font-size:12px;
-  line-height:1.35;
-  text-align:right;
-  color:#d8ffe9;
-}
-
-#contentWrap{
-  position:fixed;
-  left:calc(var(--sidebar-w) + 24px);
-  right:14px;
-  top:calc(var(--top-h) + 28px);
-  bottom:calc(var(--taskbar-h) + 24px);
-  overflow:auto;
-  z-index:900;
-  padding:14px 0 24px;
-}
-.page{
-  display:none;
-  width:min(1320px,100%);
-  margin:0 auto;
-}
-.page.active{display:block}
-
-.sectionBar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin:2px 2px 16px;
-}
-.sectionTitle{
-  font-size:15px;
-  color:#d9ffe9;
-}
-.sectionMeta{
-  font-size:12px;
-  color:#89d5ab;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:22px;
-}
-.card{
-  position:relative;
-  height:290px;
-  border-radius:22px;
-  overflow:hidden;
-  background:#000;
-  cursor:pointer;
-  transform-style:preserve-3d;
-  transition:transform .28s ease, box-shadow .28s ease;
-  border:1px solid color-mix(in srgb, var(--accent) 15%, transparent);
-}
-.card:hover{
-  transform:rotateY(5deg) rotateX(4deg) scale(1.04);
-  box-shadow:0 18px 40px rgba(0,0,0,.48),0 0 34px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.card img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .55s ease,filter .35s ease;
-}
-.card:hover img{
-  transform:scale(1.14) translateY(-6px);
-  filter:brightness(.55) contrast(1.08);
-}
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg, transparent 20%, rgba(0,0,0,.2) 48%, rgba(0,0,0,.96) 100%);
-  z-index:1;
-}
-.card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.09), transparent 66%);
-  transform:translateX(-70%) rotate(8deg);
-  transition:transform .65s ease;
-  z-index:2;
-}
-.card:hover::after{transform:translateX(45%) rotate(8deg)}
-.cardContent{
-  position:absolute;
-  inset:auto 0 0 0;
-  z-index:3;
-  padding:16px;
-}
-.cardTopRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-bottom:8px;
-}
-.badge{
-  padding:5px 9px;
-  border-radius:999px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  background:rgba(0,0,0,.65);
-  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  color:#d8ffe9;
-}
-.playBadge{
-  background:linear-gradient(180deg,#b8ffde,var(--accent));
-  color:#032116;
-  border:none;
-  font-weight:900;
-}
-.cardName{
-  font-size:18px;
-  font-weight:900;
-  color:#fff;
-  text-shadow:
-    0 1px 0 var(--accent),
-    0 2px 0 color-mix(in srgb, var(--accent) 80%, #003000),
-    0 4px 10px color-mix(in srgb, var(--accent) 40%, transparent),
-    0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
-}
-.cardMeta{
-  margin-top:6px;
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  font-size:11px;
-  color:#8dd7ad;
-}
-.listPanel{
-  display:grid;
-  gap:10px;
-}
-.docRow{
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.03);
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
-  cursor:pointer;
-  transition:.18s ease;
-}
-.docRow:hover{
-  transform:translateX(6px);
-  background:color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);
-}
-.homeGrid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:18px;
-  margin-bottom:18px;
-}
-.panel{
-  background:rgba(0,0,0,.72);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  border-radius:20px;
-  padding:16px;
-  box-shadow:var(--glow);
-}
-.panel h3{
-  color:var(--accent);
-  margin-bottom:10px;
-  font-size:15px;
-}
-.featuredHero{
-  height:240px;
-  border-radius:20px;
-  padding:18px;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.92)),
-    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 40%);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
-.featuredHero h2{
-  font-size:28px;
-  color:#fff;
-  margin-bottom:10px;
-}
-.featuredHero p{
-  color:#bfffe0;
-  margin-bottom:14px;
-}
-.rowBtns{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-.smallBtn,.ghostBtn,.switchBtn{
-  padding:10px 12px;
-  border:none;
-  cursor:pointer;
-  border-radius:12px;
-}
-.smallBtn,.switchBtn{
-  color:#032116;
-  background:linear-gradient(180deg,#b9ffdd,var(--accent));
-  font-weight:800;
-}
-.ghostBtn{
-  color:#dfffee;
-  background:rgba(255,255,255,.055);
-  border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-}
-
-#player{
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:none;
-  z-index:140000;
-  opacity:0;
-  transition:opacity .2s ease;
-}
-#player.active{display:block;opacity:1}
-#frame{
-  width:100%;
-  height:100%;
-  border:none;
-  background:#000;
-}
-#playerBar{
-  position:absolute;
-  top:16px;
-  left:16px;
-  right:16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  z-index:5;
-}
-#playerTitle{
-  flex:1;
-  min-width:0;
-  padding:12px 14px;
-  border-radius:14px;
-  background:rgba(0,0,0,.8);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  color:#dfffee;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.playerBtns{
-  display:flex;
-  gap:10px;
-}
-.playerBtn{
-  min-width:46px;
-  height:46px;
-  padding:0 14px;
-  border:none;
-  cursor:pointer;
-  border-radius:16px;
-  color:#031c11;
-  font-weight:800;
-  background:linear-gradient(180deg,#abffd5,var(--accent));
-  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.playerBtn.danger{
-  background:linear-gradient(180deg,#ffb6c4,#ff4d6d);
-  color:#2a000a;
-}
-
-#windowLayer{
-  position:fixed;
-  inset:0;
-  z-index:1280;
-  pointer-events:none;
-}
-.window{
-  position:absolute;
-  width:min(460px,calc(100vw - 24px));
-  max-height:min(78vh,740px);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  border-radius:20px;
-  background:rgba(0,0,0,.92);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  box-shadow:0 14px 34px rgba(0,0,0,.42),0 0 24px color-mix(in srgb, var(--accent) 8%, transparent);
-  pointer-events:auto;
-}
-.titleBar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:10px 12px;
-  background:linear-gradient(180deg,color-mix(in srgb, var(--accent) 14%, transparent), color-mix(in srgb, var(--accent) 5%, transparent));
-  border-bottom:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-  cursor:move;
-  user-select:none;
-}
-.titleBarText{color:#ebfff5;font-size:13px;font-weight:700}
-.titleBarActions{display:flex;gap:8px}
-.winBtn{
-  width:30px;height:28px;border:none;border-radius:10px;cursor:pointer;
-  background:rgba(255,255,255,.08);color:#ebfff5;
-}
-.winBody{
-  overflow:auto;
-  padding:14px;
-  color:#e6fff1;
-}
-.winGrid{display:grid;gap:10px}
-.winCard{
-  padding:12px;
-  border-radius:14px;
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
-  background:rgba(255,255,255,.03);
-}
-
-#taskbar{
-  position:fixed;
-  left:calc(var(--sidebar-w) + 24px);
-  right:14px;
-  bottom:10px;
-  height:var(--taskbar-h);
-  border-radius:18px;
-  z-index:1250;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:0 10px;
-  background:rgba(0,0,0,.74);
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  backdrop-filter:blur(12px);
-}
-#taskLeft{display:flex;align-items:center;gap:8px}
-#startBtn{
-  min-width:44px;
-  height:34px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:linear-gradient(180deg,#a7ffd2,var(--accent));
-  color:#032116;
-  font-weight:900;
-}
-#taskApps{display:flex;gap:8px;align-items:center}
-.taskApp{
-  min-width:36px;height:34px;padding:0 12px;border-radius:12px;
-  border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-  background:rgba(255,255,255,.04);
-  color:#dfffee;
-  cursor:pointer;
-  font-size:12px;
-}
-#taskRight{display:flex;align-items:center;gap:10px}
-#onlineBadge{
-  padding:5px 9px;border-radius:999px;
-  background:color-mix(in srgb, var(--accent) 11%, transparent);
-  color:var(--muted);
-  font-size:11px;
-}
-#taskClock{
-  font-size:12px;
-  line-height:1.3;
-  text-align:right;
-  color:#deffec;
-}
-
-#startMenu{
-  position:fixed;
-  left:calc(var(--sidebar-w) + 24px);
-  bottom:64px;
-  width:min(360px,calc(100vw - 24px));
-  max-height:min(72vh,680px);
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:1300;
-  background:rgba(0,0,0,.88);
-  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  border-radius:22px;
-  box-shadow:0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
-  backdrop-filter:blur(14px);
-}
-#startHead{
-  padding:14px;
-  border-bottom:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-}
-#startSearch{
-  width:100%;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  background:rgba(0,0,0,.74);
-  color:#eafff2;
-  outline:none;
-}
-#startBody{
-  display:grid;
-  gap:10px;
-  padding:12px;
-  overflow:auto;
-}
-.startSectionTitle{
-  font-size:11px;
-  color:#87d6a9;
-  margin:6px 2px 2px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-.startItem{
-  width:100%;
-  padding:12px;
-  border:none;
-  text-align:left;
-  border-radius:14px;
-  color:#e8fff2;
-  background:rgba(255,255,255,.035);
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
-  cursor:pointer;
-}
-.startItem:hover{background:color-mix(in srgb, var(--accent) 8%, transparent)}
-.startItem small{
-  display:block;
-  margin-top:4px;
-  color:#90d8b0;
-}
-
-#desktopIcons{
-  position:fixed;
-  left:calc(var(--sidebar-w) + 24px);
-  top:calc(var(--top-h) + 24px);
-  width:88px;
-  bottom:calc(var(--taskbar-h) + 20px);
-  z-index:700;
-  pointer-events:none;
-}
-.icon{
-  position:absolute;
-  width:88px;
-  text-align:center;
-  padding:10px 6px;
-  border-radius:16px;
-  pointer-events:auto;
-  cursor:pointer;
-  user-select:none;
-  transition:.15s ease;
-}
-.icon:hover{
-  background:color-mix(in srgb, var(--accent) 6%, transparent);
-  transform:translateY(-2px);
-}
-.iconThumb{
-  width:54px;
-  height:54px;
-  margin:0 auto 8px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  color:#041a11;
-  font-size:24px;
-  background:linear-gradient(180deg,#abffd5,var(--accent));
-  box-shadow:0 0 20px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.iconLabel{
-  color:#e6fff2;
-  font-size:11px;
-  line-height:1.25;
-  text-shadow:0 0 12px rgba(0,0,0,.7);
-}
-
-#aiPanel{
-  display:none !important;
-  display:none !important;
-  position:fixed;
-  right:20px;
-  bottom:80px;
-  width:300px;
-  height:380px;
-  display:flex;
-  flex-direction:column;
-  background:rgba(0,0,0,.90);
-  border:1px solid color-mix(in srgb, var(--accent) 26%, transparent);
-  border-radius:18px;
-  box-shadow:0 0 25px color-mix(in srgb, var(--accent) 14%, transparent);
-  z-index:1500;
-  animation:aiPulse 3s infinite;
-}
-@keyframes aiPulse{
-  0%,100%{box-shadow:0 0 20px color-mix(in srgb, var(--accent) 16%, transparent)}
-  50%{box-shadow:0 0 34px color-mix(in srgb, var(--accent) 28%, transparent)}
-}
-#aiHeader{
-  padding:10px 12px;
-  font-weight:900;
-  color:var(--accent);
-  border-bottom:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
-  letter-spacing:1px;
-}
-#aiChat{
-  flex:1;
-  overflow:auto;
-  padding:10px;
-  font-size:13px;
-  color:#caffdf;
-}
-.aiMsg{margin-bottom:8px;line-height:1.4}
-#aiInput{
-  border:none;
-  border-top:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-  padding:10px;
-  background:#000;
-  color:#00ff88;
-  outline:none;
-}
-
-#idleBox{
-  display:none !important;
-  display:none !important;
-  position:fixed;
-  bottom:470px;
-  right:20px;
-  width:280px;
-  padding:14px;
-  border-radius:16px;
-  background:rgba(0,0,0,.88);
-  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  box-shadow:0 0 20px color-mix(in srgb, var(--accent) 12%, transparent);
-  display:none;
-  z-index:1500;
-  animation:idlePop .3s ease;
-}
-@keyframes idlePop{
-  from{transform:translateY(16px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-#idleCharacter{font-size:30px;margin-bottom:8px}
-#idleText{color:#d7ffea;font-size:13px;line-height:1.4}
-
-#updateOverlay{
-  display:none !important;
-  display:none !important;
-  position:fixed;
-  inset:0;
-  z-index:280000;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(8px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-#updateCard{
-  width:min(540px,92vw);
-  border-radius:22px;
-  padding:22px;
-  background:rgba(0,0,0,.92);
-  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  box-shadow:0 0 34px color-mix(in srgb, var(--accent) 16%, transparent);
-}
-#updateCard h2{
-  color:var(--accent);
-  margin-bottom:12px;
-}
-#updateList{
-  margin:14px 0;
-  display:grid;
-  gap:8px;
-  color:#dfffee;
-}
-.updateItem{
-  padding:10px 12px;
-  border-radius:12px;
-  background:rgba(255,255,255,.03);
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-#cursor{
-  position:fixed;
-  width:22px;
-  height:22px;
-  border:2px solid var(--accent);
-  border-radius:50%;
-  pointer-events:none;
-  z-index:200000;
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 20px color-mix(in srgb, var(--accent) 80%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
-  transition:width .12s ease,height .12s ease,opacity .2s ease;
-}
-#cursorDot{
-  position:fixed;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:var(--accent);
-  pointer-events:none;
-  z-index:200001;
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 12px color-mix(in srgb, var(--accent) 80%, transparent);
-}
-.cursor-hover{width:30px !important;height:30px !important}
-.cursor-click{width:34px !important;height:34px !important;opacity:.85}
-.trail{
-  position:fixed;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:199999;
-  box-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
-  animation:trailFade .34s forwards;
-}
-@keyframes trailFade{
-  to{transform:scale(.1);opacity:0}
-}
-
-#fightScene{
-  position:fixed;
-  inset:0;
-  z-index:160000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  background:
-    radial-gradient(circle at center, color-mix(in srgb, var(--accent) 12%, transparent), transparent 35%),
-    linear-gradient(180deg,#000,#040404 55%,#000);
-  overflow:hidden;
-  transition:opacity .45s ease;
-}
-#fightWarning{
-  position:absolute;
-  top:16%;
-  font-size:24px;
-  color:#fff;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  text-shadow:0 0 18px rgba(255,255,255,.2), 0 0 30px color-mix(in srgb, var(--accent) 35%, transparent);
-  opacity:0;
-}
-#fightNames{
-  position:relative;
-  z-index:2;
-  font-size:28px;
-  color:var(--accent);
-  text-shadow:0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
-  margin-bottom:18px;
-  text-align:center;
-  padding:0 16px;
-}
-#fightBars{
-  position:relative;
-  z-index:2;
-  width:min(900px,88vw);
-  display:flex;
-  gap:22px;
-  margin-bottom:30px;
-}
-.bar{
-  flex:1;
-  height:18px;
-  border-radius:999px;
-  overflow:hidden;
-  background:#0d0d0d;
-  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-}
-.barFill{
-  width:100%;
-  height:100%;
-  background:linear-gradient(90deg,var(--accent),#c8ffe3);
-  transition:width .16s linear;
-}
-#fighters{
-  position:relative;
-  z-index:2;
-  width:min(980px,92vw);
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:20px;
-  margin-bottom:18px;
-}
-.fighterWrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
-}
-.fighterLabel{font-size:13px;color:#ceffe6;opacity:.95}
-.fighter{
-  width:190px;
-  height:190px;
-  position:relative;
-  transition:transform .11s ease,filter .11s ease,box-shadow .12s ease;
-  overflow:visible;
-}
-.fighterCore{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.fighterBody{
-  position:relative;
-  width:120px;
-  height:170px;
-  filter:drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 40%, transparent));
-}
-.head{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:linear-gradient(180deg,#b9ffdf,var(--accent));
-  margin:0 auto;
-  position:relative;
-  box-shadow:0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
-}
-.face{
-  position:absolute;
-  top:10px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:11px;
-  color:#02160f;
-  font-weight:900;
-  width:24px;
-  text-align:center;
-  letter-spacing:-1px;
-  user-select:none;
-}
-.torso{
-  width:8px;
-  height:56px;
-  margin:5px auto 0;
-  border-radius:999px;
-  background:linear-gradient(180deg,#b9ffdf,var(--accent));
-}
-.arm,.leg{
-  position:absolute;
-  border-radius:999px;
-  background:linear-gradient(180deg,#b9ffdf,var(--accent));
-}
-.arm{
-  top:56px;
-  width:48px;
-  height:8px;
-}
-.arm.left{left:8px;transform:rotate(28deg);transform-origin:right center}
-.arm.right{right:8px;transform:rotate(-28deg);transform-origin:left center}
-.leg{
-  top:98px;
-  width:8px;
-  height:58px;
-}
-.leg.left{left:46px;transform:rotate(16deg);transform-origin:top center}
-.leg.right{right:46px;transform:rotate(-16deg);transform-origin:top center}
-.fighter.left.attack{transform:translateX(48px) rotate(-8deg) scale(1.03)}
-.fighter.right.attack{transform:translateX(-48px) rotate(8deg) scale(1.03)}
-.fighter.left.kick{transform:translateX(40px) rotate(-6deg) scale(1.06)}
-.fighter.right.kick{transform:translateX(-40px) rotate(6deg) scale(1.06)}
-.fighter.left.dash{transform:translateX(84px) scale(1.08)}
-.fighter.right.dash{transform:translateX(-84px) scale(1.08)}
-.fighter.hit{
-  transform:scale(.92) translateY(4px) rotate(-4deg);
-  filter:brightness(1.55) grayscale(1);
-}
-.fighter.block{transform:scale(1.04);box-shadow:0 0 30px rgba(255,255,255,.22)}
-.fighter.clash{transform:scale(1.08);filter:brightness(1.8)}
-.fist{
-  position:absolute;
-  width:26px;
-  height:18px;
-  border-radius:999px;
-  background:#fff;
-  top:62px;
-  opacity:0;
-  box-shadow:0 0 14px rgba(255,255,255,.65);
-}
-.fighter1 .fist{right:12px}
-.fighter2 .fist{left:12px}
-.kickTrail{
-  position:absolute;
-  width:62px;
-  height:12px;
-  border-radius:999px;
-  background:linear-gradient(90deg,#fff,transparent);
-  top:116px;
-  opacity:0;
-  filter:blur(1px);
-}
-.fighter1 .kickTrail{right:-18px;transform-origin:left center}
-.fighter2 .kickTrail{left:-18px;transform:scaleX(-1);transform-origin:right center}
-.fist.active{animation:fistBlast .16s linear}
-.kickTrail.active{animation:kickBlast .2s linear}
-@keyframes fistBlast{
-  0%{opacity:0;transform:scale(1)}
-  40%{opacity:1;transform:scale(1.5)}
-  100%{opacity:0;transform:scale(1)}
-}
-@keyframes kickBlast{
-  0%{opacity:0;transform:scaleX(1)}
-  40%{opacity:1;transform:scaleX(1.35)}
-  100%{opacity:0;transform:scaleX(1.7)}
-}
-#fightText{
-  position:relative;
-  z-index:2;
-  min-height:30px;
-  font-size:24px;
-  color:#fff;
-  text-shadow:0 0 14px rgba(255,255,255,.25);
-  text-align:center;
-  padding:0 16px;
-}
-#comboCounter{
-  position:relative;
-  z-index:2;
-  min-height:22px;
-  color:#fff;
-  font-size:18px;
-  text-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
-  margin-bottom:18px;
-}
-#dialog{
-  position:absolute;
-  bottom:88px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:3;
-  min-width:240px;
-  max-width:min(640px,90vw);
-  display:none;
-  padding:12px 18px;
-  border-radius:16px;
-  background:rgba(0,0,0,.84);
-  color:#d8ffe9;
-  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  box-shadow:0 0 22px color-mix(in srgb, var(--accent) 10%, transparent);
-  text-align:center;
-  font-size:13px;
-}
-.bubble{
-  position:fixed;
-  top:18%;
-  padding:12px 14px;
-  max-width:240px;
-  background:rgba(0,0,0,.92);
-  border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-  color:#d8ffe9;
-  border-radius:16px;
-  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 10%, transparent);
-  z-index:200100;
-  animation:bubbleIn .2s ease;
-}
-@keyframes bubbleIn{
-  from{transform:translateY(10px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-.hitSpark{
-  position:fixed;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 20px #fff,0 0 40px color-mix(in srgb, var(--accent) 50%, transparent);
-  pointer-events:none;
-  z-index:250001;
-  animation:sparkPop .22s forwards;
-}
-@keyframes sparkPop{
-  to{transform:scale(3.4);opacity:0}
-}
-.comboGlow{animation:comboGlow .45s ease}
-@keyframes comboGlow{
-  0%{box-shadow:0 0 0 transparent}
-  50%{box-shadow:0 0 40px color-mix(in srgb, var(--accent) 50%, transparent)}
-  100%{box-shadow:0 0 0 transparent}
-}
-.hitFreeze{animation:freezeHit .08s linear}
-@keyframes freezeHit{
-  0%{transform:scale(1.01)}
-  100%{transform:scale(1)}
-}
-@keyframes screenShake{
-  0%{transform:translate(0,0)}
-  20%{transform:translate(8px,-6px)}
-  40%{transform:translate(-8px,5px)}
-  60%{transform:translate(5px,8px)}
-  80%{transform:translate(-5px,-6px)}
-  100%{transform:translate(0,0)}
-}
-
-@media (max-width:1100px){
-  #top{
-    grid-template-columns:1fr;
-    height:auto;
-  }
-  #topRight{justify-content:space-between}
-  #contentWrap{top:136px}
-}
-@media (max-width:900px){
-  #fighters{width:min(94vw,720px)}
-  .fighter{width:140px;height:160px}
-  .fighterBody{width:96px;height:140px}
-  .arm.left{left:4px}
-  .arm.right{right:4px}
-  .leg.left{left:36px}
-  .leg.right{right:36px}
-  #fightNames{font-size:22px}
-  #fightText{font-size:19px}
-}
-@media (max-width:720px){
-  :root{--sidebar-w:62px}
-  #sidebar{width:62px}
-  .sideBtn{width:44px;height:44px;font-size:18px}
-  #desktopIcons{display:none}
-  .homeGrid{grid-template-columns:1fr}
-}
-@media (max-width:620px){
-  #contentWrap{right:10px;left:calc(var(--sidebar-w) + 18px);bottom:68px}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
-  .card{height:240px}
-  .fighter{width:110px;height:135px}
-  .fighterBody{width:78px;height:120px}
-  .head{width:32px;height:32px}
-  .torso{height:42px}
-  .arm{width:30px;top:46px}
-  .leg{height:42px;top:82px}
-  .leg.left{left:28px}
-  .leg.right{right:28px}
-  .kickTrail{top:98px}
-  #fightBars{gap:10px}
-  #aiPanel{width:260px;height:320px;right:10px}
-}
-
-
-/* =========================
-   V6 DASHBOARD OVERRIDES
-========================= */
-#sidebar,
-#taskbar,
-#startMenu,
-#desktopIcons,
-#windowLayer{display:none !important}
-
-#top{
-  left:18px;
-  right:18px;
-  top:18px;
-  height:auto;
-  min-height:78px;
-  grid-template-columns:minmax(220px,1fr) minmax(220px,460px) auto;
-  padding:16px 18px;
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(0,0,0,.82),rgba(0,0,0,.66));
-  box-shadow:0 18px 46px rgba(0,0,0,.45), 0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-#dashboardNav{
-  position:fixed;
-  left:18px;
-  right:18px;
-  top:110px;
-  z-index:1085;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.navChip{
-  border:none;
-  padding:11px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  background:rgba(0,0,0,.78);
-  color:#dfffee;
-  border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 8%, transparent);
-  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-.navChip:hover{
-  transform:translateY(-2px);
-  background:color-mix(in srgb, var(--accent) 12%, transparent);
-  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.navChip.primary{
-  background:linear-gradient(180deg,#b9ffdd,var(--accent));
-  color:#032116;
-  font-weight:900;
-}
-#contentWrap{
-  left:18px;
-  right:18px;
-  top:162px;
-  bottom:18px;
-  overflow:auto;
-  padding:0 2px 34px;
-}
-.page{
-  display:block !important;
-  width:min(1380px,100%);
-  margin:0 auto 24px;
-}
-#page-home,
-#page-games,
-#page-movies,
-#page-docs,
-#page-favorites{
-  padding:18px;
-  border-radius:28px;
-  background:rgba(0,0,0,.54);
-  border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
-  box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 24px color-mix(in srgb, var(--accent) 8%, transparent);
-  backdrop-filter:blur(12px);
-}
-#page-home .homeGrid{
-  grid-template-columns:1.28fr .92fr;
-  gap:20px;
-}
-#page-home .panel,
-#page-games,
-#page-movies,
-#page-docs,
-#page-favorites{
-  background:transparent;
-  box-shadow:none;
-}
-.featuredHero{
-  min-height:290px;
-  border-radius:24px;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.9)),
-    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 38%),
-    linear-gradient(140deg,#031109,#010101 56%,#062818);
-}
-.featuredHero h2{font-size:34px}
-.featuredHero p{max-width:60ch;line-height:1.55}
-.sectionBar{margin:0 0 16px}
-.sectionTitle{font-size:20px;font-weight:900;text-transform:capitalize}
-.sectionMeta{font-size:12px}
-.grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
-.card{height:300px;border-radius:24px}
-.cardName{font-size:22px}
-.cardMeta{font-size:12px}
-.docRow{padding:18px;border-radius:18px}
-#aiPanel{
-  display:none !important;
-  right:18px;
-  bottom:18px;
-  width:320px;
-  height:390px;
-  border-radius:22px;
-  transition:transform .24s ease, opacity .18s ease, height .24s ease;
-}
-#aiPanel.ai-min{height:54px;overflow:hidden}
-#aiPanel.ai-hidden{display:none !important}
-#aiHeaderRow{display:flex;align-items:center;justify-content:space-between;gap:10px}
-#aiHeaderBtns{display:flex;gap:8px}
-.aiMiniBtn{
-  width:30px;height:30px;border:none;border-radius:10px;cursor:pointer;
-  color:#dfffee;background:rgba(255,255,255,.08);
-}
-#tutorialOverlay{
-  display:none !important;
-  display:none !important;
-  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
-  z-index:290000;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
-}
-#tutorialCard{
-  width:min(760px,92vw);padding:24px;border-radius:28px;background:rgba(0,0,0,.92);
-  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  box-shadow:0 0 34px color-mix(in srgb, var(--accent) 14%, transparent);
-}
-#tutorialTitle{font-size:30px;color:var(--accent);margin-bottom:10px}
-#tutorialBody{color:#dfffee;line-height:1.6;font-size:14px}
-#tutorialSteps{display:grid;gap:10px;margin:16px 0}
-.tutorialStep{
-  padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.035);
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
-}
-@media (max-width:980px){
-  #top{grid-template-columns:1fr;gap:10px}
-  #dashboardNav{top:146px}
-  #contentWrap{top:198px}
-  #page-home .homeGrid{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
-}
-@media (max-width:640px){
-  #top{left:10px;right:10px;top:10px;padding:14px}
-  #dashboardNav{left:10px;right:10px}
-  #contentWrap{left:10px;right:10px;bottom:10px}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .card{height:250px}
-  #aiPanel{width:min(92vw,320px)}
-}
-
+/* ===== PART 2 WILL GO HERE (FULL CSS) ===== */
 </style>
+
 </head>
 <body>
 
+<!-- THEME WIPE SYSTEM -->
 <div id="themeWipe">
   <div id="wipeOld"></div>
   <div id="wipeNew"></div>
   <div id="wipeLine"></div>
 </div>
 
+<!-- BACKGROUND -->
 <div id="wallpaper"></div>
 <canvas id="bg"></canvas>
 
+<!-- BOOT SYSTEM -->
 <div id="boot">
   <div id="bootCard">
     <div id="bootTitle">subussy os boot</div>
@@ -1400,3228 +32,804 @@ canvas#bg{
   </div>
 </div>
 
+<!-- CURSOR SYSTEM -->
 <div id="cursor"></div>
 <div id="cursorDot"></div>
 
+<!-- FIGHT SYSTEM -->
+<div id="fightScene">
 
-<div id="sidebar">
-  <button class="sideBtn active" data-page="home" title="home">🏠</button>
-  <button class="sideBtn" data-page="games" title="games">🎮</button>
-  <button class="sideBtn" data-page="movies" title="movies">🎬</button>
-  <button class="sideBtn" data-page="docs" title="docs">📄</button>
-  <button class="sideBtn" data-page="favorites" title="favorites">⭐</button>
+  <div id="fightWarning">system defense activated</div>
 
-  <div id="sideBottom">
-        <button class="sideBtn" id="settingsSideBtn" title="settings">⚙</button>
+  <div id="fightNames"></div>
+
+  <div id="fightBars">
+    <div class="bar"><div id="hp1" class="barFill"></div></div>
+    <div class="bar"><div id="hp2" class="barFill"></div></div>
   </div>
+
+  <div id="fighters">
+
+    <div class="fighterWrap">
+      <div id="f1Label">player</div>
+      <div class="fighter left" id="fighter1"></div>
+    </div>
+
+    <div class="fighterWrap">
+      <div id="f2Label">enemy</div>
+      <div class="fighter right" id="fighter2"></div>
+    </div>
+
+  </div>
+
+  <div id="fightText">LOADING...</div>
+  <div id="comboCounter"></div>
+  <div id="dialog"></div>
+
 </div>
 
+<!-- SIDEBAR -->
+<div id="sidebar">
+
+  <button class="sideBtn active" data-page="home">🏠</button>
+  <button class="sideBtn" data-page="games">🎮</button>
+  <button class="sideBtn" data-page="movies">🎬</button>
+  <button class="sideBtn" data-page="docs">📄</button>
+  <button class="sideBtn" data-page="favorites">⭐</button>
+
+  <div id="sideBottom">
+    <button class="sideBtn" id="bossBtn">⚔</button>
+    <button class="sideBtn" id="settingsSideBtn">⚙</button>
+  </div>
+
+</div>
+
+<!-- TOP BAR -->
 <div id="top">
+
   <div id="titleWrap">
     <div id="logoDot"></div>
     <div>
       <div id="title">SUBUSSY OS</div>
-      <div id="subTitle">games • movies • docs</div>
+      <div id="subTitle">games • movies • docs • boss mode</div>
     </div>
   </div>
 
   <div class="searchWrap">
-    <div id="searchIcon">⌕</div>
-    <input id="search" placeholder="Search games, movies, docs...">
+    <input id="search" placeholder="Search everything...">
   </div>
 
   <div id="topRight">
-    <button class="topBtn" id="submitGameBtn" title="submit game">＋</button>
-    <button class="topBtn" id="userBtn" title="change username">👤</button>
-    <button class="topBtn" id="settingsBtnTop" title="settings">⚙</button>
+    <button id="submitGameBtn">＋</button>
+    <button id="userBtn">👤</button>
+    <button id="settingsBtnTop">⚙</button>
     <div id="clock"></div>
   </div>
+
 </div>
 
-
-<div id="dashboardNav">
-  <button class="navChip primary" data-scroll-target="page-home">Home</button>
-  <button class="navChip" data-scroll-target="page-games">Games</button>
-  <button class="navChip" data-scroll-target="page-movies">Movies</button>
-  <button class="navChip" data-scroll-target="page-docs">Docs</button>
-  <button class="navChip" data-scroll-target="page-favorites">Favorites</button>
-  <button class="navChip" id="layoutToggleBtn">Compact Layout</button>
-</div>
-
+<!-- DESKTOP ICONS -->
 <div id="desktopIcons"></div>
 
+<!-- MAIN CONTENT -->
 <div id="contentWrap">
+
+  <!-- HOME -->
   <section class="page active" id="page-home">
+
     <div class="homeGrid">
+
       <div class="panel">
         <div class="featuredHero">
           <h2>Featured System</h2>
-          <p>movies, docs, games, favorites, and a cleaner hacker-style dashboard all in one place.</p>
-          <div class="rowBtns">
-            <button class="smallBtn" id="heroPlay">Play Recommended</button>
-            <button class="ghostBtn" id="heroMovies">Open Movies</button>
-          </div>
+          <p>everything integrated into one OS</p>
         </div>
       </div>
+
       <div class="panel">
         <h3>System Overview</h3>
         <div class="listPanel">
-          <div class="docRow" id="homeRecent">Recent: none yet</div>
-          <div class="docRow" id="homeFavorite">Favorite: none yet</div>
-          <div class="docRow" id="homeStats">Wins: 0 • Losses: 0</div>
+          <div class="docRow" id="homeRecent">Recent</div>
+          <div class="docRow" id="homeFavorite">Favorites</div>
+          <div class="docRow" id="homeStats">Stats</div>
         </div>
       </div>
+
     </div>
 
-    <div class="panel" style="margin-bottom:18px;">
-      <h3>Continue Watching / Recently Played</h3>
+    <div class="panel">
+      <h3>Continue</h3>
       <div class="grid" id="homeGrid"></div>
     </div>
+
   </section>
 
+  <!-- GAMES -->
   <section class="page" id="page-games">
-    <div class="sectionBar">
-      <div class="sectionTitle">game library</div>
-      <div class="sectionMeta"><span id="gameCount">0</span> visible</div>
-    </div>
     <div class="grid" id="gamesGrid"></div>
   </section>
 
+  <!-- MOVIES -->
   <section class="page" id="page-movies">
-    <div class="sectionBar">
-      <div class="sectionTitle">movies</div>
-      <div class="sectionMeta"><span id="movieCount">0</span> total</div>
-    </div>
     <div class="grid" id="moviesGrid"></div>
   </section>
 
+  <!-- DOCS -->
   <section class="page" id="page-docs">
-    <div class="sectionBar">
-      <div class="sectionTitle">google docs</div>
-      <div class="sectionMeta"><span id="docCount">0</span> total</div>
-    </div>
-    <div class="listPanel" id="docsList"></div>
+    <div id="docsList"></div>
   </section>
 
+  <!-- FAVORITES -->
   <section class="page" id="page-favorites">
-    <div class="sectionBar">
-      <div class="sectionTitle">favorites</div>
-      <div class="sectionMeta"><span id="favCount">0</span> saved</div>
-    </div>
     <div class="grid" id="favoritesGrid"></div>
   </section>
+
 </div>
 
+<!-- PLAYER -->
 <div id="player">
   <div id="playerBar">
-    <button class="playerBtn" id="backBtn">←</button>
+    <button id="backBtn">←</button>
     <div id="playerTitle">Loading...</div>
-    <div class="playerBtns">
-      <button class="playerBtn" id="fullBtn">⛶</button>
-      <button class="playerBtn danger" id="closeBtn">✕</button>
+    <div>
+      <button id="fullBtn">⛶</button>
+      <button id="closeBtn">✕</button>
     </div>
   </div>
-  <iframe id="frame" allowfullscreen></iframe>
+  <iframe id="frame"></iframe>
 </div>
 
+<!-- WINDOW SYSTEM -->
 <div id="windowLayer"></div>
 
+<!-- TASKBAR -->
 <div id="taskbar">
   <div id="taskLeft">
     <button id="startBtn">☰</button>
     <div id="taskApps"></div>
   </div>
   <div id="taskRight">
-    <div id="onlineBadge">ONLINE ● SECURE</div>
+    <div id="onlineBadge">ONLINE</div>
     <div id="taskClock"></div>
   </div>
 </div>
 
+<!-- START MENU -->
 <div id="startMenu">
   <div id="startHead">
-    <input id="startSearch" placeholder="Search apps and games...">
+    <input id="startSearch">
   </div>
   <div id="startBody"></div>
 </div>
 
+<!-- AI SYSTEM -->
+<div id="aiToggleBtn">AI</div>
+
 <div id="aiPanel">
-  <div id="aiHeader">
-    <div id="aiHeaderRow">
-      <span>SYSTEM_AI.exe</span>
-      <div id="aiHeaderBtns">
-        <button class="aiMiniBtn" id="aiMinBtn" title="minimize">—</button>
-        <button class="aiMiniBtn" id="aiHideBtn" title="hide">✕</button>
-      </div>
-    </div>
-  </div>
+  <div id="aiHeader">SYSTEM_AI.exe</div>
   <div id="aiChat"></div>
-  <input id="aiInput" placeholder="type command...">
+  <input id="aiInput">
 </div>
 
+<!-- IDLE SYSTEM -->
 <div id="idleBox">
   <div id="idleCharacter">🤖</div>
-  <div id="idleText">...</div>
+  <div id="idleText"></div>
 </div>
 
+<!-- UPDATE -->
 <div id="updateOverlay">
   <div id="updateCard">
-    <h2>SYSTEM UPDATE v3.0</h2>
-    <div id="updateList">
-      <div class="updateItem">✔ movies system added</div>
-      <div class="updateItem">✔ docs system added</div>
-      <div class="updateItem">✔ loading upgraded</div>
-      <div class="updateItem">✔ layout redesigned</div>
-      <div class="updateItem">✔ randomizer removed</div>
-      <div class="updateItem">✔ settings colors added</div>
-    </div>
-    <div class="rowBtns">
-      <button class="smallBtn" id="updateOkBtn">OK</button>
-      <button class="ghostBtn" id="updateDetailsBtn">DETAILS</button>
-    </div>
-  </div>
-</div>
-
-<div id="tutorialOverlay">
-  <div id="tutorialCard">
-    <div id="tutorialTitle">SUBUSSY QUICK TOUR</div>
-    <div id="tutorialBody">The tutorial now shows after the fight like you asked. This layout is a clean dashboard, not the old sidebar shell.</div>
-    <div id="tutorialSteps">
-      <div class="tutorialStep"><b>1.</b> Use the top nav chips to jump between Home, Games, Movies, Docs, and Favorites.</div>
-      <div class="tutorialStep"><b>2.</b> The plus button lets you add a game with a URL or a local file path. You do not need a separate HTML file every time.</div>
-      <div class="tutorialStep"><b>3.</b> Movies and docs open outside in a new tab. Games still launch inside the player.</div>
-      <div class="tutorialStep"><b>4.</b> The AI panel can minimize or hide completely. Open settings or click the user button to bring it back if you hide it.</div>
-    </div>
-    <div class="rowBtns">
-      <button class="smallBtn" id="tutorialStartBtn">Got it</button>
-      <button class="ghostBtn" id="tutorialSkipBtn">Skip tutorial</button>
-    </div>
+    <h2>UPDATE</h2>
+    <div id="updateList"></div>
+    <button id="updateOkBtn">OK</button>
   </div>
 </div>
 
 <script>
+/* ===== PART 3 WILL GO HERE (FULL JS) ===== */
+</script>
+
+</body>
+</html>
 /* =========================
-   CONFIG
+   ROOT + GLOBAL
 ========================= */
-const APP_VERSION = "3.0.0";
-
-const wallpapers = [
-  "linear-gradient(135deg,#02130b,#000 55%,#062719)",
-  "radial-gradient(circle at 20% 20%, rgba(0,255,136,.18), transparent 25%), linear-gradient(135deg,#040404,#00140b 60%,#000)",
-  "linear-gradient(160deg,#000,#031a12 45%,#000), radial-gradient(circle at 80% 20%, rgba(0,255,136,.15), transparent 20%)"
-];
-
-const builtInGames = [
-  { id:"game-cookie", type:"game", name:"Cookie Clicker", file:"cookieclicker.html", img:"images/cookieclicker.jpg", category:"idle" },
-  { id:"game-shm", type:"game", name:"Superhot Miami", file:"superhotlinemiami.html", img:"images/superhotlinemiami.jpg", category:"action" },
-  { id:"game-sh", type:"game", name:"Superhot", file:"superhot.html", img:"images/superhot.jpg", category:"action" },
-  { id:"game-escape", type:"game", name:"Escape Road", file:"escaperoad.html", img:"images/escaperoad.jpg", category:"driving" },
-  { id:"game-ovod", type:"game", name:"OVO Dimensions", file:"ovodimensions.html", img:"images/ovodimensions.jpg", category:"platformer" },
-  { id:"game-ovo2", type:"game", name:"OVO 2", file:"ovo2.html", img:"images/ovo2.jpg", category:"platformer" },
-  { id:"game-ovo", type:"game", name:"OVO", file:"ovo.html", img:"images/ovo.jpg", category:"platformer" },
-  { id:"game-fnaf", type:"game", name:"FNAF Shrek", file:"fnafshrek.html", img:"images/fnafshrek.jpg", category:"horror" },
-  { id:"game-sonic", type:"game", name:"Sonic", file:"sonic.html", img:"images/sonic.jpg", category:"runner" },
-  { id:"game-mk1", type:"game", name:"MK1", file:"mk1.html", img:"images/mk1.jpg", category:"fighting" },
-  { id:"game-mk2", type:"game", name:"MK2", file:"mk2.html", img:"images/mk2.jpg", category:"fighting" },
-  { id:"game-mk3", type:"game", name:"MK3", file:"mk3.html", img:"images/mk3.jpg", category:"fighting" },
-  { id:"game-cod4", type:"game", name:"COD4", file:"cod4.html", img:"images/cod4.jpg", category:"shooter" },
-  { id:"game-brotato", type:"game", name:"Brotato", file:"brotato.html", img:"images/brotato.jpg", category:"shooter" },
-  { id:"game-madden", type:"game", name:"Madden 94", file:"madden94.html", img:"images/madden94.jpg", category:"sports" }
-];
-
-const movies = [
-  { id:"movie-1", type:"movie", name:"Movie 1", url:"https://docs.google.com/presentation/d/149GpUX0v2xNpwbUTv0Ra1bXSBJ8VImN3yQXMYA9ZhKA/edit", category:"movie" },
-  { id:"movie-2", type:"movie", name:"Movie 2", url:"https://docs.google.com/presentation/d/1cqMoS7rNvOX77938GusdWNi6mYVPOfETCVsAVW9I9ps/edit", category:"movie" },
-  { id:"movie-3", type:"movie", name:"Movie 3", url:"https://docs.google.com/presentation/d/1OjrWHYHz5xbxhVYfWbDF4J0NdM3AYHC9x2pTchv4GuU/edit", category:"movie" },
-  { id:"movie-4", type:"movie", name:"Movie 4", url:"https://docs.google.com/presentation/d/1MKUZLOhfS1PyOtbz-uhfdNqewzDJIqZxBEfMeWPhJpE/edit", category:"movie" },
-  { id:"movie-5", type:"movie", name:"Movie 5", url:"https://docs.google.com/presentation/d/1CiZMdBm677M7EIus7gT89WPxwYPzXJQgwmXGv3sLAaw/edit", category:"movie" },
-  { id:"movie-6", type:"movie", name:"Movie 6", url:"https://docs.google.com/presentation/d/1YDZCGRJMcIXA6CDnnxEUcNuZuEx-NdUETeeVFulhYDg/edit", category:"movie" },
-  { id:"movie-7", type:"movie", name:"Movie 7", url:"https://docs.google.com/presentation/d/1k2RfuIjwErT492CPU2tJ84CqVauOIMdIgw5GRTNr_ZE/edit", category:"movie" }
-];
-
-const docs = [
-  { id:"doc-1", type:"doc", name:"Doc 1", url:"https://docs.google.com/document/d/1oSY4xIqLjUOgWCDpg2LKsWPwmnrWXmXexiOfG4qGAFY/edit", category:"doc" },
-  { id:"doc-2", type:"doc", name:"Doc 2", url:"https://docs.google.com/document/d/1hY9tTv8ZGcj6L_oxPRtnjtkmY7WbEEcEHqIJprYXYz8/edit", category:"doc" },
-  { id:"doc-3", type:"doc", name:"Doc 3", url:"https://docs.google.com/document/d/1zOiqGMQ5bnhdBlzcuv4CPDDKpHEpINxGsvdXu2N8Qbk/edit", category:"doc" },
-  { id:"doc-4", type:"doc", name:"Doc 4", url:"https://docs.google.com/document/d/1hKcUVhkH36c4DLOg0kHtzc_gHk1vpwWe9psvfgpYVos/edit", category:"doc" }
-];
-
-const themePresets = {
-  green:{accent:"#00ff88",accent2:"#7dffd0"}
-};
-
-const aiIdleMessages = [
-  "you came here to watch the amazing game and not play?",
-  "bro really just staring at the screen 💀",
-  "system waiting...",
-  "click something.",
-  "you good?",
-  "don't tell me you're scared to play"
-];
-
-const aiRandomLines = [
-  "monitoring launcher...",
-  "system stable.",
-  "waiting for command.",
-  "no threats detected.",
-  "user activity normal.",
-  "manual mode active."
-];
-
-const enemyPool = ["School Blocker","Firewall X","Admin Lock","System Guard","Proxy Crusher"];
-const attackDialogs = ["KEEP GOING...","TOO SLOW.","NICE HIT.","SYSTEM BREACH.","NOT BAD."];
-const kickDialogs = ["KICK CONFIRMED.","HIGH KICK.","LOW SWEEP.","NICE LEG WORK.","CRACKED."];
-const winDialogs = ["access granted.","he was never winning.","easy work.","system override complete."];
-const loseDialogs = ["access denied.","that blocker cooked you.","try again.","system pushed back."];
-
-/* =========================
-   STATE
-========================= */
-let username = localStorage.getItem("subussy_user") || "Player";
-let taskZ = 1500;
-let currentWallpaper = localStorage.getItem("subussy_wallpaper") || wallpapers[0];
-let currentTheme = "green";
-let aiMode = localStorage.getItem("subussy_ai_mode") || "normal";
-let soundEnabled = false;
-
-let hp1 = 100;
-let hp2 = 100;
-let combo1 = 0;
-let combo2 = 0;
-let enemyName = enemyPool[Math.floor(Math.random()*enemyPool.length)];
-let currentFightLoop = null;
-let fightOver = false;
-let currentBossPhase = 1;
-
-let idleTime = 0;
-let clickCount = 0;
-let totalWins = Number(localStorage.getItem("subussy_wins") || "0");
-let totalLosses = Number(localStorage.getItem("subussy_losses") || "0");
-let gameOpenCount = Number(localStorage.getItem("subussy_game_opens") || "0");
-let recentGame = localStorage.getItem("subussy_recent_game") || "";
-let gameStats = JSON.parse(localStorage.getItem("subussy_game_stats") || "{}");
-let favorites = JSON.parse(localStorage.getItem("subussy_favorites") || "[]");
-let currentPage = localStorage.getItem("subussy_current_page") || "home";
-let bossMusicInterval = null;
-
-/* =========================
-   DOM
-========================= */
-const body = document.body;
-const wallpaperEl = document.getElementById("wallpaper");
-const bgCanvas = document.getElementById("bg");
-const bgCtx = bgCanvas.getContext("2d");
-
-const themeWipe = document.getElementById("themeWipe");
-const wipeNew = document.getElementById("wipeNew");
-const wipeLine = document.getElementById("wipeLine");
-
-const boot = document.getElementById("boot");
-const terminal = document.getElementById("terminal");
-const bar = document.getElementById("bar");
-
-const search = document.getElementById("search");
-const clock = document.getElementById("clock");
-const taskClock = document.getElementById("taskClock");
-
-const pages = document.querySelectorAll(".page");
-const sideBtns = document.querySelectorAll(".sideBtn[data-page]");
-const heroPlay = document.getElementById("heroPlay");
-const heroMovies = document.getElementById("heroMovies");
-const homeGrid = document.getElementById("homeGrid");
-const homeRecent = document.getElementById("homeRecent");
-const homeFavorite = document.getElementById("homeFavorite");
-const homeStats = document.getElementById("homeStats");
-
-const gamesGrid = document.getElementById("gamesGrid");
-const moviesGrid = document.getElementById("moviesGrid");
-const docsList = document.getElementById("docsList");
-const favoritesGrid = document.getElementById("favoritesGrid");
-const gameCount = document.getElementById("gameCount");
-const movieCount = document.getElementById("movieCount");
-const docCount = document.getElementById("docCount");
-const favCount = document.getElementById("favCount");
-
-const player = document.getElementById("player");
-const frame = document.getElementById("frame");
-const playerTitle = document.getElementById("playerTitle");
-const closeBtn = document.getElementById("closeBtn");
-const backBtn = document.getElementById("backBtn");
-const fullBtn = document.getElementById("fullBtn");
-
-const taskApps = document.getElementById("taskApps");
-const desktopIcons = document.getElementById("desktopIcons");
-const windowLayer = document.getElementById("windowLayer");
-
-const startBtn = document.getElementById("startBtn");
-const startMenu = document.getElementById("startMenu");
-const startSearch = document.getElementById("startSearch");
-const startBody = document.getElementById("startBody");
-
-const submitGameBtn = document.getElementById("submitGameBtn");
-const userBtn = document.getElementById("userBtn");
-const settingsBtnTop = document.getElementById("settingsBtnTop");
-const settingsSideBtn = document.getElementById("settingsSideBtn");
-// removed old fight reference
-
-const aiChat = document.getElementById("aiChat");
-const aiInput = document.getElementById("aiInput");
-const aiMinBtn = document.getElementById("aiMinBtn");
-const aiHideBtn = document.getElementById("aiHideBtn");
-const tutorialOverlay = document.getElementById("tutorialOverlay");
-const tutorialStartBtn = document.getElementById("tutorialStartBtn");
-const tutorialSkipBtn = document.getElementById("tutorialSkipBtn");
-const layoutToggleBtn = document.getElementById("layoutToggleBtn");
-
-const idleBox = document.getElementById("idleBox");
-const idleCharacter = document.getElementById("idleCharacter");
-const idleText = document.getElementById("idleText");
-
-const updateOverlay = document.getElementById("updateOverlay");
-const updateOkBtn = document.getElementById("updateOkBtn");
-const updateDetailsBtn = document.getElementById("updateDetailsBtn");
-
-const cursor = document.getElementById("cursor");
-const cursorDot = document.getElementById("cursorDot");
-
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-
-const fighter1Fist = fighter1.querySelector(".fist");
-const fighter2Fist = fighter2.querySelector(".fist");
-const fighter1Kick = fighter1.querySelector(".kickTrail");
-const fighter2Kick = fighter2.querySelector(".kickTrail");
-
-/* =========================
-   AUDIO
-========================= */
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-function safeResumeAudio(){
-  if(audioCtx.state === "suspended"){
-    audioCtx.resume().catch(()=>{});
-  }
+:root{
+  --accent:#00ff88;
+  --accent2:#7dffd0;
+  --bg:#030303;
+  --panel:rgba(0,0,0,.75);
+  --text:#eafff4;
+  --muted:#9ff5cb;
+  --danger:#ff4d6d;
+  --glow:0 0 35px rgba(0,255,136,.18);
 }
-document.addEventListener("click", safeResumeAudio);
 
-function beep(freq=440, duration=0.05, type="sine", volume=0.03, delay=0){
-  if(!soundEnabled) return;
-  const startAt = audioCtx.currentTime + delay;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.value = volume;
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.start(startAt);
-  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
-  osc.stop(startAt + duration);
+/* GLOBAL SMOOTH ENGINE */
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  transition:
+    transform .35s cubic-bezier(.22,1,.36,1),
+    box-shadow .35s cubic-bezier(.22,1,.36,1),
+    background .35s ease,
+    color .25s ease,
+    filter .35s ease;
 }
-function soundUIHover(){ beep(660, 0.04, "square", 0.016); }
-function soundUIClick(){ beep(520, 0.05, "square", 0.022); }
-function soundUIOpen(){ beep(420, 0.03, "triangle", 0.02); beep(700, 0.05, "triangle", 0.018, 0.03); }
-function soundWhoosh(){ beep(180, 0.07, "sawtooth", 0.03); beep(120, 0.06, "triangle", 0.02, 0.01); }
-function soundKick(){ beep(150, 0.08, "square", 0.05); beep(80, 0.05, "triangle", 0.03, 0.01); }
-function soundHitA(){ beep(60, 0.1, "sawtooth", 0.06); beep(120, 0.05, "square", 0.03, 0.02); }
-function soundHitB(){ beep(95, 0.08, "square", 0.05); beep(180, 0.05, "triangle", 0.03, 0.01); }
-function soundClash(){ beep(620, 0.05, "square", 0.022); beep(840, 0.08, "triangle", 0.02, 0.01); }
-function soundBlock(){ beep(300, 0.05, "square", 0.02); beep(220, 0.05, "triangle", 0.016, 0.02); }
-function soundFinisher(){ beep(85, 0.12, "sawtooth", 0.05); beep(160, 0.18, "triangle", 0.04, 0.03); }
-function soundCombo(){ beep(500, 0.04, "square", 0.03); beep(720, 0.05, "triangle", 0.02, 0.02); }
-function soundTheme(){ beep(310, 0.06, "triangle", 0.03); beep(520, 0.06, "triangle", 0.02, 0.05); }
-function soundBossWin(){ beep(400,0.2,"triangle",0.05); beep(700,0.3,"triangle",0.04,0.1); stopBossMusic(); }
-function soundBossLose(){ beep(120,0.3,"sawtooth",0.06); beep(60,0.4,"triangle",0.05,0.1); stopBossMusic(); }
 
-function startBossMusic(){
-  stopBossMusic();
-  if(!soundEnabled) return;
-  bossMusicInterval = setInterval(()=>{
-    beep(90, 0.08, "square", 0.035);
-    beep(55, 0.16, "sawtooth", 0.02, 0.05);
-  }, 620);
+html{
+  scroll-behavior:smooth;
 }
-function stopBossMusic(){
-  if(bossMusicInterval){
-    clearInterval(bossMusicInterval);
-    bossMusicInterval = null;
-  }
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  cursor:none;
+  overflow:hidden;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,255,136,.12), transparent 25%),
+    radial-gradient(circle at 85% 15%, rgba(125,255,208,.08), transparent 25%),
+    linear-gradient(180deg,#010101,#050505);
 }
 
 /* =========================
-   HELPERS
+   BACKGROUND ANIMATION
 ========================= */
-function clamp(n,min,max){
-  return Math.max(min, Math.min(max, n));
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(0,255,136,.12), transparent 35%),
+    radial-gradient(circle at 70% 65%, rgba(0,255,136,.1), transparent 30%);
+  animation:bgPulse 10s ease-in-out infinite alternate;
 }
 
-function saveStats(){
-  localStorage.setItem("subussy_wins", String(totalWins));
-  localStorage.setItem("subussy_losses", String(totalLosses));
-  localStorage.setItem("subussy_game_opens", String(gameOpenCount));
-  localStorage.setItem("subussy_recent_game", recentGame);
-  localStorage.setItem("subussy_game_stats", JSON.stringify(gameStats));
-  localStorage.setItem("subussy_favorites", JSON.stringify(favorites));
-  localStorage.setItem("subussy_current_page", currentPage);
-  localStorage.setItem("subussy_sound_enabled", JSON.stringify(soundEnabled));
+@keyframes bgPulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.1)}
 }
 
-function aiSay(text){
-  const m = document.createElement("div");
-  m.className = "aiMsg";
-  m.textContent = "> " + text;
-  aiChat.appendChild(m);
-  aiChat.scrollTop = aiChat.scrollHeight;
+/* =========================
+   TOP BAR
+========================= */
+#top{
+  position:fixed;
+  left:24px;
+  right:24px;
+  top:18px;
+  padding:16px 20px;
+  border-radius:28px;
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01)),
+    rgba(0,0,0,.55);
+
+  backdrop-filter:blur(14px);
+  box-shadow:var(--glow);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-function showDialog(text, ms=1400){
-  dialogBox.textContent = text;
-  dialogBox.style.display = "block";
-  clearTimeout(showDialog._t);
-  showDialog._t = setTimeout(()=>dialogBox.style.display = "none", ms);
+#title{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:3px;
+  color:var(--accent);
+  animation:textGlow 3s ease-in-out infinite alternate;
 }
 
-function showBubble(text, side="left", ms=1500){
-  const b = document.createElement("div");
-  b.className = "bubble";
-  b.textContent = text;
-  b.style[side] = "8%";
-  document.body.appendChild(b);
-  setTimeout(()=>b.remove(), ms);
+@keyframes textGlow{
+  from{ text-shadow:0 0 10px var(--accent);}
+  to{ text-shadow:0 0 30px var(--accent);}
 }
 
-function updateClock(){
-  const now = new Date();
-  clock.innerHTML = `${now.toLocaleTimeString()}<br>${now.toLocaleDateString()}`;
-  taskClock.innerHTML = `${now.toLocaleTimeString()}<br>${now.toLocaleDateString()}`;
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-function runThemeWipe(newColor){
-  const oldBg = getComputedStyle(body).backgroundImage;
-  wipeOld.style.background = oldBg;
-  wipeNew.style.background = `
-    radial-gradient(circle at 20% 20%, color-mix(in srgb, ${newColor} 10%, transparent), transparent 28%),
-    radial-gradient(circle at 80% 18%, color-mix(in srgb, ${newColor} 7%, transparent), transparent 24%),
-    linear-gradient(180deg,#010101,#050505 50%,#000 100%)
-  `;
-  themeWipe.style.opacity = "1";
-  wipeNew.style.clipPath = "inset(0 100% 0 0)";
-  wipeLine.style.left = "-24px";
-
-  requestAnimationFrame(()=>{
-    wipeNew.style.transition = "clip-path 700ms ease";
-    wipeLine.style.transition = "left 700ms ease";
-    wipeNew.style.clipPath = "inset(0 0 0 0)";
-    wipeLine.style.left = "calc(100% - 8px)";
-  });
-
-  setTimeout(()=>{
-    themeWipe.style.opacity = "0";
-    wipeNew.style.transition = "";
-    wipeLine.style.transition = "";
-  }, 760);
+/* =========================
+   SIDEBAR
+========================= */
+#sidebar{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
+  box-shadow:var(--glow);
 }
 
-function setTheme(themeName){
-  const theme = themePresets[themeName] || themePresets.green;
-  currentTheme = themeName;
-  localStorage.setItem("subussy_theme", themeName);
-  runThemeWipe(theme.accent);
-  document.documentElement.style.setProperty("--accent", theme.accent);
-  document.documentElement.style.setProperty("--accent2", theme.accent2);
-  soundTheme();
+.sideBtn{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  color:var(--accent);
+  background:rgba(255,255,255,.04);
 }
 
-function setWallpaper(value){
-  currentWallpaper = value;
-  localStorage.setItem("subussy_wallpaper", value);
-  wallpaperEl.style.background = value;
+.sideBtn:hover{
+  transform:translateY(-3px) scale(1.08);
+  box-shadow:0 0 20px rgba(0,255,136,.2);
 }
 
-function normalizeGoogleUrl(url){
-  return url.replace("/edit","/preview");
+/* =========================
+   CONTENT
+========================= */
+#contentWrap{
+  position:absolute;
+  top:120px;
+  left:24px;
+  right:24px;
+  bottom:80px;
+  overflow:auto;
 }
 
-function favoriteExists(id){
-  return favorites.includes(id);
+/* =========================
+   GRID (SPACING FIXED)
+========================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:32px;
 }
-function toggleFavorite(id){
-  if(favoriteExists(id)){
-    favorites = favorites.filter(x=>x !== id);
-  }else{
-    favorites.push(id);
-  }
-  saveStats();
-  renderAll();
+
+/* =========================
+   CARD
+========================= */
+.card{
+  position:relative;
+  height:320px;
+  border-radius:28px;
+  overflow:hidden;
+  background:#000;
+  transform-style:preserve-3d;
+  cursor:pointer;
+
+  box-shadow:0 16px 34px rgba(0,0,0,.35);
+}
+
+.card:hover{
+  transform:translateY(-10px) scale(1.04);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.45),
+    0 0 30px rgba(0,255,136,.2);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+
+.card:hover img{
+  transform:scale(1.15);
+  filter:brightness(.55);
+}
+
+/* shine */
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.1), transparent 60%);
+  transform:translateX(-100%);
+  transition:.6s;
+}
+
+.card:hover::after{
+  transform:translateX(100%);
+}
+
+.cardContent{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:20px;
+  background:linear-gradient(transparent, black);
+}
+
+.cardName{
+  font-size:20px;
+  font-weight:900;
+}
+
+/* =========================
+   AI PANEL
+========================= */
+#aiPanel{
+  position:fixed;
+  right:24px;
+  bottom:110px;
+  width:320px;
+  height:380px;
+
+  display:flex;
+  flex-direction:column;
+
+  background:rgba(0,0,0,.9);
+  border:1px solid rgba(0,255,136,.3);
+  border-radius:22px;
+
+  box-shadow:0 0 25px rgba(0,255,136,.2);
+  transition:.4s;
+}
+
+#aiPanel.hidden{
+  transform:translateY(450px);
+  opacity:0;
+}
+
+#aiHeader{
+  padding:12px;
+  font-weight:900;
+  color:var(--accent);
+}
+
+#aiChat{
+  flex:1;
+  overflow:auto;
+  padding:10px;
+}
+
+#aiInput{
+  border:none;
+  padding:10px;
+  background:#000;
+  color:var(--accent);
+}
+
+#aiToggleBtn{
+  position:fixed;
+  right:24px;
+  bottom:500px;
+  padding:10px 14px;
+  border-radius:14px;
+  background:var(--accent);
+  color:black;
+  font-weight:800;
+  cursor:pointer;
 }
 
 /* =========================
    CURSOR
 ========================= */
-let cx=window.innerWidth/2;
-let cy=window.innerHeight/2;
-let tx=cx;
-let ty=cy;
-let cursorTick = 0;
-
-document.addEventListener("mousemove", e=>{
-  tx = e.clientX;
-  ty = e.clientY;
-});
-
-function addCursorTrail(x,y){
-  const t = document.createElement("div");
-  t.className = "trail";
-  t.style.left = x + "px";
-  t.style.top = y + "px";
-  t.style.background = "color-mix(in srgb, var(--accent) 85%, white)";
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 300);
+#cursor{
+  position:fixed;
+  width:26px;
+  height:26px;
+  border:1.5px solid var(--accent);
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 25px var(--accent);
 }
 
-function animateCursor(){
-  cx += (tx - cx) * 0.22;
-  cy += (ty - cy) * 0.22;
-  cursor.style.left = cx + "px";
-  cursor.style.top = cy + "px";
-  cursorDot.style.left = tx + "px";
-  cursorDot.style.top = ty + "px";
-
-  cursorTick++;
-  if(cursorTick % 3 === 0){
-    addCursorTrail(tx, ty);
-  }
-  requestAnimationFrame(animateCursor);
+#cursorDot{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
 }
-animateCursor();
 
-document.addEventListener("mousedown", ()=>cursor.classList.add("cursor-click"));
-document.addEventListener("mouseup", ()=>cursor.classList.remove("cursor-click"));
+.trail{
+  position:fixed;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:trailFade .35s forwards;
+}
 
-function attachHoverCursor(root=document){
-  root.querySelectorAll("button, input, .card, .icon, .taskApp, .startItem, .smallBtn, .ghostBtn, .switchBtn, .docRow").forEach(el=>{
-    el.addEventListener("mouseenter", ()=>{
-      cursor.classList.add("cursor-hover");
-      soundUIHover();
-    });
-    el.addEventListener("mouseleave", ()=>cursor.classList.remove("cursor-hover"));
-  });
+@keyframes trailFade{
+  to{opacity:0; transform:scale(.2);}
 }
 
 /* =========================
-   BACKGROUND
+   CLICK FEEDBACK
 ========================= */
-let dots = [];
-function resizeBg(){
-  bgCanvas.width = innerWidth;
-  bgCanvas.height = innerHeight;
+.clickFlash{
+  transform:scale(.997);
+  filter:brightness(1.1);
 }
-window.addEventListener("resize", resizeBg);
-resizeBg();
-
-function initDots(){
-  dots = [];
-  for(let i=0;i<110;i++){
-    dots.push({
-      x:Math.random()*bgCanvas.width,
-      y:Math.random()*bgCanvas.height,
-      vx:(Math.random()-.5)*.34,
-      vy:(Math.random()-.5)*.34,
-      size:Math.random()*1.8+.8
-    });
-  }
-}
-initDots();
-
-function drawBg(){
-  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
-  bgCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#00ff88";
-  for(const d of dots){
-    d.x += d.vx;
-    d.y += d.vy;
-    if(d.x < 0 || d.x > bgCanvas.width) d.vx *= -1;
-    if(d.y < 0 || d.y > bgCanvas.height) d.vy *= -1;
-    bgCtx.fillRect(d.x, d.y, d.size, d.size);
-  }
-  requestAnimationFrame(drawBg);
-}
-drawBg();
 
 /* =========================
-   BOOT
+   PAGE ANIMATION
 ========================= */
-const bootLines = [
-  "> linking local interface...",
-  "> loading movie hub...",
-  "> loading docs hub...",
-  "> routing desktop shell...",
-  "> preparing boss defense...",
-  "> readying launch grid..."
+.page{
+  animation:pageIn .4s ease;
+}
+
+@keyframes pageIn{
+  from{opacity:0; transform:translateY(20px) scale(.98)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+/* =========================
+   STATE
+========================= */
+let currentPage = localStorage.getItem("subussy_page") || "home";
+let favorites = JSON.parse(localStorage.getItem("subussy_favorites") || "[]");
+let recent = localStorage.getItem("subussy_recent") || "";
+
+/* =========================
+   DATA (EXPANDED)
+========================= */
+const games = [
+  {id:"brotato",name:"Brotato",img:"images/brotato.jpg",file:"brotato.html"},
+  {id:"ovo",name:"OVO",img:"images/ovo.jpg",file:"ovo.html"},
+  {id:"superhot",name:"Superhot",img:"images/superhot.jpg",file:"superhot.html"},
+  {id:"sonic",name:"Sonic",img:"images/sonic.jpg",file:"sonic.html"},
+  {id:"mk1",name:"MK1",img:"images/mk1.jpg",file:"mk1.html"},
+  {id:"cod4",name:"COD4",img:"images/cod4.jpg",file:"cod4.html"}
 ];
 
-function runBoot(){
-  let li=0, ci=0;
-  function type(){
-    if(li >= bootLines.length) return;
-    const line = bootLines[li];
-    if(ci < line.length){
-      terminal.textContent += line[ci];
-      ci++;
-      setTimeout(type, 18);
-    }else{
-      terminal.textContent += "\n";
-      li++;
-      ci=0;
-      setTimeout(type, 110);
-    }
-  }
-  type();
-
-  let p=0;
-  const loader = setInterval(()=>{
-    p += 2;
-    bar.style.width = p + "%";
-    if(p >= 100){
-      clearInterval(loader);
-      terminal.textContent += "\n> ACCESS GRANTED";
-      setTimeout(()=>{
-        boot.style.opacity = "0";
-        boot.style.transition = "opacity .35s ease";
-        setTimeout(()=>{
-          boot.remove();
-          maybeShowUpdate();
-          startFightIntro();
-        }, 360);
-      }, 380);
-    }
-  }, 34);
-}
-runBoot();
-
 /* =========================
-   UPDATE POPUP
+   PAGE SYSTEM
 ========================= */
-function maybeShowUpdate(){
-  const lastSeen = localStorage.getItem("subussy_version_seen") || "";
-  if(lastSeen !== APP_VERSION){
-    updateOverlay.style.display = "flex";
-    aiSay("system upgraded... new features detected.");
-    localStorage.setItem("subussy_version_seen", APP_VERSION);
-  }
+const pages = document.querySelectorAll(".page");
+const sideBtns = document.querySelectorAll(".sideBtn");
+
+function switchPage(page){
+  pages.forEach(p=>p.classList.remove("active"));
+  document.getElementById("page-"+page)?.classList.add("active");
+
+  sideBtns.forEach(b=>b.classList.remove("active"));
+  document.querySelector(`[data-page="${page}"]`)?.classList.add("active");
+
+  currentPage = page;
+  localStorage.setItem("subussy_page",page);
 }
-updateOkBtn.addEventListener("click", ()=>updateOverlay.style.display="none");
-updateDetailsBtn.addEventListener("click", ()=>{
-  openWindow("Changelog", `
-    <div class="winGrid">
-      <div class="winCard"><b>v3.0</b><br>movies system added<br>docs system added<br>combat upgraded<br>layout redesigned<br>randomizer removed<br>sound optional</div>
-      <div class="winCard"><b>v2.0</b><br>AI panel added<br>desktop UI upgraded<br>theme system added</div>
-      <div class="winCard"><b>v1.0</b><br>base launcher created</div>
-    </div>
-  `);
+
+sideBtns.forEach(btn=>{
+  btn.onclick = ()=> switchPage(btn.dataset.page);
 });
 
-/* =========================
-   USER
-========================= */
-function updateFightNames(){
-  fightNames.textContent = `${username} vs ${enemyName}`;
-  f1Label.textContent = username;
-  f2Label.textContent = enemyName;
-}
-function changeUser(){
-  const newName = prompt("Enter username:", username);
-  if(newName && newName.trim()){
-    username = newName.trim().slice(0,28);
-    localStorage.setItem("subussy_user", username);
-    updateFightNames();
-    aiSay(`user changed to ${username}`);
-  }
-}
-userBtn.addEventListener("click", changeUser);
+/* load last page */
+switchPage(currentPage);
 
 /* =========================
-   PAGES / RENDER
+   RENDER CARDS
 ========================= */
-function allEntries(){
-  const customGames = JSON.parse(localStorage.getItem("custom_games") || "[]").map((g,i)=>({
-    id:`custom-${i}-${g.name}`,
-    type:"game",
-    name:g.name,
-    file:g.file || g.url,
-    url:g.url || g.file,
-    img:g.img || "",
-    category:g.category || "custom"
-  }));
-  return {
-    games:[...builtInGames, ...customGames],
-    movies:[...movies],
-    docs:[...docs]
-  };
-}
+function createCard(item){
+  const div = document.createElement("div");
+  div.className = "card";
 
-function createMediaCard(item){
-  const c = document.createElement("div");
-  c.className = "card";
-  const fav = favoriteExists(item.id) ? "★" : "☆";
-  const badgeType = item.type === "movie" ? "movie" : item.type === "doc" ? "doc" : (item.category || "game");
-  const badgeAction = item.type === "movie" ? "WATCH" : item.type === "doc" ? "OPEN" : "PLAY";
-
-  const image = item.img || "";
-  c.innerHTML = `
-    ${image ? `<img src="${image}" alt="${item.name}" loading="lazy" onerror="this.remove()">` : ""}
+  div.innerHTML = `
+    <img src="${item.img}">
     <div class="cardContent">
-      <div class="cardTopRow">
-        <span class="badge">${badgeType}</span>
-        <span class="badge playBadge">${badgeAction}</span>
-      </div>
       <div class="cardName">${item.name}</div>
-      <div class="cardMeta">
-        <span>${item.type}</span>
-        <span data-fav="${item.id}" style="cursor:pointer;font-size:16px">${fav}</span>
-      </div>
     </div>
   `;
-  c.addEventListener("mousemove", e=>{
-    const rect = c.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    c.style.background = `radial-gradient(circle at ${x}px ${y}px, color-mix(in srgb, var(--accent) 16%, transparent), #000 60%)`;
-  });
-  c.addEventListener("mouseleave", ()=>c.style.background = "#000");
-  c.addEventListener("click", e=>{
-    if(e.target && e.target.dataset && e.target.dataset.fav){
-      toggleFavorite(item.id);
-      e.stopPropagation();
-      return;
-    }
-    openEntry(item);
-  });
-  return c;
-}
 
-function openEntry(item){
-  if(item.type === "doc" || item.type === "movie"){
-    const externalUrl = normalizeGoogleUrl(item.url);
-    window.open(externalUrl, "_blank", "noopener,noreferrer");
-    registerOpen(item.name);
-    aiReact(item.type);
-    return;
-  }
-  openPlayer(item.url || item.file, item.name);
-}
+  div.onclick = ()=>{
+    openGame(item);
+  };
 
-function renderHome(){
-  const {games, movies, docs} = allEntries();
-  const rec = getRecommendedEntry() || games[0] || movies[0] || docs[0];
-  homeGrid.innerHTML = "";
-  [recentGame && findEntryByName(recentGame), rec, movies[0], docs[0]].filter(Boolean).slice(0,4).forEach(item=>{
-    homeGrid.appendChild(createMediaCard(item));
-  });
-  homeRecent.textContent = `Recent: ${recentGame || "none yet"}`;
-  const favoriteEntry = Object.entries(gameStats).sort((a,b)=>b[1]-a[1])[0];
-  homeFavorite.textContent = `Favorite: ${favoriteEntry ? favoriteEntry[0] : "none yet"}`;
-  homeStats.textContent = `Wins: ${totalWins} • Losses: ${totalLosses}`;
+  return div;
 }
 
 function renderGames(){
-  const {games} = allEntries();
-  const filtered = applySearch(games);
-  gamesGrid.innerHTML = "";
-  filtered.forEach(g=>gamesGrid.appendChild(createMediaCard(g)));
-  gameCount.textContent = filtered.length;
+  const grid = document.getElementById("gamesGrid");
+  if(!grid) return;
+
+  grid.innerHTML = "";
+  games.forEach(g=> grid.appendChild(createCard(g)));
+
+  activate3D();
 }
 
-function renderMovies(){
-  const filtered = applySearch(movies);
-  moviesGrid.innerHTML = "";
-  filtered.forEach(m=>moviesGrid.appendChild(createMediaCard(m)));
-  movieCount.textContent = filtered.length;
-}
-
-function renderDocs(){
-  const filtered = applySearch(docs);
-  docsList.innerHTML = "";
-  filtered.forEach(d=>{
-    const row = document.createElement("div");
-    row.className = "docRow";
-    row.innerHTML = `<b>📄 ${d.name}</b><br><small style="color:#9be6c4">google doc</small>`;
-    row.onclick = ()=>openEntry(d);
-    docsList.appendChild(row);
-  });
-  docCount.textContent = filtered.length;
-  attachHoverCursor(docsList);
-}
-
-function renderFavorites(){
-  const all = [...allEntries().games, ...movies, ...docs];
-  const favs = all.filter(x=>favoriteExists(x.id));
-  const filtered = applySearch(favs);
-  favoritesGrid.innerHTML = "";
-  filtered.forEach(item=>favoritesGrid.appendChild(createMediaCard(item)));
-  favCount.textContent = filtered.length;
-}
-
-function renderAll(){
-  renderHome();
-  renderGames();
-  renderMovies();
-  renderDocs();
-  renderFavorites();
-  renderStartMenu();
-  attachHoverCursor(document);
-  setTimeout(applyLayoutMode, 0);
-}
-
-function switchPage(page){
-  currentPage = page;
-  saveStats();
-  const target = document.getElementById(`page-${page}`);
-  if(target){
-    target.scrollIntoView({behavior:"smooth", block:"start"});
-  }
-  sideBtns.forEach(btn=>btn.classList.toggle("active", btn.dataset.page === page));
-}
-sideBtns.forEach(btn=>btn.addEventListener("click", ()=>switchPage(btn.dataset.page)));
-
-function applySearch(items){
-  const value = (search.value || "").trim().toLowerCase();
-  if(!value) return items;
-  return items.filter(item =>
-    item.name.toLowerCase().includes(value) ||
-    (item.category || "").toLowerCase().includes(value) ||
-    item.type.toLowerCase().includes(value)
-  );
-}
-
-function findEntryByName(name){
-  const all = [...allEntries().games, ...movies, ...docs];
-  return all.find(x=>x.name === name);
-}
-
-function getRecommendedEntry(){
-  const entries = Object.entries(gameStats);
-  if(!entries.length) return null;
-  entries.sort((a,b)=>b[1]-a[1]);
-  return findEntryByName(entries[0][0]) || null;
-}
-
-search.addEventListener("input", renderAll);
+renderGames();
 
 /* =========================
-   PLAYER
+   PLAYER SYSTEM
 ========================= */
-function addTaskApp(label, action){
-  const t = document.createElement("button");
-  t.className = "taskApp";
-  t.textContent = label;
-  t.addEventListener("click", action);
-  taskApps.appendChild(t);
-  attachHoverCursor(taskApps);
-  return t;
+const player = document.getElementById("player");
+const frame = document.getElementById("frame");
+
+function openGame(game){
+  if(!player || !frame) return;
+
+  frame.src = game.file || "";
+  player.classList.add("active");
+
+  recent = game.name;
+  localStorage.setItem("subussy_recent",recent);
 }
-function registerOpen(name){
-  gameOpenCount++;
-  recentGame = name;
-  gameStats[name] = (gameStats[name] || 0) + 1;
-  saveStats();
-}
-function openPlayer(url, title){
-  soundUIOpen();
-  playerTitle.textContent = title;
+
+document.getElementById("closeBtn")?.addEventListener("click", ()=>{
   player.classList.remove("active");
   frame.src = "";
-  setTimeout(()=>{
-    frame.src = url;
-    player.classList.add("active");
-  }, 100);
-  registerOpen(title);
-  addTaskApp(title, ()=>openPlayer(url, title));
-  aiReact("game");
-}
-function closePlayer(){
-  player.classList.remove("active");
-  setTimeout(()=>frame.src = "",180);
-  aiReact("close");
-}
-closeBtn.addEventListener("click", closePlayer);
-backBtn.addEventListener("click", closePlayer);
-fullBtn.addEventListener("click", ()=>{
-  if(frame.requestFullscreen) frame.requestFullscreen();
 });
 
 /* =========================
-   START MENU
+   SEARCH SYSTEM
 ========================= */
-function toggleStartMenu(){
-  startMenu.style.display = startMenu.style.display === "flex" ? "none" : "flex";
-  if(startMenu.style.display === "flex") startSearch.focus();
-}
-startBtn.addEventListener("click", toggleStartMenu);
+const search = document.getElementById("search");
 
-document.addEventListener("click", e=>{
-  const inside = startMenu.contains(e.target) || startBtn.contains(e.target);
-  if(!inside && startMenu.style.display === "flex") startMenu.style.display = "none";
+if(search){
+  search.addEventListener("input", ()=>{
+    const val = search.value.toLowerCase();
+
+    document.querySelectorAll(".card").forEach(card=>{
+      const name = card.innerText.toLowerCase();
+      card.style.display = name.includes(val) ? "" : "none";
+    });
+  });
+}
+
+/* =========================
+   FAVORITES SYSTEM
+========================= */
+function toggleFavorite(item){
+  const exists = favorites.find(f=>f.id === item.id);
+
+  if(exists){
+    favorites = favorites.filter(f=>f.id !== item.id);
+  }else{
+    favorites.push(item);
+  }
+
+  localStorage.setItem("subussy_favorites",JSON.stringify(favorites));
+}
+
+/* =========================
+   CURSOR SYSTEM (ADVANCED)
+========================= */
+const cursor = document.getElementById("cursor");
+const cursorDot = document.getElementById("cursorDot");
+
+document.addEventListener("mousemove", e=>{
+  cursor.style.left = e.clientX+"px";
+  cursor.style.top = e.clientY+"px";
+
+  if(cursorDot){
+    cursorDot.style.left = e.clientX+"px";
+    cursorDot.style.top = e.clientY+"px";
+  }
+
+  const t = document.createElement("div");
+  t.className = "trail";
+  t.style.left = e.clientX+"px";
+  t.style.top = e.clientY+"px";
+  document.body.appendChild(t);
+
+  setTimeout(()=>t.remove(),300);
 });
 
-startSearch.addEventListener("input", ()=>renderStartMenu(startSearch.value.trim().toLowerCase()));
+/* hover feedback */
+document.querySelectorAll("button, .card").forEach(el=>{
+  el.addEventListener("mouseenter", ()=> cursor.classList.add("cursor-hover"));
+  el.addEventListener("mouseleave", ()=> cursor.classList.remove("cursor-hover"));
+});
 
-function renderStartMenu(query=""){
-  const q = query.toLowerCase();
-  startBody.innerHTML = "";
-
-  const appsTitle = document.createElement("div");
-  appsTitle.className = "startSectionTitle";
-  appsTitle.textContent = "apps";
-  startBody.appendChild(appsTitle);
-
-  const apps = [
-    {name:"Home", desc:"main dashboard", action:()=>switchPage("home")},
-    {name:"Games", desc:"open game grid", action:()=>switchPage("games")},
-    {name:"Movies", desc:"open movies", action:()=>switchPage("movies")},
-    {name:"Docs", desc:"open docs", action:()=>switchPage("docs")},
-    {name:"Favorites", desc:"saved items", action:()=>switchPage("favorites")},
-    {name:"Settings", desc:"themes, sound, ai mode", action:openSettings},
-    {name:"Submit Game", desc:"add custom games", action:openSubmitGame}
-  ].filter(a=>!q || a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q));
-
-  apps.forEach(a=>{
-    const b = document.createElement("button");
-    b.className = "startItem";
-    b.innerHTML = `${a.name}<small>${a.desc}</small>`;
-    b.onclick = ()=>{
-      a.action();
-      startMenu.style.display = "none";
-    };
-    startBody.appendChild(b);
-  });
-
-  const itemsTitle = document.createElement("div");
-  itemsTitle.className = "startSectionTitle";
-  itemsTitle.textContent = "items";
-  startBody.appendChild(itemsTitle);
-
-  [...allEntries().games, ...movies, ...docs]
-    .filter(i=>!q || i.name.toLowerCase().includes(q) || (i.category || "").toLowerCase().includes(q))
-    .forEach(i=>{
-      const b = document.createElement("button");
-      b.className = "startItem";
-      b.innerHTML = `${i.name}<small>${i.type}</small>`;
-      b.onclick = ()=>{
-        openEntry(i);
-        startMenu.style.display = "none";
-      };
-      startBody.appendChild(b);
-    });
-
-  attachHoverCursor(startBody);
-}
-renderStartMenu();
+/* click feedback */
+document.addEventListener("mousedown", ()=>{
+  cursor.classList.add("cursor-click");
+  document.body.classList.add("clickFlash");
+});
+document.addEventListener("mouseup", ()=>{
+  cursor.classList.remove("cursor-click");
+  document.body.classList.remove("clickFlash");
+});
 
 /* =========================
-   WINDOWS
+   AI SYSTEM
 ========================= */
-function focusWindow(win){
-  taskZ++;
-  win.style.zIndex = taskZ;
-}
-function makeWindowDraggable(win, bar){
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
+const aiPanel = document.getElementById("aiPanel");
+const aiBtn = document.getElementById("aiToggleBtn");
+const aiInput = document.getElementById("aiInput");
+const aiChat = document.getElementById("aiChat");
 
-  bar.addEventListener("mousedown", e=>{
-    dragging = true;
-    focusWindow(win);
-    offsetX = e.clientX - win.offsetLeft;
-    offsetY = e.clientY - win.offsetTop;
-  });
+aiBtn.onclick = ()=>{
+  aiPanel.classList.toggle("hidden");
+};
 
-  document.addEventListener("mousemove", e=>{
-    if(!dragging) return;
-    win.style.left = clamp(e.clientX - offsetX, 8, window.innerWidth - win.offsetWidth - 8) + "px";
-    win.style.top = clamp(e.clientY - offsetY, 8, window.innerHeight - win.offsetHeight - 64) + "px";
-  });
-
-  document.addEventListener("mouseup", ()=>dragging = false);
+function aiMsg(msg){
+  const div = document.createElement("div");
+  div.textContent = msg;
+  aiChat.appendChild(div);
+  aiChat.scrollTop = aiChat.scrollHeight;
 }
 
-function openWindow(title, html){
-  const win = document.createElement("div");
-  win.className = "window";
-  win.style.left = Math.round(110 + Math.random()*120) + "px";
-  win.style.top = Math.round(90 + Math.random()*80) + "px";
-  win.style.zIndex = ++taskZ;
-  win.innerHTML = `
-    <div class="titleBar">
-      <div class="titleBarText">${title}</div>
-      <div class="titleBarActions">
-        <button class="winBtn" data-min>—</button>
-        <button class="winBtn" data-close>✕</button>
-      </div>
-    </div>
-    <div class="winBody">${html}</div>
-  `;
-  windowLayer.appendChild(win);
-
-  const titleBar = win.querySelector(".titleBar");
-  const btnClose = win.querySelector("[data-close]");
-  const btnMin = win.querySelector("[data-min]");
-
-  makeWindowDraggable(win, titleBar);
-  btnClose.onclick = ()=>win.remove();
-  btnMin.onclick = ()=>{
-    win.style.display = "none";
-    const task = addTaskApp(title, ()=>{
-      win.style.display = "flex";
-      focusWindow(win);
-      task.remove();
-    });
-  };
-
-  win.addEventListener("mousedown", ()=>focusWindow(win));
-  attachHoverCursor(win);
-  return win;
-}
-
-function openProfile(){
-  const favoriteEntry = Object.entries(gameStats).sort((a,b)=>b[1]-a[1])[0];
-  const favoriteText = favoriteEntry ? `${favoriteEntry[0]} (${favoriteEntry[1]})` : "none yet";
-  openWindow("Profile", `
-    <div class="winGrid">
-      <div class="winCard"><b>User</b><br>${username}</div>
-      <div class="winCard"><b>Stats</b><br>Wins: ${totalWins}<br>Losses: ${totalLosses}<br>Recent: ${recentGame || "none"}<br>Favorite: ${favoriteText}</div>
-      <div class="winCard"><b>System</b><br>Movies: ${movies.length}<br>Docs: ${docs.length}<br>Games: ${allEntries().games.length}</div>
-      <div class="rowBtns"><button class="smallBtn" onclick="changeUser()">Change Name</button></div>
-    </div>
-  `);
-}
-
-function openSettings(){
-  const win = openWindow("Settings", `
-    <div class="winGrid">
-      <div class="settingItem"><label>AI Mode</label><button class="switchBtn" id="modeBtn">${aiMode.toUpperCase()}</button></div>
-      <div class="settingItem"><label>Sound</label><button class="switchBtn" id="soundBtn">${soundEnabled ? "ON" : "OFF"}</button></div>
-      <div class="winCard">
-        <b>Wallpapers</b>
-        <div class="rowBtns">
-          <button class="ghostBtn" data-wall="0">Wall 1</button>
-          <button class="ghostBtn" data-wall="1">Wall 2</button>
-          <button class="ghostBtn" data-wall="2">Wall 3</button>
-        </div>
-      </div>
-      <div class="winCard">
-        <b>Themes</b>
-        <div class="rowBtns">
-          <button class="ghostBtn" data-theme="green">Green</button>
-          <button class="ghostBtn" data-theme="cyan">Cyan</button>
-          <button class="ghostBtn" data-theme="purple">Purple</button>
-          <button class="ghostBtn" data-theme="orange">Orange</button>
-          <button class="ghostBtn" data-theme="red">Red</button>
-        </div>
-      </div>
-      <div class="winCard"><b>Keys</b><br>A = punch<br>D = kick<br>N = submit game<br>S = settings<br>Esc = close</div>
-    </div>
-  `);
-
-  const bodyEl = win.querySelector(".winBody");
-  const modeBtn = bodyEl.querySelector("#modeBtn");
-  const soundBtn = bodyEl.querySelector("#soundBtn");
-
-  modeBtn.onclick = ()=>{
-    const modes = ["normal","helper","toxic","chaotic"];
-    aiMode = modes[(modes.indexOf(aiMode)+1) % modes.length];
-    localStorage.setItem("subussy_ai_mode", aiMode);
-    modeBtn.textContent = aiMode.toUpperCase();
-    aiSay("mode changed to " + aiMode);
-  };
-  soundBtn.onclick = ()=>{
-    soundEnabled = !soundEnabled;
-    soundBtn.textContent = soundEnabled ? "ON" : "OFF";
-    saveStats();
-    aiSay("sound " + (soundEnabled ? "on" : "off"));
-  };
-  bodyEl.querySelectorAll("[data-wall]").forEach(btn=>btn.onclick = ()=>setWallpaper(wallpapers[Number(btn.dataset.wall)]));
-  bodyEl.querySelectorAll("[data-theme]").forEach(btn=>btn.onclick = ()=>setTheme(btn.dataset.theme));
-}
-settingsBtnTop.addEventListener("click", openSettings);
-settingsSideBtn.addEventListener("click", openSettings);
-
-/* =========================
-   SUBMIT GAME
-========================= */
-function openSubmitGame(){
-  const win = openWindow("Submit Game", `
-    <div class="winGrid">
-      <div class="winCard">
-        <b>Add New Game</b><br><br>
-        <input id="gName" placeholder="Game Name" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
-        <input id="gFile" placeholder="game URL or local file path" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
-        <input id="gImg" placeholder="images/file.jpg (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
-        <input id="gCat" placeholder="category (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
-        <div class="rowBtns">
-          <button class="smallBtn" id="saveGameBtn">Add Game</button>
-        </div>
-      </div>
-    </div>
-  `);
-
-  setTimeout(()=>{
-    const saveBtn = win.querySelector("#saveGameBtn");
-    const gName = win.querySelector("#gName");
-    const gFile = win.querySelector("#gFile");
-    const gImg = win.querySelector("#gImg");
-    const gCat = win.querySelector("#gCat");
-
-    saveBtn.onclick = ()=>{
-      const name = gName.value.trim();
-      const file = gFile.value.trim();
-      const img = gImg.value.trim();
-      const category = gCat.value.trim() || "custom";
-      if(!name || !file){
-        aiSay("name and a URL or file path are required.");
-        return;
-      }
-      const custom = JSON.parse(localStorage.getItem("custom_games") || "[]");
-      custom.push({name,file,url:file,img,category});
-      localStorage.setItem("custom_games", JSON.stringify(custom));
-      renderAll();
-      aiSay("game added: " + name);
-      win.remove();
-    };
-  }, 50);
-}
-submitGameBtn.addEventListener("click", openSubmitGame);
-
-/* =========================
-   DESKTOP ICONS
-========================= */
-function makeDraggableIcon(el){
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-  el.addEventListener("mousedown", e=>{
-    dragging = true;
-    offsetX = e.clientX - el.offsetLeft;
-    offsetY = e.clientY - el.offsetTop;
-  });
-  document.addEventListener("mousemove", e=>{
-    if(!dragging) return;
-    el.style.left = clamp(e.clientX - offsetX, 6, 90) + "px";
-    el.style.top = clamp(e.clientY - offsetY, 10, window.innerHeight - 130) + "px";
-  });
-  document.addEventListener("mouseup", ()=>dragging = false);
-  el.addEventListener("dblclick", ()=>{
-    if(typeof el._openAction === "function") el._openAction();
-  });
-}
-function addIcon(name, emoji, x, y, action){
-  const d = document.createElement("div");
-  d.className = "icon";
-  d.style.left = x + "px";
-  d.style.top = y + "px";
-  d.innerHTML = `<div class="iconThumb">${emoji}</div><div class="iconLabel">${name}</div>`;
-  d._openAction = action;
-  d.addEventListener("click", soundUIClick);
-  desktopIcons.appendChild(d);
-  makeDraggableIcon(d);
-}
-addIcon("Games", "🎮", 0, 20, ()=>switchPage("games"));
-addIcon("Movies", "🎬", 0, 120, ()=>switchPage("movies"));
-addIcon("Docs", "📄", 0, 220, ()=>switchPage("docs"));
-addIcon("Boss", "⚔", 0, 320, ()=>restartBossFight());
-attachHoverCursor(desktopIcons);
-
-/* =========================
-   AI
-========================= */
-function aiThink(){
-  aiSay(aiRandomLines[Math.floor(Math.random()*aiRandomLines.length)]);
-}
-function aiReact(event){
-  if(event === "idle"){ aiSay("you stopped moving..."); return; }
-  if(event === "game"){ aiSay("finally doing something."); return; }
-  if(event === "close"){ aiSay("already leaving?"); return; }
-  if(event === "spam"){ aiSay("you clicking too fast."); return; }
-  if(event === "win"){
-    aiSay(aiMode === "toxic" ? "about time you won." : "nice win.");
-    if(totalWins > 5) aiSay("ok now you're actually getting good...");
-    return;
-  }
-  if(event === "lose"){
-    aiSay(aiMode === "toxic" ? "that blocker cooked you." : "rough round.");
-    if(totalLosses > 5) aiSay("bro you gotta lock in 😭");
-    return;
-  }
-  if(event === "combo"){
-    aiSay("combo climbing.");
-  }
-}
-function aiReply(input){
-  input = input.toLowerCase();
-
-  if(input === "toxic mode"){ aiMode = "toxic"; localStorage.setItem("subussy_ai_mode", aiMode); aiSay("toxic mode enabled."); return; }
-  if(input === "helper mode"){ aiMode = "helper"; localStorage.setItem("subussy_ai_mode", aiMode); aiSay("helper mode enabled."); return; }
-  if(input === "normal mode"){ aiMode = "normal"; localStorage.setItem("subussy_ai_mode", aiMode); aiSay("normal mode."); return; }
-  if(input === "chaotic mode"){ aiMode = "chaotic"; localStorage.setItem("subussy_ai_mode", aiMode); aiSay("chaotic mode."); return; }
-
-  if(input.includes("open movies")){ switchPage("movies"); aiSay("opening movies."); return; }
-  if(input.includes("open docs")){ switchPage("docs"); aiSay("opening docs."); return; }
-  if(input.includes("open games")){ switchPage("games"); aiSay("opening games."); return; }
-  if(input.includes("favorites")){ switchPage("favorites"); aiSay("opening favorites."); return; }
-  if(input.includes("settings")){ openSettings(); aiSay("opening settings..."); return; }
-  if(input.includes("submit")){ openSubmitGame(); aiSay("opening submit..."); return; }
-  if(input.includes("close game")){ closePlayer(); aiSay("closing..."); return; }
-
-  if(input.includes("search")){
-    const word = input.replace("search","").trim();
-    search.value = word;
-    renderAll();
-    aiSay("searching " + word);
-    return;
-  }
-
-  if(input.startsWith("play ")){
-    const word = input.replace("play ","").trim();
-    const all = [...allEntries().games, ...movies, ...docs];
-    const found = all.find(x=>x.name.toLowerCase().includes(word));
-    if(found){
-      openEntry(found);
-      aiSay(found.name + " launched.");
-      return;
-    }
-  }
-
-  if(input === "glitch"){
-    aiSay("injecting glitch...");
-    body.style.filter = "hue-rotate(120deg) contrast(1.8)";
-    setTimeout(()=>body.style.filter = "", 1000);
-    return;
-  }
-
-  if(input === "help"){
-    aiSay("commands: play <name>, open movies, open docs, open games, favorites, settings, search <word>, submit, toxic mode, helper mode, normal mode, chaotic mode");
-    return;
-  }
-
-  if(aiMode === "toxic"){
-    const toxic = ["that was dumb.","you serious?","do something useful.","this is why you lose.","you just typing random stuff now."];
-    aiSay(toxic[Math.floor(Math.random()*toxic.length)]);
-    return;
-  }
-  if(aiMode === "helper"){
-    const helper = ["try typing 'play sonic'.","you can search for items.","open submit to add a new game.","open settings to customize."];
-    aiSay(helper[Math.floor(Math.random()*helper.length)]);
-    return;
-  }
-  if(aiMode === "chaotic"){
-    const chaotic = ["system unstable 😈","breach almost detected.","randomness online.","why does this feel illegal?"];
-    aiSay(chaotic[Math.floor(Math.random()*chaotic.length)]);
-    return;
-  }
-
-  const normal = ["unknown command.","try again.","does nothing.","invalid input."];
-  aiSay(normal[Math.floor(Math.random()*normal.length)]);
-}
 aiInput.addEventListener("keydown", e=>{
   if(e.key === "Enter"){
-    const val = aiInput.value.trim();
-    if(!val) return;
-    aiSay(val);
-    aiReply(val);
+    const cmd = aiInput.value.toLowerCase();
     aiInput.value = "";
-  }
-});
-setInterval(()=>{ if(Math.random() > 0.6) aiThink(); },10000);
 
-/* spam */
-document.addEventListener("click", ()=>{
-  clickCount++;
-  if(clickCount > 10){
-    aiReact("spam");
-    clickCount = 0;
+    if(cmd.includes("games")){
+      switchPage("games");
+      aiMsg("opening games...");
+    }
+    else if(cmd.includes("movies")){
+      switchPage("movies");
+      aiMsg("opening movies...");
+    }
+    else if(cmd.includes("home")){
+      switchPage("home");
+      aiMsg("returning home...");
+    }
+    else{
+      aiMsg("unknown command.");
+    }
   }
-  setTimeout(()=>clickCount = 0, 2000);
 });
 
 /* =========================
-   IDLE
+   3D CARD SYSTEM
 ========================= */
-function resetIdle(){
-  idleTime = 0;
-  idleBox.style.display = "none";
+function activate3D(){
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left)/rect.width - .5;
+      const y = (e.clientY - rect.top)/rect.height - .5;
+
+      card.style.transform = `
+        rotateY(${x*18}deg)
+        rotateX(${-y*18}deg)
+        scale(1.05)
+      `;
+    });
+
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform = "";
+    });
+  });
 }
-["mousemove","click","keydown"].forEach(e=>document.addEventListener(e, resetIdle));
+
+/* =========================
+   BACKGROUND MOTION
+========================= */
+let t = 0;
+function animateBG(){
+  t += 0.002;
+  document.body.style.backgroundPosition =
+    `${Math.sin(t)*20}px ${Math.cos(t)*20}px`;
+  requestAnimationFrame(animateBG);
+}
+animateBG();
+
+/* =========================
+   CLOCK
+========================= */
+const clock = document.getElementById("clock");
+
+function updateClock(){
+  if(!clock) return;
+  const d = new Date();
+  clock.textContent = d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+/* =========================
+   IDLE SYSTEM
+========================= */
+let idle = 0;
+
 setInterval(()=>{
-  idleTime++;
-  if(idleTime === 5){
-    idleBox.style.display = "block";
-    idleCharacter.textContent = ["🤖","😈","👾","🧠","💀"][Math.floor(Math.random()*5)];
-    idleText.textContent = aiIdleMessages[Math.floor(Math.random()*aiIdleMessages.length)];
-    aiReact("idle");
+  idle++;
+  if(idle > 30){
+    console.log("idle...");
   }
-  if(idleTime === 10) idleText.textContent = "still nothing??? 💀";
-  if(idleTime === 15) idleText.textContent = "ok now you're just wasting time";
 },1000);
 
-/* =========================
-   FIGHT HELPERS
-========================= */
-function setFightBars(){
-  hp1Bar.style.width = clamp(hp1,0,100) + "%";
-  hp2Bar.style.width = clamp(hp2,0,100) + "%";
-}
-
-function updateBossPhase(){
-  const enemyPct = clamp(hp2,0,100);
-  if(enemyPct <= 33) currentBossPhase = 3;
-  else if(enemyPct <= 66) currentBossPhase = 2;
-  else currentBossPhase = 1;
-
-  if(currentBossPhase === 2) fightWarning.textContent = "boss phase 2";
-  if(currentBossPhase === 3) fightWarning.textContent = "rage mode";
-}
-
-function setFace(face, state){
-  if(state === "idle") face.textContent = "• •";
-  if(state === "hit") face.textContent = "x x";
-  if(state === "attack") face.textContent = "> <";
-  if(state === "kick") face.textContent = "^ <";
-  if(state === "win") face.textContent = "⌐■";
-  if(state === "angry") face.textContent = "› ‹";
-  if(state === "block") face.textContent = "— —";
-}
-
-function flashHitEffect(power=1){
-  if(power < 2) return;
-  const flash = document.createElement("div");
-  flash.className = "screenFlash";
-  flash.style.opacity = "0.45";
-  document.body.appendChild(flash);
-  setTimeout(()=>flash.style.opacity = "0", 180);
-  setTimeout(()=>flash.remove(), 400);
-}
-
-function shakeScreen(duration=220){
-  document.body.style.animation = `screenShake ${duration}ms linear`;
-  setTimeout(()=>body.style.animation = "", duration);
-}
-
-function freezeHit(){
-  body.classList.add("hitFreeze");
-  setTimeout(()=>body.classList.remove("hitFreeze"), 90);
-}
-
-function slowMotionHit(){
-  document.body.style.transition = "all 0.1s ease";
-  document.body.style.transform = "scale(1.01)";
-  document.body.style.filter = "brightness(1.16)";
-  setTimeout(()=>{
-    document.body.style.transform = "scale(1)";
-    document.body.style.filter = "";
-  }, 120);
-}
-
-function comboZoom(){
-  document.body.style.transform = "scale(1.04)";
-  setTimeout(()=>document.body.style.transform = "scale(1)", 180);
-}
-
-function spawnSpark(target){
-  const rect = target.getBoundingClientRect();
-  for(let i=0;i<6;i++){
-    const spark = document.createElement("div");
-    spark.className = "hitSpark";
-    spark.style.left = rect.left + rect.width/2 + "px";
-    spark.style.top = rect.top + rect.height/2 + "px";
-    spark.style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`;
-    document.body.appendChild(spark);
-    setTimeout(()=>spark.remove(), 300);
-  }
-}
-
-function showComboGlow(el){
-  el.classList.add("comboGlow");
-  setTimeout(()=>el.classList.remove("comboGlow"), 450);
-}
-
-function dashAttack(attacker){
-  if(attacker === 1) fighter1.classList.add("dash");
-  else fighter2.classList.add("dash");
-
-  setTimeout(()=>{
-    fighter1.classList.remove("dash");
-    fighter2.classList.remove("dash");
-  }, 130);
-}
-
-function animatePunch(attacker){
-  if(attacker === 1){
-    fighter1.classList.add("attack");
-    fighter1Fist.classList.add("active");
-    setFace(face1,"attack");
-  }else{
-    fighter2.classList.add("attack");
-    fighter2Fist.classList.add("active");
-    setFace(face2,"attack");
-  }
-  setTimeout(()=>{
-    fighter1.classList.remove("attack");
-    fighter2.classList.remove("attack");
-    fighter1Fist.classList.remove("active");
-    fighter2Fist.classList.remove("active");
-  }, 130);
-}
-
-function animateKick(attacker){
-  if(attacker === 1){
-    fighter1.classList.add("kick");
-    fighter1Kick.classList.add("active");
-    setFace(face1,"kick");
-  }else{
-    fighter2.classList.add("kick");
-    fighter2Kick.classList.add("active");
-    setFace(face2,"kick");
-  }
-  setTimeout(()=>{
-    fighter1.classList.remove("kick");
-    fighter2.classList.remove("kick");
-    fighter1Kick.classList.remove("active");
-    fighter2Kick.classList.remove("active");
-  }, 180);
-}
-
-function markHit(target, whichFace){
-  target.classList.add("hit");
-  setFace(whichFace, "hit");
-  setTimeout(()=>target.classList.remove("hit"), 130);
-}
-
-function markBlock(target, whichFace){
-  target.classList.add("block");
-  setFace(whichFace, "block");
-  setTimeout(()=>{
-    target.classList.remove("block");
-    setFace(whichFace, "idle");
-  }, 110);
-}
-
-function markClash(){
-  fighter1.classList.add("clash");
-  fighter2.classList.add("clash");
-  setTimeout(()=>{
-    fighter1.classList.remove("clash");
-    fighter2.classList.remove("clash");
-  }, 120);
-}
-
-function updateComboCounter(count){
-  comboCounter.textContent = count >= 2 ? `COMBO x${count}` : "";
-}
-
-function attackSequence(attacker, type, dmg, comboCount){
-  const isYou = attacker === 1;
-  const target = isYou ? fighter2 : fighter1;
-  const targetFace = isYou ? face2 : face1;
-
-  dashAttack(attacker);
-  if(type === "kick"){
-    soundKick();
-    animateKick(attacker);
-  }else{
-    soundWhoosh();
-    animatePunch(attacker);
-  }
-
-  setTimeout(()=>{
-    if(type === "kick"){
-      soundHitA();
-      shakeScreen(260);
-    }else{
-      isYou ? soundHitA() : soundHitB();
-      shakeScreen(220);
-    }
-
-    flashHitEffect(type === "kick" ? 2 : (comboCount >= 5 ? 2 : 1));
-    freezeHit();
-    slowMotionHit();
-    markHit(target, targetFace);
-    spawnSpark(target);
-
-    if(comboCount >= 4) comboZoom();
-    if(comboCount >= 5){
-      showComboGlow(isYou ? fighter1 : fighter2);
-      soundCombo();
-      aiReact("combo");
-    }
-
-    updateComboCounter(comboCount);
-
-    if(type === "kick"){
-      fightText.textContent = comboCount >= 3 ? `COMBO x${comboCount} // KICK ${dmg}` : `KICK ${dmg}`;
-      showDialog(kickDialogs[Math.floor(Math.random()*kickDialogs.length)]);
-    }else{
-      fightText.textContent = comboCount >= 3 ? `COMBO x${comboCount} // ${dmg}` : `${dmg} DAMAGE`;
-      showDialog(attackDialogs[Math.floor(Math.random()*attackDialogs.length)]);
-    }
-
-    setTimeout(()=>{
-      setFace(face1, "idle");
-      setFace(face2, "idle");
-    }, 180);
-  }, 80);
-}
-
-function randomSpecial(){
-  if(fightOver) return;
-  if(Math.random() < 0.1){
-    fightText.textContent = "SPECIAL ATTACK ⚡";
-    soundFinisher();
-    shakeScreen(420);
-    hp2 -= 18;
-    setFightBars();
-    showDialog("CRITICAL HIT!");
-    checkFightEnd();
-  }
-}
-
-
-function endFightCleanup(){
-  if(currentFightLoop){
-    clearInterval(currentFightLoop);
-    currentFightLoop = null;
-  }
-  stopBossMusic();
-  body.style.filter = "";
-  body.style.animation = "none";
-  body.style.transform = "none";
-  [fighter1, fighter2].forEach(f=>{
-    f.className = f.id === "fighter1" ? "fighter fighter1 left" : "fighter fighter2 right";
-  });
-  [fighter1Fist, fighter2Fist, fighter1Kick, fighter2Kick].forEach(el=>el.classList.remove("active"));
-  dialogBox.style.display = "none";
-}
-
-function showTutorialOverlay(){
-  if(localStorage.getItem("subussy_tutorial_seen") === "1") return;
-  tutorialOverlay.style.display = "flex";
-}
-function hideTutorialOverlay(markSeen=true){
-  tutorialOverlay.style.display = "none";
-  if(markSeen) localStorage.setItem("subussy_tutorial_seen", "1");
-}
-
-tutorialStartBtn.addEventListener("click", ()=>hideTutorialOverlay(true));
-tutorialSkipBtn.addEventListener("click", ()=>hideTutorialOverlay(true));
-
-aiMinBtn.addEventListener("click", ()=>aiPanel.classList.toggle("ai-min"));
-aiHideBtn.addEventListener("click", ()=>aiPanel.classList.add("ai-hidden"));
-settingsBtnTop.addEventListener("dblclick", ()=>aiPanel.classList.remove("ai-hidden"));
-userBtn.addEventListener("dblclick", ()=>aiPanel.classList.remove("ai-hidden"));
-
-document.querySelectorAll("[data-scroll-target]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const target = document.getElementById(btn.dataset.scrollTarget);
-    if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
-  });
-});
-
-let compactLayout = JSON.parse(localStorage.getItem("subussy_compact_layout") || "false");
-function applyLayoutMode(){
-  body.classList.toggle("compact-layout", compactLayout);
-  if(compactLayout){
-    layoutToggleBtn.textContent = "Dashboard Layout";
-    document.querySelectorAll(".grid").forEach(g=>g.style.gridTemplateColumns = "repeat(auto-fill,minmax(180px,1fr))");
-    document.querySelectorAll(".card").forEach(c=>c.style.height = "250px");
-  }else{
-    layoutToggleBtn.textContent = "Compact Layout";
-    document.querySelectorAll(".grid").forEach(g=>g.style.gridTemplateColumns = "repeat(auto-fill,minmax(250px,1fr))");
-    document.querySelectorAll(".card").forEach(c=>c.style.height = "300px");
-  }
-}
-layoutToggleBtn.addEventListener("click", ()=>{
-  compactLayout = !compactLayout;
-  localStorage.setItem("subussy_compact_layout", JSON.stringify(compactLayout));
-  applyLayoutMode();
-});
+document.addEventListener("mousemove", ()=> idle = 0);
 
 /* =========================
-   FIGHT SYSTEM
+   INIT
 ========================= */
-function startFightIntro(){
-  hp1 = 100;
-  hp2 = 100;
-  combo1 = 0;
-  combo2 = 0;
-  fightOver = false;
-  currentBossPhase = 1;
-  enemyName = enemyPool[Math.floor(Math.random()*enemyPool.length)];
-  updateFightNames();
-  setFightBars();
-  setFace(face1, "idle");
-  setFace(face2, "idle");
-  fightText.textContent = "BOSS MODE";
-  comboCounter.textContent = "";
-  fightWarning.style.opacity = "1";
-  showDialog("SYSTEM DEFENSE ACTIVATED", 1400);
-  startBossMusic();
-
-  setTimeout(()=>{
-    fightWarning.style.opacity = "0";
-    showBubble("you not getting through.", "right", 1300);
-    currentFightLoop = setInterval(enemyAttackLoop, 900);
-  }, 1400);
-}
-
-function restartBossFight(){
-  if(fightScene.parentNode){
-    fightScene.style.opacity = "1";
-    fightScene.style.display = "flex";
-  }
-  startFightIntro();
-}
-
-function enemyAttackLoop(){
-  if(fightOver) return;
-  updateBossPhase();
-
-  const roll = Math.random();
-
-  if(roll < 0.14){
-    markClash();
-    soundClash();
-    fightText.textContent = "CLASH ⚡";
-    showDialog("POWER STRUGGLE...");
-    return;
-  }
-
-  if(roll < 0.32){
-    markBlock(fighter1, face1);
-    soundBlock();
-    fightText.textContent = "BLOCKED";
-    showDialog("DEFENSE ACTIVE");
-    return;
-  }
-
-  const type = Math.random() < (currentBossPhase === 3 ? 0.55 : 0.35) ? "kick" : "punch";
-  let dmg = type === "kick" ? 11 : 7;
-  dmg += currentBossPhase - 1;
-
-  combo2++;
-  combo1 = 0;
-  hp1 -= dmg;
-  attackSequence(2, type, dmg, combo2);
-  setFightBars();
-
-  if(hp1 < 30){
-    body.style.filter = "brightness(.86) saturate(1.05)";
-  }
-
-  checkFightEnd();
-}
-
-function checkFightEnd(){
-  if(fightOver) return;
-
-  if(hp1 <= 0){
-    fightOver = true;
-    totalLosses++;
-    saveStats();
-    fightText.textContent = "YOU LOST";
-    soundBossLose();
-    showDialog(loseDialogs[Math.floor(Math.random()*loseDialogs.length)], 3000);
-    aiReact("lose");
-    clearInterval(currentFightLoop);
-
-    setTimeout(()=>{
-      fightScene.style.opacity = "0";
-      fightScene.style.transition = "opacity .45s ease";
-
-      setTimeout(()=>{
-        fightScene.style.display = "none";
-        fightScene.style.opacity = "1";
-
-        hp1 = 100;
-        hp2 = 100;
-        combo1 = 0;
-        combo2 = 0;
-        fightOver = false;
-        currentBossPhase = 1;
-        body.style.filter = "";
-
-        setFightBars();
-        updateComboCounter(0);
-        fightText.textContent = "LOADING BATTLE...";
-        switchPage("home");
-        endFightCleanup();
-        showTutorialOverlay();
-      }, 400);
-    }, 2500);
-
-    return;
-  }
-
-  if(hp2 <= 0){
-    fightOver = true;
-    totalWins++;
-    saveStats();
-    fightText.textContent = "YOU WIN";
-    soundBossWin();
-    showDialog(winDialogs[Math.floor(Math.random()*winDialogs.length)], 3000);
-    aiReact("win");
-    clearInterval(currentFightLoop);
-
-    setTimeout(()=>{
-      fightScene.style.opacity = "0";
-      fightScene.style.transition = "opacity .45s ease";
-
-      setTimeout(()=>{
-        fightScene.style.display = "none";
-        fightScene.style.opacity = "1";
-
-        hp1 = 100;
-        hp2 = 100;
-        combo1 = 0;
-        combo2 = 0;
-        fightOver = false;
-        currentBossPhase = 1;
-        body.style.filter = "";
-
-        setFightBars();
-        updateComboCounter(0);
-        fightText.textContent = "LOADING BATTLE...";
-        switchPage("home");
-        endFightCleanup();
-        showTutorialOverlay();
-      }, 400);
-    }, 2500);
-
-    return;
-  }
-}
-
-document.addEventListener("keydown", e=>{
-  if(fightOver) return;
-
-  if(e.key.toLowerCase() === "a"){
-    combo1++;
-    combo2 = 0;
-    const dmg = 6 + combo1;
-    hp2 -= dmg;
-    attackSequence(1, "punch", dmg, combo1);
-    setFightBars();
-    randomSpecial();
-    checkFightEnd();
-  }
-
-  if(e.key.toLowerCase() === "d"){
-    combo1++;
-    combo2 = 0;
-    const dmg = 10 + combo1;
-    hp2 -= dmg;
-    attackSequence(1, "kick", dmg, combo1);
-    setFightBars();
-    randomSpecial();
-    checkFightEnd();
-  }
-});
-
-bossBtn.addEventListener("click", restartBossFight);
-
-/* =========================
-   TASKBAR / NAV
-========================= */
-heroPlay.addEventListener("click", ()=>{
-  const rec = getRecommendedEntry() || allEntries().games[0] || movies[0];
-  if(rec) openEntry(rec);
-});
-heroMovies.addEventListener("click", ()=>switchPage("movies"));
-
-/* =========================
-   SEARCH / PLAYER / LINKS
-========================= */
-submitGameBtn.addEventListener("click", openSubmitGame);
-
-/* =========================
-   FINAL INIT
-========================= */
-setTheme(currentTheme);
-setWallpaper(currentWallpaper);
-renderAll();
-switchPage(currentPage);
-attachHoverCursor(document);
-aiSay("system online.");
-saveStats();
-applyLayoutMode();
-</script>
-
-
-<style>
-/* ===== V9 MASSIVE VISUAL UPGRADE ===== */
-body{
-background:radial-gradient(circle at center,#001a12,#000);
-transition:0.5s;
-}
-.card{
-transition:0.2s !important;
-transform-style:preserve-3d;
-}
-.card:hover{
-transform:scale(1.1) rotateX(6deg) rotateY(-6deg) !important;
-box-shadow:0 0 40px #00ff88, 0 0 80px rgba(0,255,136,.4);
-}
-.glowPulse{
-animation:glowPulse 2s infinite alternate;
-}
-@keyframes glowPulse{
-from{filter:brightness(1);}
-to{filter:brightness(1.4);}
-}
-
-/* floating AI stronger */
-#ai,#aiPanel{
-  display:none !important;
-box-shadow:0 0 40px #0f0;
-backdrop-filter:blur(6px);
-}
-
-/* animated background particles */
-#v9bg{
-position:fixed;
-inset:0;
-z-index:-1;
-background:radial-gradient(circle,#00ff8820,transparent);
-animation:bgAnim 10s infinite alternate;
-}
-@keyframes bgAnim{
-from{transform:scale(1);}
-to{transform:scale(1.3);}
-}
-</style>
-
-<div id="v9bg"></div>
-
-<script>
-console.log("V9 GOD MODE LOADED");
-
-/* ===== MASS UI ANIMATION ENGINE ===== */
-(function(){
-let last=0;
-function loop(t){
-let delta=t-last;
-last=t;
-
-document.querySelectorAll(".card").forEach((c,i)=>{
-let s=1+Math.sin((t+i*100)/800)*0.02;
-c.style.scale=s;
-});
-
-requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-
-/* ===== SUPER BLOOD PHYSICS ===== */
-window.createBlood=function(){
-for(let i=0;i<15;i++){
-let b=document.createElement("div");
-b.className="blood";
-b.style.left=Math.random()*innerWidth+"px";
-b.style.top=Math.random()*innerHeight+"px";
-b.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
-b.style.opacity=Math.random();
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),800);
-}
-};
-
-/* ===== REAL COMBAT IMPACT ===== */
-window.attack=function(){
-let target=Math.random()>0.5?document.getElementById("p1"):document.getElementById("p2");
-if(!target)return;
-target.style.transform="scale(1.2)";
-setTimeout(()=>target.style.transform="",150);
-
-createBlood();
-document.body.style.background="#200";
-setTimeout(()=>document.body.style.background="",100);
-};
-
-/* ===== FORCE AI IMPROVE ===== */
-(function(){
-let ai=document.getElementById("ai")||document.getElementById("aiPanel");
-if(ai){
-ai.style.display="flex";
-ai.style.flexDirection="column";
-
-let hide=document.createElement("button");
-hide.textContent="HIDE";
-hide.style="background:red;color:white;border:none;margin:5px;";
-hide.onclick=()=>ai.style.display="none";
-ai.appendChild(hide);
-}
-})();
-
-/* ===== SMART GAME ADD (VISIBLE CHANGE) ===== */
-window.addGame=function(){
-let input=prompt("ADD GAME (name or url)");
-if(!input)return;
-
-let url=input.startsWith("http")?input:"https://"+input;
-
-let data=JSON.parse(localStorage.getItem("data")||"{}");
-if(!data.games)data.games=[];
-
-data.games.unshift({
-name:input,
-url:url,
-img:"https://www.google.com/s2/favicons?domain="+url
-});
-
-localStorage.setItem("data",JSON.stringify(data));
-
-alert("GAME ADDED (V9 SYSTEM)");
-location.reload();
-};
-
-/* ===== EXTREME CURSOR EFFECT ===== */
-document.addEventListener("mousemove",e=>{
-let trail=document.createElement("div");
-trail.style.position="fixed";
-trail.style.width="6px";
-trail.style.height="6px";
-trail.style.background="#0f0";
-trail.style.left=e.clientX+"px";
-trail.style.top=e.clientY+"px";
-trail.style.pointerEvents="none";
-document.body.appendChild(trail);
-setTimeout(()=>trail.remove(),300);
-});
-
-/* ===== FORCE PERFORMANCE SAFE ===== */
-window.addEventListener("error",e=>{
-console.warn("V9 guard caught:",e.message);
-});
-</script>
-
-
-<style>
-/* ===== V10 GOD MODE VISUAL ===== */
-body{
-    background: radial-gradient(circle at center, #00281c, #000);
-    overflow:hidden;
-}
-
-/* window system */
-.window{
-    position:fixed;
-    width:400px;
-    height:300px;
-    background:#000;
-    border:2px solid #0f0;
-    box-shadow:0 0 20px #0f0;
-    top:50px;
-    left:50px;
-    resize:both;
-    overflow:hidden;
-    z-index:9999;
-}
-.window-header{
-    background:#0f0;
-    color:black;
-    padding:5px;
-    cursor:move;
-    font-weight:bold;
-}
-</style>
-
-<script>
-console.log("V10 BREAK LIMITS");
-
-/* ===== DRAG WINDOW SYSTEM ===== */
-function createWindow(title, url){
-    let win = document.createElement("div");
-    win.className = "window";
-
-    let header = document.createElement("div");
-    header.className = "window-header";
-    header.textContent = title;
-
-    let frame = document.createElement("iframe");
-    frame.src = url;
-    frame.style.width = "100%";
-    frame.style.height = "calc(100% - 25px)";
-    frame.style.border = "none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    let offsetX=0, offsetY=0, dragging=false;
-
-    header.onmousedown = (e)=>{
-        dragging=true;
-        offsetX = e.clientX - win.offsetLeft;
-        offsetY = e.clientY - win.offsetTop;
-    };
-
-    document.onmouseup = ()=>dragging=false;
-    document.onmousemove = (e)=>{
-        if(dragging){
-            win.style.left = (e.clientX-offsetX)+"px";
-            win.style.top = (e.clientY-offsetY)+"px";
-        }
-    };
-}
-
-/* ===== OVERRIDE CARD CLICK ===== */
-document.querySelectorAll(".card").forEach(c=>{
-    c.addEventListener("dblclick", ()=>{
-        let url = c.querySelector("img")?.src || "https://example.com";
-        createWindow("App", url);
-    });
-});
-
-/* ===== REAL HP COMBAT ===== */
-let hp1 = 100, hp2 = 100;
-
-window.attack = function(){
-    let dmg = Math.floor(Math.random()*15)+5;
-    if(Math.random()>0.5){
-        hp1 -= dmg;
-    } else {
-        hp2 -= dmg;
-    }
-
-    createBlood();
-
-    if(hp1 <= 0 || hp2 <= 0){
-        alert("FINISHER!");
-        hp1 = 100;
-        hp2 = 100;
-    }
-};
-
-/* ===== PARTICLE ENGINE ===== */
-function particle(x,y){
-    let p = document.createElement("div");
-    p.style.position="fixed";
-    p.style.left=x+"px";
-    p.style.top=y+"px";
-    p.style.width="4px";
-    p.style.height="4px";
-    p.style.background="#0f0";
-    document.body.appendChild(p);
-
-    let vx = Math.random()*4-2;
-    let vy = Math.random()*4-2;
-
-    let life=0;
-    function move(){
-        life++;
-        x+=vx;
-        y+=vy;
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        if(life<30){
-            requestAnimationFrame(move);
-        } else {
-            p.remove();
-        }
-    }
-    move();
-}
-
-document.addEventListener("click",e=>{
-    for(let i=0;i<10;i++) particle(e.clientX,e.clientY);
-});
-</script>
-
-
-<style>
-/* ===== V11 ENGINE MODE ===== */
-.tabbar{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:30px;
-    background:#001;
-    display:flex;
-    gap:5px;
-    z-index:99999;
-}
-.tab{
-    padding:5px 10px;
-    background:#0f0;
-    color:black;
-    cursor:pointer;
-    font-size:12px;
-}
-</style>
-
-<div class="tabbar" id="tabbar"></div>
-
-<script>
-console.log("V11 ENGINE MODE");
-
-/* ===== TAB SYSTEM ===== */
-let tabs = [];
-
-function addTab(title, win){
-    let tab = document.createElement("div");
-    tab.className = "tab";
-    tab.textContent = title;
-
-    tab.onclick = ()=>{
-        document.querySelectorAll(".window").forEach(w=>w.style.display="none");
-        win.style.display="block";
-    };
-
-    document.getElementById("tabbar").appendChild(tab);
-    tabs.push({tab, win});
-}
-
-/* patch window creation */
-let oldCreate = window.createWindow;
-window.createWindow = function(title, url){
-    let win = document.createElement("div");
-    win.className = "window";
-
-    let header = document.createElement("div");
-    header.className = "window-header";
-    header.textContent = title;
-
-    let frame = document.createElement("iframe");
-    frame.src = url;
-    frame.style.width = "100%";
-    frame.style.height = "calc(100% - 25px)";
-    frame.style.border = "none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    addTab(title, win);
-
-    let offsetX=0, offsetY=0, dragging=false;
-    header.onmousedown = (e)=>{
-        dragging=true;
-        offsetX = e.clientX - win.offsetLeft;
-        offsetY = e.clientY - win.offsetTop;
-    };
-    document.onmouseup = ()=>dragging=false;
-    document.onmousemove = (e)=>{
-        if(dragging){
-            win.style.left = (e.clientX-offsetX)+"px";
-            win.style.top = (e.clientY-offsetY)+"px";
-        }
-    };
-};
-
-/* ===== REQUEST HUB ===== */
-function openRequestHub(){
-    let win = document.createElement("div");
-    win.className="window";
-    win.innerHTML = `
-        <div class="window-header">Request Hub</div>
-        <div style="padding:10px">
-            <input id="reqInput" placeholder="Enter game URL or name" style="width:100%">
-            <button onclick="submitRequest()">Submit</button>
-            <div id="reqList"></div>
-        </div>
-    `;
-    document.body.appendChild(win);
-}
-
-window.submitRequest = function(){
-    let val = document.getElementById("reqInput").value;
-    if(!val)return;
-
-    let list = document.getElementById("reqList");
-    let item = document.createElement("div");
-    item.textContent = "Added: "+val;
-    list.appendChild(item);
-
-    let url = val.startsWith("http")?val:"https://"+val;
-
-    let data = JSON.parse(localStorage.getItem("data")||"{}");
-    if(!data.games)data.games=[];
-    data.games.unshift({
-        name:val,
-        url:url,
-        img:"https://www.google.com/s2/favicons?domain="+url
-    });
-
-    localStorage.setItem("data",JSON.stringify(data));
-};
-
-/* ===== HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-    if(e.key==="`") openRequestHub();
-});
-
-/* ===== ADVANCED PARTICLES ===== */
-document.addEventListener("mousemove",e=>{
-    if(Math.random()<0.2){
-        let p=document.createElement("div");
-        p.style.position="fixed";
-        p.style.left=e.clientX+"px";
-        p.style.top=e.clientY+"px";
-        p.style.width="3px";
-        p.style.height="3px";
-        p.style.background="#0f0";
-        document.body.appendChild(p);
-        setTimeout(()=>p.remove(),300);
-    }
-});
-</script>
-
-
-<style>
-/* ===== V12 GOD ENGINE ===== */
-.window.minimized{
-    height:30px !important;
-    overflow:hidden;
-}
-.processPanel{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:30px;
-    background:#010;
-    display:flex;
-    gap:5px;
-    padding:2px;
-    z-index:99999;
-}
-.proc{
-    background:#0f0;
-    color:black;
-    padding:2px 6px;
-    font-size:11px;
-}
-</style>
-
-<div class="processPanel" id="processPanel"></div>
-
-<script>
-console.log("V12 GOD ENGINE");
-
-/* ===== PROCESS MANAGER ===== */
-let processes = [];
-
-function addProcess(name, win){
-    let p=document.createElement("div");
-    p.className="proc";
-    p.textContent=name;
-    p.onclick=()=>win.style.display="block";
-
-    document.getElementById("processPanel").appendChild(p);
-    processes.push({p,win});
-}
-
-/* ===== EXTEND WINDOW ===== */
-let oldCreateWin = window.createWindow;
-window.createWindow = function(title,url){
-    let win=document.createElement("div");
-    win.className="window";
-
-    let header=document.createElement("div");
-    header.className="window-header";
-    header.innerHTML=title+" <span style='float:right'>_ [ ] X</span>";
-
-    let frame=document.createElement("iframe");
-    frame.src=url;
-    frame.style.width="100%";
-    frame.style.height="calc(100% - 25px)";
-    frame.style.border="none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    addProcess(title,win);
-
-    let dragging=false,ox=0,oy=0;
-    header.onmousedown=(e)=>{
-        dragging=true;
-        ox=e.clientX-win.offsetLeft;
-        oy=e.clientY-win.offsetTop;
-    };
-    document.onmouseup=()=>dragging=false;
-    document.onmousemove=(e)=>{
-        if(dragging){
-            win.style.left=(e.clientX-ox)+"px";
-            win.style.top=(e.clientY-oy)+"px";
-        }
-    };
-
-    /* controls */
-    header.onclick=(e)=>{
-        if(e.target.textContent.includes("_")){
-            win.classList.toggle("minimized");
-        }
-        if(e.target.textContent.includes("X")){
-            win.remove();
-        }
-    };
-};
-
-/* ===== PERFORMANCE MONITOR ===== */
-let fps=0,last=performance.now();
-function perfLoop(now){
-    fps=Math.round(1000/(now-last));
-    last=now;
-    document.title="FPS:"+fps+" | V12 ENGINE";
-    requestAnimationFrame(perfLoop);
-}
-requestAnimationFrame(perfLoop);
-
-/* ===== COMBAT UPGRADE ===== */
-let combo=0;
-window.attack=function(){
-    combo++;
-    let dmg=Math.floor(Math.random()*20)+combo;
-    createBlood();
-
-    if(combo>5){
-        document.body.style.filter="brightness(2)";
-        setTimeout(()=>document.body.style.filter="",200);
-    }
-};
-
-/* ===== ADVANCED PARTICLES ===== */
-function particle(x,y){
-    let p=document.createElement("div");
-    p.style.position="fixed";
-    p.style.left=x+"px";
-    p.style.top=y+"px";
-    p.style.width="3px";
-    p.style.height="3px";
-    p.style.background="#0f0";
-    document.body.appendChild(p);
-
-    let vx=Math.random()*6-3;
-    let vy=Math.random()*6-3;
-
-    let life=0;
-    function move(){
-        life++;
-        x+=vx;
-        y+=vy;
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        if(life<40) requestAnimationFrame(move);
-        else p.remove();
-    }
-    move();
-}
-
-document.addEventListener("click",e=>{
-    for(let i=0;i<15;i++) particle(e.clientX,e.clientY);
-});
-</script>
-
-
-<style>
-/* ===== V13 FINAL BOSS UI ===== */
-.desktop{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-}
-.desktop-layer{
-    position:absolute;
-    inset:0;
-    transition:opacity .3s;
-}
-.desktop-layer.hidden{
-    opacity:0;
-    pointer-events:none;
-}
-</style>
-
-<script>
-console.log("V13 FINAL BOSS");
-
-/* ===== MULTI DESKTOP ===== */
-let desktops = [];
-let currentDesktop = 0;
-
-function createDesktop(){
-    let d = document.createElement("div");
-    d.className="desktop-layer";
-    document.body.appendChild(d);
-    desktops.push(d);
-}
-
-function switchDesktop(i){
-    desktops.forEach((d,idx)=>{
-        d.classList.toggle("hidden", idx !== i);
-    });
-    currentDesktop = i;
-}
-
-createDesktop();
-createDesktop();
-switchDesktop(0);
-
-/* hotkey switch */
-document.addEventListener("keydown",e=>{
-    if(e.key==="1") switchDesktop(0);
-    if(e.key==="2") switchDesktop(1);
-});
-
-/* ===== APP MANAGER ===== */
-function listApps(){
-    let wins=document.querySelectorAll(".window");
-    alert("Running apps: "+wins.length);
-}
-
-/* ===== ENHANCED COMBAT VISUAL ===== */
-window.attack = function(){
-    createBlood();
-    document.body.style.transform="scale(1.05)";
-    setTimeout(()=>document.body.style.transform="",100);
-};
-
-/* ===== UI REACTIVE ENGINE ===== */
-document.addEventListener("mousemove",e=>{
-    document.body.style.backgroundPosition = e.clientX/10+"px "+e.clientY/10+"px";
-});
-
-/* ===== AI SYSTEM (BASIC SMART) ===== */
-window.aiSuggest = function(){
-    let data = JSON.parse(localStorage.getItem("data")||"{}");
-    if(data.games && data.games.length){
-        alert("Try: "+data.games[0].name);
-    }
-};
-
-/* ===== GLOBAL HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-    if(e.key==="F2") listApps();
-    if(e.key==="F3") aiSuggest();
-});
-</script>
-
-
-<style>
-/* ===== V20 ULTRA CORE ===== */
-body{
-    background: radial-gradient(circle at center, #001a12, #000);
-    overflow:hidden;
-}
-
-/* taskbar */
-#taskbar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:35px;
-    background:#020;
-    display:flex;
-    gap:5px;
-    padding:5px;
-    z-index:999999;
-}
-
-/* start menu */
-#startMenu{
-    position:fixed;
-    bottom:40px;
-    left:5px;
-    width:250px;
-    background:#000;
-    border:1px solid #0f0;
-    display:none;
-    padding:10px;
-    z-index:999999;
-}
-
-/* window focus */
-.window{
-    transition:0.2s;
-}
-.window.active{
-    box-shadow:0 0 40px #0f0;
-}
-
-/* animations */
-@keyframes pulseFast{
-    from{transform:scale(1);}
-    to{transform:scale(1.03);}
-}
-.card{
-    animation:pulseFast 2s infinite alternate;
-}
-</style>
-
-<div id="taskbar">
-<button onclick="toggleStart()">START</button>
-</div>
-
-<div id="startMenu">
-<button onclick="openRequestHub()">Request Hub</button>
-<button onclick="listApps()">Apps</button>
-<button onclick="alert('System V20')">About</button>
-</div>
-
-<script>
-console.log("V20 ULTRA CORE");
-
-/* ===== START MENU ===== */
-function toggleStart(){
-    let m=document.getElementById("startMenu");
-    m.style.display = m.style.display==="block"?"none":"block";
-}
-
-/* ===== WINDOW FOCUS SYSTEM ===== */
-document.addEventListener("click",e=>{
-    document.querySelectorAll(".window").forEach(w=>w.classList.remove("active"));
-    let w=e.target.closest(".window");
-    if(w) w.classList.add("active");
-});
-
-/* ===== BACKGROUND ENGINE V20 ===== */
-(function(){
-function loop(t){
-    document.body.style.backgroundPosition =
-        Math.sin(t/1000)*20 + "px " + Math.cos(t/1000)*20 + "px";
-    requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-
-/* ===== ADVANCED PARTICLE BURST ===== */
-function burst(x,y){
-    for(let i=0;i<20;i++){
-        let p=document.createElement("div");
-        p.style.position="fixed";
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        p.style.width="4px";
-        p.style.height="4px";
-        p.style.background="#0f0";
-        document.body.appendChild(p);
-
-        let vx=Math.random()*8-4;
-        let vy=Math.random()*8-4;
-
-        let life=0;
-        function move(){
-            life++;
-            x+=vx;
-            y+=vy;
-            p.style.left=x+"px";
-            p.style.top=y+"px";
-            if(life<50) requestAnimationFrame(move);
-            else p.remove();
-        }
-        move();
-    }
-}
-
-document.addEventListener("click",e=>{
-    burst(e.clientX,e.clientY);
-});
-
-/* ===== REAL MULTITASK SYSTEM ===== */
-let zIndex=1000;
-document.addEventListener("mousedown",e=>{
-    let w=e.target.closest(".window");
-    if(w){
-        zIndex++;
-        w.style.zIndex=zIndex;
-    }
-});
-
-/* ===== AUTO SAVE SYSTEM ===== */
-window.addEventListener("beforeunload",()=>{
-    localStorage.setItem("v20_state","saved");
-});
-
-/* ===== AI AUTO SUGGEST V20 ===== */
-setInterval(()=>{
-    let data=JSON.parse(localStorage.getItem("data")||"{}");
-    if(data.games && data.games.length>2){
-        console.log("V20 AI Suggest:", data.games[Math.floor(Math.random()*data.games.length)].name);
-    }
-},5000);
-
-/* ===== COMBAT V20 ===== */
-let rage=0;
-window.attack=function(){
-    rage++;
-    createBlood();
-    if(rage>5){
-        document.body.style.filter="hue-rotate(90deg)";
-        setTimeout(()=>document.body.style.filter="",300);
-        rage=0;
-    }
-};
-</script>
-
-
-<style>
-#colorWipe{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999999;
-  background:linear-gradient(90deg, transparent 0%, #0f0 50%, transparent 100%);
-  transform:translateX(-100%);
-  opacity:0;
-}
-.wipeAnim{
-  animation:wipeMove .6s ease;
-}
-@keyframes wipeMove{
-  0%{transform:translateX(-100%);opacity:1;}
-  50%{transform:translateX(0%);opacity:1;}
-  100%{transform:translateX(100%);opacity:0;}
-}
-.splitColor{
-  background:linear-gradient(90deg, var(--c1) 50%, var(--c2) 50%) !important;
-}
-</style>
-
-<div id="colorWipe"></div>
-
-<script>
-const colors=[
-"#00ff88","#00ffff","#ff0088","#ff0000","#ffaa00",
-"#00ff00","#0099ff","#cc00ff","#ff4444","#00ffaa",
-"#ffffff","#8888ff","#ff66cc","#66ff66","#ffaaee"
-];
-
-let currentColor="#00ff88";
-
-function switchColor(){
-  let wipe=document.getElementById("colorWipe");
-  let rare=Math.random()<0.1;
-
-  if(rare){
-    let c1=colors[Math.floor(Math.random()*colors.length)];
-    let c2=colors[Math.floor(Math.random()*colors.length)];
-    document.body.style.setProperty("--c1",c1);
-    document.body.style.setProperty("--c2",c2);
-    document.body.classList.add("splitColor");
-    setTimeout(()=>document.body.classList.remove("splitColor"),1200);
-  } else {
-    currentColor=colors[Math.floor(Math.random()*colors.length)];
-    document.body.style.color=currentColor;
-    document.querySelectorAll(".card,.window,#taskbar,#startMenu").forEach(el=>{
-      el.style.borderColor=currentColor;
-      el.style.boxShadow="0 0 20px "+currentColor;
-    });
-  }
-
-  wipe.style.background=`linear-gradient(90deg, transparent, ${currentColor}, transparent)`;
-  wipe.classList.remove("wipeAnim");
-  void wipe.offsetWidth;
-  wipe.classList.add("wipeAnim");
-}
-
-setInterval(switchColor,8000);
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="c") switchColor();
-});
-</script>
-
-
-<style>
-/* ===== V25 GOD SYSTEM ===== */
-#volumeControl{
-position:fixed;
-top:10px;
-right:10px;
-z-index:999999;
-}
-</style>
-
-<div id="volumeControl">
-<button onclick="toggleSound()">🔊</button>
-</div>
-
-<script>
-console.log("V25 GOD SYSTEM");
-
-/* ===== SOUND SYSTEM ===== */
-let soundOn = true;
-
-let hitSound = new Audio("https://www.soundjay.com/button/sounds/button-16.mp3");
-let bossSound = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-
-function toggleSound(){
-soundOn = !soundOn;
-alert("Sound: " + (soundOn ? "ON" : "OFF"));
-}
-
-/* hook into attack */
-let oldAttack = window.attack;
-window.attack = function(){
-if(oldAttack) oldAttack();
-
-if(soundOn){
-hitSound.currentTime = 0;
-hitSound.play();
-}
-
-if(Math.random() < 0.2){ // boss hit chance
-if(soundOn){
-bossSound.currentTime = 0;
-bossSound.play();
-}
-document.body.style.boxShadow = "0 0 100px red inset";
-setTimeout(()=>document.body.style.boxShadow="",200);
-}
-};
-
-/* ===== MINI MAP SYSTEM ===== */
-let mini = document.createElement("div");
-mini.style.position="fixed";
-mini.style.bottom="50px";
-mini.style.right="10px";
-mini.style.width="120px";
-mini.style.height="80px";
-mini.style.background="#000";
-mini.style.border="1px solid #0f0";
-mini.innerHTML="<small>Mini System</small>";
-document.body.appendChild(mini);
-
-/* ===== AUTO EVENT SYSTEM ===== */
-setInterval(()=>{
-if(Math.random()<0.1){
-alert("SYSTEM EVENT: BOOST MODE");
-document.body.style.filter="brightness(1.5)";
-setTimeout(()=>document.body.style.filter="",1000);
-}
-},7000);
-
-/* ===== UI SHAKE ENGINE ===== */
-function shake(){
-document.body.style.transform="translate(5px,5px)";
-setTimeout(()=>document.body.style.transform="",100);
-}
-
-/* attach to combat */
-let oldAttack2 = window.attack;
-window.attack = function(){
-if(oldAttack2) oldAttack2();
-shake();
-};
-
-/* ===== FAST OPEN HOTKEY ===== */
-document.addEventListener("keydown",e=>{
-if(e.key==="g"){
-alert("Quick Game Launch!");
-}
-});
-
-/* ===== SYSTEM CLOCK ===== */
-let clock = document.createElement("div");
-clock.style.position="fixed";
-clock.style.top="10px";
-clock.style.left="10px";
-clock.style.color="#0f0";
-document.body.appendChild(clock);
-
-setInterval(()=>{
-let d=new Date();
-clock.textContent=d.toLocaleTimeString();
-},1000);
-
-</script>
-
-
-<style>
-/* ===== V100 ULTIMATE SYSTEM ===== */
-#settingsPanel{
-position:fixed;
-top:50px;
-right:10px;
-width:220px;
-background:#000;
-border:2px solid #0f0;
-padding:10px;
-z-index:999999;
-display:none;
-}
-.desktopIcon{
-position:absolute;
-width:60px;
-text-align:center;
-color:#0f0;
-cursor:pointer;
-}
-</style>
-
-<div id="settingsPanel">
-<b>Settings</b><br>
-<button onclick="toggleParticles()">Particles</button><br>
-<button onclick="toggleColors()">Colors</button><br>
-<button onclick="toggleCombat()">Combat</button>
-</div>
-
-<script>
-console.log("V100 ULTIMATE SYSTEM");
-
-/* ===== SETTINGS ===== */
-let particlesOn=true, colorsOn=true, combatOn=true;
-
-function toggleParticles(){particlesOn=!particlesOn;}
-function toggleColors(){colorsOn=!colorsOn;}
-function toggleCombat(){combatOn=!combatOn;}
-
-document.addEventListener("keydown",e=>{
-if(e.key==="s") document.getElementById("settingsPanel").style.display="block";
-});
-
-/* ===== DESKTOP ICON SYSTEM ===== */
-function createIcon(name,x,y,url){
-let icon=document.createElement("div");
-icon.className="desktopIcon";
-icon.style.left=x+"px";
-icon.style.top=y+"px";
-icon.innerHTML="📁<br>"+name;
-icon.ondblclick=()=>createWindow(name,url);
-document.body.appendChild(icon);
-}
-
-createIcon("Games",100,200,"https://example.com");
-createIcon("Movies",200,200,"https://example.com");
-
-/* ===== BACKGROUND MUSIC ===== */
-let music=new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-music.loop=true;
-
-document.addEventListener("click",()=>{
-if(music.paused) music.play();
-},{once:true});
-
-/* ===== BOSS SYSTEM ===== */
-let bossHP=200;
-
-function bossFight(){
-alert("BOSS APPEARED!");
-}
-
-window.attack=function(){
-if(!combatOn) return;
-
-bossHP-=Math.floor(Math.random()*20)+5;
-createBlood();
-
-if(bossHP<100){
-document.body.style.background="darkred";
-}
-
-if(bossHP<=0){
-alert("BOSS DEFEATED!");
-bossHP=200;
-}
-};
-
-/* ===== ADVANCED PARTICLES ===== */
-function particle(x,y){
-if(!particlesOn) return;
-
-let p=document.createElement("div");
-p.style.position="fixed";
-p.style.left=x+"px";
-p.style.top=y+"px";
-p.style.width="3px";
-p.style.height="3px";
-p.style.background="#0f0";
-document.body.appendChild(p);
-
-let vx=Math.random()*10-5;
-let vy=Math.random()*10-5;
-let life=0;
-
-function move(){
-life++;
-x+=vx;
-y+=vy;
-p.style.left=x+"px";
-p.style.top=y+"px";
-if(life<60) requestAnimationFrame(move);
-else p.remove();
-}
-move();
-}
-
-document.addEventListener("mousemove",e=>{
-if(Math.random()<0.3) particle(e.clientX,e.clientY);
-});
-
-/* ===== COLOR CONTROL ===== */
-setInterval(()=>{
-if(!colorsOn) return;
-document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
-},5000);
-
-/* ===== AUTO EVENTS ===== */
-setInterval(()=>{
-if(Math.random()<0.15){
-bossFight();
-}
-},8000);
-
-</script>
-
-
-<style>
-/* ===== V1000 INFINITY ENGINE ===== */
-#aiCore{
-position:fixed;
-left:10px;
-bottom:50px;
-width:220px;
-background:#000;
-border:2px solid #0ff;
-padding:8px;
-z-index:999999;
-font-size:12px;
-}
-
-.infinityGlow{
-animation:infGlow 1.5s infinite alternate;
-}
-@keyframes infGlow{
-from{box-shadow:0 0 10px #0ff;}
-to{box-shadow:0 0 40px #0ff;}
-}
-</style>
-
-<div id="aiCore" class="infinityGlow">
-<b>AI CORE</b><br>
-<div id="aiLog">System Ready...</div>
-</div>
-
-<script>
-console.log("V1000 INFINITY ENGINE");
-
-/* ===== AI CORE SYSTEM ===== */
-function aiLog(msg){
-let log=document.getElementById("aiLog");
-if(!log) return;
-let div=document.createElement("div");
-div.textContent=msg;
-log.appendChild(div);
-if(log.children.length>6) log.removeChild(log.children[0]);
-}
-
-setInterval(()=>{
-let data=JSON.parse(localStorage.getItem("data")||"{}");
-if(data.games && data.games.length){
-let g=data.games[Math.floor(Math.random()*data.games.length)];
-aiLog("Try: "+g.name);
-}
-},4000);
-
-/* ===== SYSTEM EVOLUTION ===== */
-let level=1;
-setInterval(()=>{
-level++;
-aiLog("System Level ↑ "+level);
-
-if(level%5===0){
-document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
-}
-},6000);
-
-/* ===== SUPER EVENT ENGINE ===== */
-setInterval(()=>{
-if(Math.random()<0.2){
-aiLog("⚠ EVENT: SYSTEM SURGE");
-document.body.style.transform="scale(1.05)";
-setTimeout(()=>document.body.style.transform="",300);
-}
-},5000);
-
-/* ===== ADVANCED COMBAT ===== */
-let combo=0;
-window.attack=function(){
-combo++;
-createBlood();
-
-aiLog("Combo: "+combo);
-
-if(combo>10){
-aiLog("🔥 OVERDRIVE");
-document.body.style.filter="brightness(2)";
-setTimeout(()=>document.body.style.filter="",200);
-combo=0;
-}
-};
-
-/* ===== PARTICLE FIELD ===== */
-(function(){
-function loop(){
-for(let i=0;i<2;i++){
-let p=document.createElement("div");
-p.style.position="fixed";
-p.style.left=Math.random()*innerWidth+"px";
-p.style.top=Math.random()*innerHeight+"px";
-p.style.width="2px";
-p.style.height="2px";
-p.style.background="#0ff";
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),2000);
-}
-requestAnimationFrame(loop);
-}
-loop();
-})();
-
-/* ===== GLOBAL HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-if(e.key==="F9") aiLog("Manual Boost Triggered");
-if(e.key==="F10") document.body.style.filter="invert(1)";
-});
-</script>
-
-
-
-
-
-
-
-
-<script id="v12-hard-clean">
-(function(){
-  const root = document.documentElement;
-  root.style.setProperty("--accent", "#00ff88");
-  root.style.setProperty("--accent2", "#7dffd0");
-  localStorage.setItem("accent", "#00ff88");
-  localStorage.setItem("subussy_theme", "green");
-
-  // remove any leftover overlays/widgets from older patches
-  [
-    "bossBarWrap","aiCoreDock","mergedColorPanel","colorWipeFx",
-    "fightScene","bossBtn","aiPanel","idleBox","updateOverlay","tutorialOverlay"
-  ].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.remove();
-  });
-
-  // kill sound and old helpers
-  window.playHitSound = ()=>{};
-  window.playBossSound = ()=>{};
-  window.soundEnabled = false;
-  window.switchColor = ()=>{};
-  window.setAccent = ()=>{};
-
-  // robust loading
-  const boot = document.getElementById("boot");
-  const terminal = document.getElementById("terminal");
-  const bar = document.getElementById("bar");
-
-  if (boot && terminal && bar) {
-    let progress = 0;
-    const errorMode = Math.random() < 0.30;
-    const slow = errorMode ? (1.1 + Math.random()*0.2) : 1;
-
-    const phases = [
-      "BOOTING CORE...",
-      "LOADING MODULES...",
-      "SYNCING DASHBOARD...",
-      "FINALIZING..."
-    ];
-
-    function typeLine(text){
-      return new Promise(resolve=>{
-        let i = 0;
-        const t = setInterval(()=>{
-          terminal.textContent += text[i] || "";
-          i++;
-          if(i > text.length){
-            terminal.textContent += "\n";
-            clearInterval(t);
-            resolve();
-          }
-        }, 8);
-      });
-    }
-
-    (async()=>{
-      terminal.textContent = "";
-      bar.style.width = "0%";
-      boot.style.background = errorMode ? "#200000" : "#000";
-
-      if(errorMode){
-        await typeLine("SYSTEM ERROR...");
-        await typeLine("RECOVERING...");
-      }
-
-      for(const p of phases){
-        await typeLine(p);
-        await new Promise(r=>setTimeout(r, 210 * slow));
-      }
-
-      const int = setInterval(()=>{
-        progress += Math.random() * 6;
-        if(progress >= 100){
-          progress = 100;
-          clearInterval(int);
-          boot.style.opacity = "0";
-          setTimeout(()=>boot.remove(), 420);
-        }
-        bar.style.width = progress + "%";
-      }, 120 * slow);
-    })();
-  }
-
-  // keep card polish only
-  document.querySelectorAll(".card").forEach(card=>{
-    if(card.dataset.cleanwired) return;
-    card.dataset.cleanwired = "1";
-    card.addEventListener("click", ()=>{
-      card.style.transform = "scale(.96)";
-      setTimeout(()=>card.style.transform = "", 110);
-    });
-    card.addEventListener("mousemove", e=>{
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
-      card.style.transform = `rotateX(${y*7}deg) rotateY(${x*7}deg) scale(1.04)`;
-    });
-    card.addEventListener("mouseleave", ()=>{ card.style.transform = ""; });
-  });
-
-  // remove any text blocks that still mention wins/losses from top cards
-  document.querySelectorAll("*").forEach(el=>{
-    if(el.children.length === 0 && el.textContent && /Wins:\s*\d+\s*•\s*Losses:\s*\d+/.test(el.textContent.trim())){
-      el.remove();
-    }
-  });
-
-  // smooth idle dim only
-  let lastMove = Date.now();
-  document.addEventListener("mousemove", ()=>{ lastMove = Date.now(); });
-  setInterval(()=>{
-    document.body.style.filter = (Date.now() - lastMove > 8000) ? "brightness(.85)" : "";
-  }, 1000);
-})();
-</script>
-
-</body>
-</html>
+console.log("SUBUSSY OS FULLY LOADED (UPGRADED)");
