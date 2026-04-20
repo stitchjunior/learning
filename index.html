@@ -755,8 +755,6 @@ canvas#bg{
 }
 
 #aiPanel{
-  display:none !important;
-  display:none !important;
   position:fixed;
   right:20px;
   bottom:80px;
@@ -800,8 +798,6 @@ canvas#bg{
 }
 
 #idleBox{
-  display:none !important;
-  display:none !important;
   position:fixed;
   bottom:470px;
   right:20px;
@@ -823,8 +819,6 @@ canvas#bg{
 #idleText{color:#d7ffea;font-size:13px;line-height:1.4}
 
 #updateOverlay{
-  display:none !important;
-  display:none !important;
   position:fixed;
   inset:0;
   z-index:280000;
@@ -1218,165 +1212,297 @@ canvas#bg{
   #aiPanel{width:260px;height:320px;right:10px}
 }
 
-
 /* =========================
-   V6 DASHBOARD OVERRIDES
+   OVERRIDE UPGRADE 4.0
 ========================= */
-#sidebar,
-#taskbar,
-#startMenu,
-#desktopIcons,
-#windowLayer{display:none !important}
-
+:root{
+  --sidebar-w:0px;
+  --top-h:98px;
+  --taskbar-h:58px;
+  --glow:0 0 35px rgba(0,255,136,.18);
+}
+body{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(0,255,136,.12), transparent 20%),
+    radial-gradient(circle at 84% 18%, rgba(125,255,208,.10), transparent 24%),
+    radial-gradient(circle at 50% 120%, rgba(0,255,136,.10), transparent 35%),
+    linear-gradient(180deg,#020403 0%, #040c09 48%, #010101 100%);
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-3;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 20%, transparent 80%, rgba(255,255,255,.02));
+  mix-blend-mode:screen;
+}
+#sidebar{
+  left:50%;
+  right:auto;
+  top:auto;
+  bottom:14px;
+  transform:translateX(-50%);
+  width:auto;
+  height:68px;
+  border-radius:999px;
+  flex-direction:row;
+  gap:10px;
+  padding:8px 12px;
+  background:rgba(0,0,0,.58);
+  box-shadow:0 20px 50px rgba(0,0,0,.42), 0 0 30px rgba(0,255,136,.08);
+}
+#sideBottom{
+  margin-top:0;
+  margin-left:8px;
+  flex-direction:row;
+}
+.sideBtn{
+  width:50px;
+  height:50px;
+  border-radius:18px;
+  position:relative;
+  overflow:hidden;
+}
+.sideBtn::after{
+  content:"";
+  position:absolute;
+  inset:-30%;
+  background:linear-gradient(130deg, transparent 35%, rgba(255,255,255,.28), transparent 63%);
+  transform:translateX(-120%) rotate(12deg);
+  transition:transform .55s ease;
+}
+.sideBtn:hover::after{transform:translateX(110%) rotate(12deg)}
 #top{
-  left:18px;
-  right:18px;
+  left:24px;
+  right:24px;
   top:18px;
   height:auto;
-  min-height:78px;
-  grid-template-columns:minmax(220px,1fr) minmax(220px,460px) auto;
+  min-height:96px;
+  grid-template-columns:1.2fr minmax(240px,560px) auto;
   padding:16px 18px;
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(0,0,0,.82),rgba(0,0,0,.66));
-  box-shadow:0 18px 46px rgba(0,0,0,.45), 0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
+  border-radius:30px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01)),
+    rgba(0,0,0,.50);
+  box-shadow:0 18px 40px rgba(0,0,0,.35), var(--glow);
 }
-
-#dashboardNav{
-  position:fixed;
-  left:18px;
-  right:18px;
-  top:110px;
-  z-index:1085;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
+#title{
+  font-size:29px;
+  letter-spacing:3px;
 }
-.navChip{
-  border:none;
-  padding:11px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  background:rgba(0,0,0,.78);
-  color:#dfffee;
-  border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
-  box-shadow:0 0 16px color-mix(in srgb, var(--accent) 8%, transparent);
-  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+#subTitle{
+  font-size:12px;
+  color:#b7ffe1;
 }
-.navChip:hover{
-  transform:translateY(-2px);
-  background:color-mix(in srgb, var(--accent) 12%, transparent);
-  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.navChip.primary{
-  background:linear-gradient(180deg,#b9ffdd,var(--accent));
-  color:#032116;
-  font-weight:900;
+#search{
+  min-height:48px;
+  border-radius:18px;
+  background:rgba(2,8,6,.88);
 }
 #contentWrap{
-  left:18px;
-  right:18px;
-  top:162px;
-  bottom:18px;
-  overflow:auto;
-  padding:0 2px 34px;
+  left:24px;
+  right:24px;
+  top:132px;
+  bottom:94px;
+  padding:6px 0 28px;
 }
-.page{
-  display:block !important;
-  width:min(1380px,100%);
-  margin:0 auto 24px;
+.page.active{
+  animation:pageIn .35s ease;
 }
-#page-home,
-#page-games,
-#page-movies,
-#page-docs,
-#page-favorites{
-  padding:18px;
+@keyframes pageIn{
+  from{opacity:0; transform:translateY(18px) scale(.985)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+.homeGrid{
+  grid-template-columns:1fr;
+}
+.panel{
   border-radius:28px;
-  background:rgba(0,0,0,.54);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+    rgba(0,0,0,.58);
   border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
-  box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 24px color-mix(in srgb, var(--accent) 8%, transparent);
-  backdrop-filter:blur(12px);
-}
-#page-home .homeGrid{
-  grid-template-columns:1.28fr .92fr;
-  gap:20px;
-}
-#page-home .panel,
-#page-games,
-#page-movies,
-#page-docs,
-#page-favorites{
-  background:transparent;
-  box-shadow:none;
 }
 .featuredHero{
-  min-height:290px;
-  border-radius:24px;
+  height:290px;
+  border-radius:26px;
+  position:relative;
+  overflow:hidden;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.9)),
-    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 38%),
-    linear-gradient(140deg,#031109,#010101 56%,#062818);
+    linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.82)),
+    radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 26%),
+    linear-gradient(120deg, rgba(255,255,255,.05), transparent 30%, transparent 70%, rgba(255,255,255,.03));
 }
-.featuredHero h2{font-size:34px}
-.featuredHero p{max-width:60ch;line-height:1.55}
-.sectionBar{margin:0 0 16px}
-.sectionTitle{font-size:20px;font-weight:900;text-transform:capitalize}
-.sectionMeta{font-size:12px}
-.grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
-.card{height:300px;border-radius:24px}
-.cardName{font-size:22px}
-.cardMeta{font-size:12px}
-.docRow{padding:18px;border-radius:18px}
-#aiPanel{
-  display:none !important;
+.featuredHero::after{
+  content:"";
+  position:absolute;
+  inset:-10%;
+  background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.10), transparent 60%);
+  animation:heroSweep 6s linear infinite;
+}
+@keyframes heroSweep{
+  from{transform:translateX(-40%)}
+  to{transform:translateX(40%)}
+}
+.grid{
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:24px;
+}
+.card{
+  height:315px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.06), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.92));
+  box-shadow:0 16px 34px rgba(0,0,0,.35);
+}
+.card:hover{
+  transform:translateY(-8px) scale(1.035) rotateY(6deg) rotateX(5deg);
+}
+.card::before{
+  background:
+    linear-gradient(180deg, transparent 12%, rgba(0,0,0,.12) 42%, rgba(0,0,0,.96) 100%),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 40%);
+}
+.cardContent{
+  padding:18px;
+}
+.cardName{
+  font-size:20px;
+  letter-spacing:.3px;
+}
+.cardMeta{
+  align-items:center;
+}
+.docRow{
+  border-radius:18px;
+  padding:16px 18px;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.docRow:hover{
+  transform:translateX(10px) scale(1.01);
+}
+#playerBar{
+  top:18px;
+  left:18px;
   right:18px;
+}
+#playerTitle{
+  background:rgba(0,0,0,.6);
+  border-radius:18px;
+}
+.playerBtn{
+  border-radius:18px;
+}
+#taskbar{
+  left:24px;
+  right:24px;
   bottom:18px;
-  width:320px;
-  height:390px;
+  height:58px;
   border-radius:22px;
-  transition:transform .24s ease, opacity .18s ease, height .24s ease;
+  background:rgba(0,0,0,.58);
 }
-#aiPanel.ai-min{height:54px;overflow:hidden}
-#aiPanel.ai-hidden{display:none !important}
-#aiHeaderRow{display:flex;align-items:center;justify-content:space-between;gap:10px}
-#aiHeaderBtns{display:flex;gap:8px}
-.aiMiniBtn{
-  width:30px;height:30px;border:none;border-radius:10px;cursor:pointer;
-  color:#dfffee;background:rgba(255,255,255,.08);
+#startMenu{
+  left:24px;
+  bottom:88px;
+  border-radius:26px;
 }
-#tutorialOverlay{
-  display:none !important;
-  display:none !important;
-  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
-  z-index:290000;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
+#desktopIcons{
+  left:auto;
+  right:28px;
+  top:148px;
+  width:92px;
 }
-#tutorialCard{
-  width:min(760px,92vw);padding:24px;border-radius:28px;background:rgba(0,0,0,.92);
-  border:1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  box-shadow:0 0 34px color-mix(in srgb, var(--accent) 14%, transparent);
+.icon{
+  backdrop-filter:blur(8px);
 }
-#tutorialTitle{font-size:30px;color:var(--accent);margin-bottom:10px}
-#tutorialBody{color:#dfffee;line-height:1.6;font-size:14px}
-#tutorialSteps{display:grid;gap:10px;margin:16px 0}
-.tutorialStep{
-  padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.035);
-  border:1px solid color-mix(in srgb, var(--accent) 10%, transparent);
+#aiPanel{
+  right:24px;
+  bottom:108px;
+  width:320px;
+  border-radius:22px;
 }
-@media (max-width:980px){
-  #top{grid-template-columns:1fr;gap:10px}
-  #dashboardNav{top:146px}
-  #contentWrap{top:198px}
-  #page-home .homeGrid{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+#idleBox{
+  right:24px;
+  bottom:506px;
 }
-@media (max-width:640px){
-  #top{left:10px;right:10px;top:10px;padding:14px}
-  #dashboardNav{left:10px;right:10px}
-  #contentWrap{left:10px;right:10px;bottom:10px}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .card{height:250px}
-  #aiPanel{width:min(92vw,320px)}
+#cursor{
+  width:24px;
+  height:24px;
+  border-width:1.5px;
+  background:radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%);
+}
+.cursor-hover{width:38px !important;height:38px !important}
+.cursor-click{width:42px !important;height:42px !important}
+.trail{
+  width:10px;
+  height:10px;
+}
+#fightScene{
+  background:
+    radial-gradient(circle at 50% 45%, rgba(0,255,136,.10), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(0,255,136,.18), transparent 30%),
+    linear-gradient(180deg,#000,#030805 55%,#000);
+}
+#fightWarning{
+  animation:warningPulse 1.1s ease-in-out infinite alternate;
+}
+@keyframes warningPulse{
+  from{opacity:.35; transform:scale(.98)}
+  to{opacity:1; transform:scale(1.04)}
+}
+#fightNames{
+  font-size:34px;
+}
+#fighters{
+  gap:54px;
+}
+.fighter{
+  filter:drop-shadow(0 0 25px color-mix(in srgb, var(--accent) 30%, transparent));
+}
+.fighter.left.attack{transform:translateX(58px) rotate(-9deg) scale(1.08)}
+.fighter.right.attack{transform:translateX(-58px) rotate(9deg) scale(1.08)}
+.fighter.left.kick{transform:translateX(46px) rotate(-8deg) scale(1.12)}
+.fighter.right.kick{transform:translateX(-46px) rotate(8deg) scale(1.12)}
+.fighter.left.dash{transform:translateX(100px) scale(1.11)}
+.fighter.right.dash{transform:translateX(-100px) scale(1.11)}
+#dialog{
+  bottom:74px;
+  font-size:14px;
+  overflow:hidden;
+}
+#dialog::after{
+  content:"";
+  position:absolute;
+  left:-40%;
+  top:0;
+  bottom:0;
+  width:36%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  animation:dialogSweep 3.2s linear infinite;
+}
+@keyframes dialogSweep{
+  from{transform:translateX(0)}
+  to{transform:translateX(420%)}
+}
+.bubble{
+  animation:bubbleIn .2s ease, bubbleFloat 1.8s ease-in-out infinite alternate;
+}
+@keyframes bubbleFloat{
+  from{transform:translateY(0)}
+  to{transform:translateY(-8px)}
+}
+@media (max-width:1100px){
+  #top{grid-template-columns:1fr}
+  #contentWrap{top:156px}
+  #desktopIcons{display:none}
+}
+@media (max-width:720px){
+  #top,#contentWrap,#taskbar,#startMenu{left:12px; right:12px}
+  #sidebar{bottom:12px; gap:8px; padding:7px 10px}
+  .sideBtn{width:44px;height:44px}
+  #contentWrap{bottom:86px}
 }
 
 </style>
@@ -1403,6 +1529,56 @@ canvas#bg{
 <div id="cursor"></div>
 <div id="cursorDot"></div>
 
+<div id="fightScene">
+  <div id="fightWarning">system defense activated</div>
+  <div id="fightNames"></div>
+  <div id="fightBars">
+    <div class="bar"><div id="hp1" class="barFill"></div></div>
+    <div class="bar"><div id="hp2" class="barFill"></div></div>
+  </div>
+
+  <div id="fighters">
+    <div class="fighterWrap">
+      <div class="fighterLabel" id="f1Label">player</div>
+      <div class="fighter fighter1 left" id="fighter1">
+        <div class="fighterCore">
+          <div class="fighterBody">
+            <div class="head"><div class="face" id="face1">• •</div></div>
+            <div class="torso"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+            <div class="fist"></div>
+            <div class="kickTrail"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fighterWrap">
+      <div class="fighterLabel" id="f2Label">school blocker</div>
+      <div class="fighter fighter2 right" id="fighter2">
+        <div class="fighterCore">
+          <div class="fighterBody">
+            <div class="head"><div class="face" id="face2">• •</div></div>
+            <div class="torso"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+            <div class="fist"></div>
+            <div class="kickTrail"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="fightText">LOADING BATTLE...</div>
+  <div id="comboCounter"></div>
+  <div id="dialog"></div>
+</div>
 
 <div id="sidebar">
   <button class="sideBtn active" data-page="home" title="home">🏠</button>
@@ -1412,7 +1588,8 @@ canvas#bg{
   <button class="sideBtn" data-page="favorites" title="favorites">⭐</button>
 
   <div id="sideBottom">
-        <button class="sideBtn" id="settingsSideBtn" title="settings">⚙</button>
+    <button class="sideBtn" id="bossBtn" title="boss mode">⚔</button>
+    <button class="sideBtn" id="settingsSideBtn" title="settings">⚙</button>
   </div>
 </div>
 
@@ -1421,7 +1598,7 @@ canvas#bg{
     <div id="logoDot"></div>
     <div>
       <div id="title">SUBUSSY OS</div>
-      <div id="subTitle">games • movies • docs</div>
+      <div id="subTitle">games • movies • docs • boss mode</div>
     </div>
   </div>
 
@@ -1438,16 +1615,6 @@ canvas#bg{
   </div>
 </div>
 
-
-<div id="dashboardNav">
-  <button class="navChip primary" data-scroll-target="page-home">Home</button>
-  <button class="navChip" data-scroll-target="page-games">Games</button>
-  <button class="navChip" data-scroll-target="page-movies">Movies</button>
-  <button class="navChip" data-scroll-target="page-docs">Docs</button>
-  <button class="navChip" data-scroll-target="page-favorites">Favorites</button>
-  <button class="navChip" id="layoutToggleBtn">Compact Layout</button>
-</div>
-
 <div id="desktopIcons"></div>
 
 <div id="contentWrap">
@@ -1456,7 +1623,7 @@ canvas#bg{
       <div class="panel">
         <div class="featuredHero">
           <h2>Featured System</h2>
-          <p>movies, docs, games, favorites, and a cleaner hacker-style dashboard all in one place.</p>
+          <p>movies, docs, games, boss mode, update log, favorites, and optional sound all in one place.</p>
           <div class="rowBtns">
             <button class="smallBtn" id="heroPlay">Play Recommended</button>
             <button class="ghostBtn" id="heroMovies">Open Movies</button>
@@ -1545,15 +1712,7 @@ canvas#bg{
 </div>
 
 <div id="aiPanel">
-  <div id="aiHeader">
-    <div id="aiHeaderRow">
-      <span>SYSTEM_AI.exe</span>
-      <div id="aiHeaderBtns">
-        <button class="aiMiniBtn" id="aiMinBtn" title="minimize">—</button>
-        <button class="aiMiniBtn" id="aiHideBtn" title="hide">✕</button>
-      </div>
-    </div>
-  </div>
+  <div id="aiHeader">SYSTEM_AI.exe</div>
   <div id="aiChat"></div>
   <input id="aiInput" placeholder="type command...">
 </div>
@@ -1569,10 +1728,10 @@ canvas#bg{
     <div id="updateList">
       <div class="updateItem">✔ movies system added</div>
       <div class="updateItem">✔ docs system added</div>
-      <div class="updateItem">✔ loading upgraded</div>
+      <div class="updateItem">✔ combat upgraded</div>
       <div class="updateItem">✔ layout redesigned</div>
       <div class="updateItem">✔ randomizer removed</div>
-      <div class="updateItem">✔ settings colors added</div>
+      <div class="updateItem">✔ sound is optional</div>
     </div>
     <div class="rowBtns">
       <button class="smallBtn" id="updateOkBtn">OK</button>
@@ -1581,28 +1740,11 @@ canvas#bg{
   </div>
 </div>
 
-<div id="tutorialOverlay">
-  <div id="tutorialCard">
-    <div id="tutorialTitle">SUBUSSY QUICK TOUR</div>
-    <div id="tutorialBody">The tutorial now shows after the fight like you asked. This layout is a clean dashboard, not the old sidebar shell.</div>
-    <div id="tutorialSteps">
-      <div class="tutorialStep"><b>1.</b> Use the top nav chips to jump between Home, Games, Movies, Docs, and Favorites.</div>
-      <div class="tutorialStep"><b>2.</b> The plus button lets you add a game with a URL or a local file path. You do not need a separate HTML file every time.</div>
-      <div class="tutorialStep"><b>3.</b> Movies and docs open outside in a new tab. Games still launch inside the player.</div>
-      <div class="tutorialStep"><b>4.</b> The AI panel can minimize or hide completely. Open settings or click the user button to bring it back if you hide it.</div>
-    </div>
-    <div class="rowBtns">
-      <button class="smallBtn" id="tutorialStartBtn">Got it</button>
-      <button class="ghostBtn" id="tutorialSkipBtn">Skip tutorial</button>
-    </div>
-  </div>
-</div>
-
 <script>
 /* =========================
    CONFIG
 ========================= */
-const APP_VERSION = "3.0.0";
+const APP_VERSION = "4.0.0";
 
 const wallpapers = [
   "linear-gradient(135deg,#02130b,#000 55%,#062719)",
@@ -1646,7 +1788,11 @@ const docs = [
 ];
 
 const themePresets = {
-  green:{accent:"#00ff88",accent2:"#7dffd0"}
+  green:{accent:"#00ff88",accent2:"#7dffd0"},
+  cyan:{accent:"#35e1ff",accent2:"#9af3ff"},
+  purple:{accent:"#b868ff",accent2:"#e0b4ff"},
+  orange:{accent:"#ff9f43",accent2:"#ffd08a"},
+  red:{accent:"#ff5c7a",accent2:"#ffb2c1"}
 };
 
 const aiIdleMessages = [
@@ -1679,9 +1825,9 @@ const loseDialogs = ["access denied.","that blocker cooked you.","try again.","s
 let username = localStorage.getItem("subussy_user") || "Player";
 let taskZ = 1500;
 let currentWallpaper = localStorage.getItem("subussy_wallpaper") || wallpapers[0];
-let currentTheme = "green";
+let currentTheme = localStorage.getItem("subussy_theme") || "green";
 let aiMode = localStorage.getItem("subussy_ai_mode") || "normal";
-let soundEnabled = false;
+let soundEnabled = JSON.parse(localStorage.getItem("subussy_sound_enabled") ?? "false");
 
 let hp1 = 100;
 let hp2 = 100;
@@ -1761,16 +1907,10 @@ const submitGameBtn = document.getElementById("submitGameBtn");
 const userBtn = document.getElementById("userBtn");
 const settingsBtnTop = document.getElementById("settingsBtnTop");
 const settingsSideBtn = document.getElementById("settingsSideBtn");
-// removed old fight reference
+const bossBtn = document.getElementById("bossBtn");
 
 const aiChat = document.getElementById("aiChat");
 const aiInput = document.getElementById("aiInput");
-const aiMinBtn = document.getElementById("aiMinBtn");
-const aiHideBtn = document.getElementById("aiHideBtn");
-const tutorialOverlay = document.getElementById("tutorialOverlay");
-const tutorialStartBtn = document.getElementById("tutorialStartBtn");
-const tutorialSkipBtn = document.getElementById("tutorialSkipBtn");
-const layoutToggleBtn = document.getElementById("layoutToggleBtn");
 
 const idleBox = document.getElementById("idleBox");
 const idleCharacter = document.getElementById("idleCharacter");
@@ -1783,20 +1923,20 @@ const updateDetailsBtn = document.getElementById("updateDetailsBtn");
 const cursor = document.getElementById("cursor");
 const cursorDot = document.getElementById("cursorDot");
 
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
-// removed old fight reference
+const fightScene = document.getElementById("fightScene");
+const fightWarning = document.getElementById("fightWarning");
+const fightNames = document.getElementById("fightNames");
+const fightText = document.getElementById("fightText");
+const comboCounter = document.getElementById("comboCounter");
+const dialogBox = document.getElementById("dialog");
+const hp1Bar = document.getElementById("hp1");
+const hp2Bar = document.getElementById("hp2");
+const fighter1 = document.getElementById("fighter1");
+const fighter2 = document.getElementById("fighter2");
+const f1Label = document.getElementById("f1Label");
+const f2Label = document.getElementById("f2Label");
+const face1 = document.getElementById("face1");
+const face2 = document.getElementById("face2");
 
 const fighter1Fist = fighter1.querySelector(".fist");
 const fighter2Fist = fighter2.querySelector(".fist");
@@ -2126,7 +2266,7 @@ updateOkBtn.addEventListener("click", ()=>updateOverlay.style.display="none");
 updateDetailsBtn.addEventListener("click", ()=>{
   openWindow("Changelog", `
     <div class="winGrid">
-      <div class="winCard"><b>v3.0</b><br>movies system added<br>docs system added<br>combat upgraded<br>layout redesigned<br>randomizer removed<br>sound optional</div>
+<div class="winCard"><b>v4.0</b><br>new floating dock layout<br>docs and movies open outside<br>combat cleanup fixed<br>cards, cursor, dialogs, and fight visuals upgraded</div><div class="winCard"><b>v3.0</b><br>movies system added<br>docs system added<br>combat upgraded<br>layout redesigned<br>randomizer removed<br>sound optional</div>
       <div class="winCard"><b>v2.0</b><br>AI panel added<br>desktop UI upgraded<br>theme system added</div>
       <div class="winCard"><b>v1.0</b><br>base launcher created</div>
     </div>
@@ -2160,8 +2300,7 @@ function allEntries(){
     id:`custom-${i}-${g.name}`,
     type:"game",
     name:g.name,
-    file:g.file || g.url,
-    url:g.url || g.file,
+    file:g.file,
     img:g.img || "",
     category:g.category || "custom"
   }));
@@ -2177,7 +2316,7 @@ function createMediaCard(item){
   c.className = "card";
   const fav = favoriteExists(item.id) ? "★" : "☆";
   const badgeType = item.type === "movie" ? "movie" : item.type === "doc" ? "doc" : (item.category || "game");
-  const badgeAction = item.type === "movie" ? "WATCH" : item.type === "doc" ? "OPEN" : "PLAY";
+  const badgeAction = item.type === "movie" ? "LINK" : item.type === "doc" ? "LINK" : "PLAY";
 
   const image = item.img || "";
   c.innerHTML = `
@@ -2189,7 +2328,7 @@ function createMediaCard(item){
       </div>
       <div class="cardName">${item.name}</div>
       <div class="cardMeta">
-        <span>${item.type}</span>
+        <span>${item.type === "movie" || item.type === "doc" ? item.type + " ↗" : item.type}</span>
         <span data-fav="${item.id}" style="cursor:pointer;font-size:16px">${fav}</span>
       </div>
     </div>
@@ -2214,13 +2353,13 @@ function createMediaCard(item){
 
 function openEntry(item){
   if(item.type === "doc" || item.type === "movie"){
-    const externalUrl = normalizeGoogleUrl(item.url);
-    window.open(externalUrl, "_blank", "noopener,noreferrer");
-    registerOpen(item.name);
-    aiReact(item.type);
+    soundUIOpen();
+    window.open(item.url, "_blank", "noopener,noreferrer");
+    aiReact(item.type === "doc" ? "doc" : "movie");
     return;
+  }else{
+    openPlayer(item.file, item.name);
   }
-  openPlayer(item.url || item.file, item.name);
 }
 
 function renderHome(){
@@ -2257,7 +2396,7 @@ function renderDocs(){
   filtered.forEach(d=>{
     const row = document.createElement("div");
     row.className = "docRow";
-    row.innerHTML = `<b>📄 ${d.name}</b><br><small style="color:#9be6c4">google doc</small>`;
+    row.innerHTML = `<b>📄 ${d.name}</b><br><small style="color:#9be6c4">google doc • opens in new tab</small>`;
     row.onclick = ()=>openEntry(d);
     docsList.appendChild(row);
   });
@@ -2282,16 +2421,12 @@ function renderAll(){
   renderFavorites();
   renderStartMenu();
   attachHoverCursor(document);
-  setTimeout(applyLayoutMode, 0);
 }
 
 function switchPage(page){
   currentPage = page;
   saveStats();
-  const target = document.getElementById(`page-${page}`);
-  if(target){
-    target.scrollIntoView({behavior:"smooth", block:"start"});
-  }
+  pages.forEach(p=>p.classList.toggle("active", p.id === `page-${page}`));
   sideBtns.forEach(btn=>btn.classList.toggle("active", btn.dataset.page === page));
 }
 sideBtns.forEach(btn=>btn.addEventListener("click", ()=>switchPage(btn.dataset.page)));
@@ -2568,7 +2703,7 @@ function openSubmitGame(){
       <div class="winCard">
         <b>Add New Game</b><br><br>
         <input id="gName" placeholder="Game Name" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
-        <input id="gFile" placeholder="game URL or local file path" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
+        <input id="gFile" placeholder="file.html" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
         <input id="gImg" placeholder="images/file.jpg (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
         <input id="gCat" placeholder="category (optional)" style="width:100%;padding:10px;margin-bottom:8px;background:#000;color:#eafff2;border:1px solid rgba(255,255,255,.15);border-radius:10px;">
         <div class="rowBtns">
@@ -2591,11 +2726,11 @@ function openSubmitGame(){
       const img = gImg.value.trim();
       const category = gCat.value.trim() || "custom";
       if(!name || !file){
-        aiSay("name and a URL or file path are required.");
+        aiSay("name and file are required.");
         return;
       }
       const custom = JSON.parse(localStorage.getItem("custom_games") || "[]");
-      custom.push({name,file,url:file,img,category});
+      custom.push({name,file,img,category});
       localStorage.setItem("custom_games", JSON.stringify(custom));
       renderAll();
       aiSay("game added: " + name);
@@ -2815,8 +2950,47 @@ function flashHitEffect(power=1){
 }
 
 function shakeScreen(duration=220){
+  clearTimeout(shakeScreen._t);
+  document.body.style.animation = "none";
+  void document.body.offsetWidth;
   document.body.style.animation = `screenShake ${duration}ms linear`;
-  setTimeout(()=>body.style.animation = "", duration);
+  shakeScreen._t = setTimeout(()=>{
+    body.style.animation = "none";
+  }, duration + 20);
+}
+
+function endFightCleanup(resetVisuals=true){
+  if(currentFightLoop){
+    clearInterval(currentFightLoop);
+    currentFightLoop = null;
+  }
+  stopBossMusic();
+  clearTimeout(shakeScreen._t);
+  body.style.animation = "none";
+  body.style.transform = "scale(1)";
+  body.style.filter = "";
+  body.style.transition = "";
+  comboCounter.textContent = "";
+  dialogBox.style.display = "none";
+  fighter1.className = "fighter fighter1 left";
+  fighter2.className = "fighter fighter2 right";
+  fighter1Fist.classList.remove("active");
+  fighter2Fist.classList.remove("active");
+  fighter1Kick.classList.remove("active");
+  fighter2Kick.classList.remove("active");
+  setFace(face1, "idle");
+  setFace(face2, "idle");
+  if(resetVisuals){
+    hp1 = 100;
+    hp2 = 100;
+    combo1 = 0;
+    combo2 = 0;
+    currentBossPhase = 1;
+    fightOver = false;
+    setFightBars();
+    updateComboCounter(0);
+    fightText.textContent = "LOADING BATTLE...";
+  }
 }
 
 function freezeHit(){
@@ -2997,70 +3171,13 @@ function randomSpecial(){
   }
 }
 
-
-function endFightCleanup(){
-  if(currentFightLoop){
-    clearInterval(currentFightLoop);
-    currentFightLoop = null;
-  }
-  stopBossMusic();
-  body.style.filter = "";
-  body.style.animation = "none";
-  body.style.transform = "none";
-  [fighter1, fighter2].forEach(f=>{
-    f.className = f.id === "fighter1" ? "fighter fighter1 left" : "fighter fighter2 right";
-  });
-  [fighter1Fist, fighter2Fist, fighter1Kick, fighter2Kick].forEach(el=>el.classList.remove("active"));
-  dialogBox.style.display = "none";
-}
-
-function showTutorialOverlay(){
-  if(localStorage.getItem("subussy_tutorial_seen") === "1") return;
-  tutorialOverlay.style.display = "flex";
-}
-function hideTutorialOverlay(markSeen=true){
-  tutorialOverlay.style.display = "none";
-  if(markSeen) localStorage.setItem("subussy_tutorial_seen", "1");
-}
-
-tutorialStartBtn.addEventListener("click", ()=>hideTutorialOverlay(true));
-tutorialSkipBtn.addEventListener("click", ()=>hideTutorialOverlay(true));
-
-aiMinBtn.addEventListener("click", ()=>aiPanel.classList.toggle("ai-min"));
-aiHideBtn.addEventListener("click", ()=>aiPanel.classList.add("ai-hidden"));
-settingsBtnTop.addEventListener("dblclick", ()=>aiPanel.classList.remove("ai-hidden"));
-userBtn.addEventListener("dblclick", ()=>aiPanel.classList.remove("ai-hidden"));
-
-document.querySelectorAll("[data-scroll-target]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const target = document.getElementById(btn.dataset.scrollTarget);
-    if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
-  });
-});
-
-let compactLayout = JSON.parse(localStorage.getItem("subussy_compact_layout") || "false");
-function applyLayoutMode(){
-  body.classList.toggle("compact-layout", compactLayout);
-  if(compactLayout){
-    layoutToggleBtn.textContent = "Dashboard Layout";
-    document.querySelectorAll(".grid").forEach(g=>g.style.gridTemplateColumns = "repeat(auto-fill,minmax(180px,1fr))");
-    document.querySelectorAll(".card").forEach(c=>c.style.height = "250px");
-  }else{
-    layoutToggleBtn.textContent = "Compact Layout";
-    document.querySelectorAll(".grid").forEach(g=>g.style.gridTemplateColumns = "repeat(auto-fill,minmax(250px,1fr))");
-    document.querySelectorAll(".card").forEach(c=>c.style.height = "300px");
-  }
-}
-layoutToggleBtn.addEventListener("click", ()=>{
-  compactLayout = !compactLayout;
-  localStorage.setItem("subussy_compact_layout", JSON.stringify(compactLayout));
-  applyLayoutMode();
-});
-
 /* =========================
    FIGHT SYSTEM
 ========================= */
 function startFightIntro(){
+  endFightCleanup(true);
+  fightScene.style.display = "flex";
+  fightScene.style.opacity = "1";
   hp1 = 100;
   hp2 = 100;
   combo1 = 0;
@@ -3081,6 +3198,7 @@ function startFightIntro(){
   setTimeout(()=>{
     fightWarning.style.opacity = "0";
     showBubble("you not getting through.", "right", 1300);
+    if(currentFightLoop) clearInterval(currentFightLoop);
     currentFightLoop = setInterval(enemyAttackLoop, 900);
   }, 1400);
 }
@@ -3143,31 +3261,18 @@ function checkFightEnd(){
     soundBossLose();
     showDialog(loseDialogs[Math.floor(Math.random()*loseDialogs.length)], 3000);
     aiReact("lose");
-    clearInterval(currentFightLoop);
+    endFightCleanup(false);
 
     setTimeout(()=>{
-      fightScene.style.opacity = "0";
       fightScene.style.transition = "opacity .45s ease";
+      fightScene.style.opacity = "0";
 
       setTimeout(()=>{
         fightScene.style.display = "none";
         fightScene.style.opacity = "1";
-
-        hp1 = 100;
-        hp2 = 100;
-        combo1 = 0;
-        combo2 = 0;
-        fightOver = false;
-        currentBossPhase = 1;
-        body.style.filter = "";
-
-        setFightBars();
-        updateComboCounter(0);
-        fightText.textContent = "LOADING BATTLE...";
+        endFightCleanup(true);
         switchPage("home");
-        endFightCleanup();
-        showTutorialOverlay();
-      }, 400);
+      }, 420);
     }, 2500);
 
     return;
@@ -3181,31 +3286,18 @@ function checkFightEnd(){
     soundBossWin();
     showDialog(winDialogs[Math.floor(Math.random()*winDialogs.length)], 3000);
     aiReact("win");
-    clearInterval(currentFightLoop);
+    endFightCleanup(false);
 
     setTimeout(()=>{
-      fightScene.style.opacity = "0";
       fightScene.style.transition = "opacity .45s ease";
+      fightScene.style.opacity = "0";
 
       setTimeout(()=>{
         fightScene.style.display = "none";
         fightScene.style.opacity = "1";
-
-        hp1 = 100;
-        hp2 = 100;
-        combo1 = 0;
-        combo2 = 0;
-        fightOver = false;
-        currentBossPhase = 1;
-        body.style.filter = "";
-
-        setFightBars();
-        updateComboCounter(0);
-        fightText.textContent = "LOADING BATTLE...";
+        endFightCleanup(true);
         switchPage("home");
-        endFightCleanup();
-        showTutorialOverlay();
-      }, 400);
+      }, 420);
     }, 2500);
 
     return;
@@ -3264,1363 +3356,7 @@ switchPage(currentPage);
 attachHoverCursor(document);
 aiSay("system online.");
 saveStats();
-applyLayoutMode();
-</script>
-
-
-<style>
-/* ===== V9 MASSIVE VISUAL UPGRADE ===== */
-body{
-background:radial-gradient(circle at center,#001a12,#000);
-transition:0.5s;
-}
-.card{
-transition:0.2s !important;
-transform-style:preserve-3d;
-}
-.card:hover{
-transform:scale(1.1) rotateX(6deg) rotateY(-6deg) !important;
-box-shadow:0 0 40px #00ff88, 0 0 80px rgba(0,255,136,.4);
-}
-.glowPulse{
-animation:glowPulse 2s infinite alternate;
-}
-@keyframes glowPulse{
-from{filter:brightness(1);}
-to{filter:brightness(1.4);}
-}
-
-/* floating AI stronger */
-#ai,#aiPanel{
-  display:none !important;
-box-shadow:0 0 40px #0f0;
-backdrop-filter:blur(6px);
-}
-
-/* animated background particles */
-#v9bg{
-position:fixed;
-inset:0;
-z-index:-1;
-background:radial-gradient(circle,#00ff8820,transparent);
-animation:bgAnim 10s infinite alternate;
-}
-@keyframes bgAnim{
-from{transform:scale(1);}
-to{transform:scale(1.3);}
-}
-</style>
-
-<div id="v9bg"></div>
-
-<script>
-console.log("V9 GOD MODE LOADED");
-
-/* ===== MASS UI ANIMATION ENGINE ===== */
-(function(){
-let last=0;
-function loop(t){
-let delta=t-last;
-last=t;
-
-document.querySelectorAll(".card").forEach((c,i)=>{
-let s=1+Math.sin((t+i*100)/800)*0.02;
-c.style.scale=s;
-});
-
-requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-
-/* ===== SUPER BLOOD PHYSICS ===== */
-window.createBlood=function(){
-for(let i=0;i<15;i++){
-let b=document.createElement("div");
-b.className="blood";
-b.style.left=Math.random()*innerWidth+"px";
-b.style.top=Math.random()*innerHeight+"px";
-b.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
-b.style.opacity=Math.random();
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),800);
-}
-};
-
-/* ===== REAL COMBAT IMPACT ===== */
-window.attack=function(){
-let target=Math.random()>0.5?document.getElementById("p1"):document.getElementById("p2");
-if(!target)return;
-target.style.transform="scale(1.2)";
-setTimeout(()=>target.style.transform="",150);
-
-createBlood();
-document.body.style.background="#200";
-setTimeout(()=>document.body.style.background="",100);
-};
-
-/* ===== FORCE AI IMPROVE ===== */
-(function(){
-let ai=document.getElementById("ai")||document.getElementById("aiPanel");
-if(ai){
-ai.style.display="flex";
-ai.style.flexDirection="column";
-
-let hide=document.createElement("button");
-hide.textContent="HIDE";
-hide.style="background:red;color:white;border:none;margin:5px;";
-hide.onclick=()=>ai.style.display="none";
-ai.appendChild(hide);
-}
-})();
-
-/* ===== SMART GAME ADD (VISIBLE CHANGE) ===== */
-window.addGame=function(){
-let input=prompt("ADD GAME (name or url)");
-if(!input)return;
-
-let url=input.startsWith("http")?input:"https://"+input;
-
-let data=JSON.parse(localStorage.getItem("data")||"{}");
-if(!data.games)data.games=[];
-
-data.games.unshift({
-name:input,
-url:url,
-img:"https://www.google.com/s2/favicons?domain="+url
-});
-
-localStorage.setItem("data",JSON.stringify(data));
-
-alert("GAME ADDED (V9 SYSTEM)");
-location.reload();
-};
-
-/* ===== EXTREME CURSOR EFFECT ===== */
-document.addEventListener("mousemove",e=>{
-let trail=document.createElement("div");
-trail.style.position="fixed";
-trail.style.width="6px";
-trail.style.height="6px";
-trail.style.background="#0f0";
-trail.style.left=e.clientX+"px";
-trail.style.top=e.clientY+"px";
-trail.style.pointerEvents="none";
-document.body.appendChild(trail);
-setTimeout(()=>trail.remove(),300);
-});
-
-/* ===== FORCE PERFORMANCE SAFE ===== */
-window.addEventListener("error",e=>{
-console.warn("V9 guard caught:",e.message);
-});
-</script>
-
-
-<style>
-/* ===== V10 GOD MODE VISUAL ===== */
-body{
-    background: radial-gradient(circle at center, #00281c, #000);
-    overflow:hidden;
-}
-
-/* window system */
-.window{
-    position:fixed;
-    width:400px;
-    height:300px;
-    background:#000;
-    border:2px solid #0f0;
-    box-shadow:0 0 20px #0f0;
-    top:50px;
-    left:50px;
-    resize:both;
-    overflow:hidden;
-    z-index:9999;
-}
-.window-header{
-    background:#0f0;
-    color:black;
-    padding:5px;
-    cursor:move;
-    font-weight:bold;
-}
-</style>
-
-<script>
-console.log("V10 BREAK LIMITS");
-
-/* ===== DRAG WINDOW SYSTEM ===== */
-function createWindow(title, url){
-    let win = document.createElement("div");
-    win.className = "window";
-
-    let header = document.createElement("div");
-    header.className = "window-header";
-    header.textContent = title;
-
-    let frame = document.createElement("iframe");
-    frame.src = url;
-    frame.style.width = "100%";
-    frame.style.height = "calc(100% - 25px)";
-    frame.style.border = "none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    let offsetX=0, offsetY=0, dragging=false;
-
-    header.onmousedown = (e)=>{
-        dragging=true;
-        offsetX = e.clientX - win.offsetLeft;
-        offsetY = e.clientY - win.offsetTop;
-    };
-
-    document.onmouseup = ()=>dragging=false;
-    document.onmousemove = (e)=>{
-        if(dragging){
-            win.style.left = (e.clientX-offsetX)+"px";
-            win.style.top = (e.clientY-offsetY)+"px";
-        }
-    };
-}
-
-/* ===== OVERRIDE CARD CLICK ===== */
-document.querySelectorAll(".card").forEach(c=>{
-    c.addEventListener("dblclick", ()=>{
-        let url = c.querySelector("img")?.src || "https://example.com";
-        createWindow("App", url);
-    });
-});
-
-/* ===== REAL HP COMBAT ===== */
-let hp1 = 100, hp2 = 100;
-
-window.attack = function(){
-    let dmg = Math.floor(Math.random()*15)+5;
-    if(Math.random()>0.5){
-        hp1 -= dmg;
-    } else {
-        hp2 -= dmg;
-    }
-
-    createBlood();
-
-    if(hp1 <= 0 || hp2 <= 0){
-        alert("FINISHER!");
-        hp1 = 100;
-        hp2 = 100;
-    }
-};
-
-/* ===== PARTICLE ENGINE ===== */
-function particle(x,y){
-    let p = document.createElement("div");
-    p.style.position="fixed";
-    p.style.left=x+"px";
-    p.style.top=y+"px";
-    p.style.width="4px";
-    p.style.height="4px";
-    p.style.background="#0f0";
-    document.body.appendChild(p);
-
-    let vx = Math.random()*4-2;
-    let vy = Math.random()*4-2;
-
-    let life=0;
-    function move(){
-        life++;
-        x+=vx;
-        y+=vy;
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        if(life<30){
-            requestAnimationFrame(move);
-        } else {
-            p.remove();
-        }
-    }
-    move();
-}
-
-document.addEventListener("click",e=>{
-    for(let i=0;i<10;i++) particle(e.clientX,e.clientY);
-});
-</script>
-
-
-<style>
-/* ===== V11 ENGINE MODE ===== */
-.tabbar{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:30px;
-    background:#001;
-    display:flex;
-    gap:5px;
-    z-index:99999;
-}
-.tab{
-    padding:5px 10px;
-    background:#0f0;
-    color:black;
-    cursor:pointer;
-    font-size:12px;
-}
-</style>
-
-<div class="tabbar" id="tabbar"></div>
-
-<script>
-console.log("V11 ENGINE MODE");
-
-/* ===== TAB SYSTEM ===== */
-let tabs = [];
-
-function addTab(title, win){
-    let tab = document.createElement("div");
-    tab.className = "tab";
-    tab.textContent = title;
-
-    tab.onclick = ()=>{
-        document.querySelectorAll(".window").forEach(w=>w.style.display="none");
-        win.style.display="block";
-    };
-
-    document.getElementById("tabbar").appendChild(tab);
-    tabs.push({tab, win});
-}
-
-/* patch window creation */
-let oldCreate = window.createWindow;
-window.createWindow = function(title, url){
-    let win = document.createElement("div");
-    win.className = "window";
-
-    let header = document.createElement("div");
-    header.className = "window-header";
-    header.textContent = title;
-
-    let frame = document.createElement("iframe");
-    frame.src = url;
-    frame.style.width = "100%";
-    frame.style.height = "calc(100% - 25px)";
-    frame.style.border = "none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    addTab(title, win);
-
-    let offsetX=0, offsetY=0, dragging=false;
-    header.onmousedown = (e)=>{
-        dragging=true;
-        offsetX = e.clientX - win.offsetLeft;
-        offsetY = e.clientY - win.offsetTop;
-    };
-    document.onmouseup = ()=>dragging=false;
-    document.onmousemove = (e)=>{
-        if(dragging){
-            win.style.left = (e.clientX-offsetX)+"px";
-            win.style.top = (e.clientY-offsetY)+"px";
-        }
-    };
-};
-
-/* ===== REQUEST HUB ===== */
-function openRequestHub(){
-    let win = document.createElement("div");
-    win.className="window";
-    win.innerHTML = `
-        <div class="window-header">Request Hub</div>
-        <div style="padding:10px">
-            <input id="reqInput" placeholder="Enter game URL or name" style="width:100%">
-            <button onclick="submitRequest()">Submit</button>
-            <div id="reqList"></div>
-        </div>
-    `;
-    document.body.appendChild(win);
-}
-
-window.submitRequest = function(){
-    let val = document.getElementById("reqInput").value;
-    if(!val)return;
-
-    let list = document.getElementById("reqList");
-    let item = document.createElement("div");
-    item.textContent = "Added: "+val;
-    list.appendChild(item);
-
-    let url = val.startsWith("http")?val:"https://"+val;
-
-    let data = JSON.parse(localStorage.getItem("data")||"{}");
-    if(!data.games)data.games=[];
-    data.games.unshift({
-        name:val,
-        url:url,
-        img:"https://www.google.com/s2/favicons?domain="+url
-    });
-
-    localStorage.setItem("data",JSON.stringify(data));
-};
-
-/* ===== HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-    if(e.key==="`") openRequestHub();
-});
-
-/* ===== ADVANCED PARTICLES ===== */
-document.addEventListener("mousemove",e=>{
-    if(Math.random()<0.2){
-        let p=document.createElement("div");
-        p.style.position="fixed";
-        p.style.left=e.clientX+"px";
-        p.style.top=e.clientY+"px";
-        p.style.width="3px";
-        p.style.height="3px";
-        p.style.background="#0f0";
-        document.body.appendChild(p);
-        setTimeout(()=>p.remove(),300);
-    }
-});
-</script>
-
-
-<style>
-/* ===== V12 GOD ENGINE ===== */
-.window.minimized{
-    height:30px !important;
-    overflow:hidden;
-}
-.processPanel{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:30px;
-    background:#010;
-    display:flex;
-    gap:5px;
-    padding:2px;
-    z-index:99999;
-}
-.proc{
-    background:#0f0;
-    color:black;
-    padding:2px 6px;
-    font-size:11px;
-}
-</style>
-
-<div class="processPanel" id="processPanel"></div>
-
-<script>
-console.log("V12 GOD ENGINE");
-
-/* ===== PROCESS MANAGER ===== */
-let processes = [];
-
-function addProcess(name, win){
-    let p=document.createElement("div");
-    p.className="proc";
-    p.textContent=name;
-    p.onclick=()=>win.style.display="block";
-
-    document.getElementById("processPanel").appendChild(p);
-    processes.push({p,win});
-}
-
-/* ===== EXTEND WINDOW ===== */
-let oldCreateWin = window.createWindow;
-window.createWindow = function(title,url){
-    let win=document.createElement("div");
-    win.className="window";
-
-    let header=document.createElement("div");
-    header.className="window-header";
-    header.innerHTML=title+" <span style='float:right'>_ [ ] X</span>";
-
-    let frame=document.createElement("iframe");
-    frame.src=url;
-    frame.style.width="100%";
-    frame.style.height="calc(100% - 25px)";
-    frame.style.border="none";
-
-    win.appendChild(header);
-    win.appendChild(frame);
-    document.body.appendChild(win);
-
-    addProcess(title,win);
-
-    let dragging=false,ox=0,oy=0;
-    header.onmousedown=(e)=>{
-        dragging=true;
-        ox=e.clientX-win.offsetLeft;
-        oy=e.clientY-win.offsetTop;
-    };
-    document.onmouseup=()=>dragging=false;
-    document.onmousemove=(e)=>{
-        if(dragging){
-            win.style.left=(e.clientX-ox)+"px";
-            win.style.top=(e.clientY-oy)+"px";
-        }
-    };
-
-    /* controls */
-    header.onclick=(e)=>{
-        if(e.target.textContent.includes("_")){
-            win.classList.toggle("minimized");
-        }
-        if(e.target.textContent.includes("X")){
-            win.remove();
-        }
-    };
-};
-
-/* ===== PERFORMANCE MONITOR ===== */
-let fps=0,last=performance.now();
-function perfLoop(now){
-    fps=Math.round(1000/(now-last));
-    last=now;
-    document.title="FPS:"+fps+" | V12 ENGINE";
-    requestAnimationFrame(perfLoop);
-}
-requestAnimationFrame(perfLoop);
-
-/* ===== COMBAT UPGRADE ===== */
-let combo=0;
-window.attack=function(){
-    combo++;
-    let dmg=Math.floor(Math.random()*20)+combo;
-    createBlood();
-
-    if(combo>5){
-        document.body.style.filter="brightness(2)";
-        setTimeout(()=>document.body.style.filter="",200);
-    }
-};
-
-/* ===== ADVANCED PARTICLES ===== */
-function particle(x,y){
-    let p=document.createElement("div");
-    p.style.position="fixed";
-    p.style.left=x+"px";
-    p.style.top=y+"px";
-    p.style.width="3px";
-    p.style.height="3px";
-    p.style.background="#0f0";
-    document.body.appendChild(p);
-
-    let vx=Math.random()*6-3;
-    let vy=Math.random()*6-3;
-
-    let life=0;
-    function move(){
-        life++;
-        x+=vx;
-        y+=vy;
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        if(life<40) requestAnimationFrame(move);
-        else p.remove();
-    }
-    move();
-}
-
-document.addEventListener("click",e=>{
-    for(let i=0;i<15;i++) particle(e.clientX,e.clientY);
-});
-</script>
-
-
-<style>
-/* ===== V13 FINAL BOSS UI ===== */
-.desktop{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-}
-.desktop-layer{
-    position:absolute;
-    inset:0;
-    transition:opacity .3s;
-}
-.desktop-layer.hidden{
-    opacity:0;
-    pointer-events:none;
-}
-</style>
-
-<script>
-console.log("V13 FINAL BOSS");
-
-/* ===== MULTI DESKTOP ===== */
-let desktops = [];
-let currentDesktop = 0;
-
-function createDesktop(){
-    let d = document.createElement("div");
-    d.className="desktop-layer";
-    document.body.appendChild(d);
-    desktops.push(d);
-}
-
-function switchDesktop(i){
-    desktops.forEach((d,idx)=>{
-        d.classList.toggle("hidden", idx !== i);
-    });
-    currentDesktop = i;
-}
-
-createDesktop();
-createDesktop();
-switchDesktop(0);
-
-/* hotkey switch */
-document.addEventListener("keydown",e=>{
-    if(e.key==="1") switchDesktop(0);
-    if(e.key==="2") switchDesktop(1);
-});
-
-/* ===== APP MANAGER ===== */
-function listApps(){
-    let wins=document.querySelectorAll(".window");
-    alert("Running apps: "+wins.length);
-}
-
-/* ===== ENHANCED COMBAT VISUAL ===== */
-window.attack = function(){
-    createBlood();
-    document.body.style.transform="scale(1.05)";
-    setTimeout(()=>document.body.style.transform="",100);
-};
-
-/* ===== UI REACTIVE ENGINE ===== */
-document.addEventListener("mousemove",e=>{
-    document.body.style.backgroundPosition = e.clientX/10+"px "+e.clientY/10+"px";
-});
-
-/* ===== AI SYSTEM (BASIC SMART) ===== */
-window.aiSuggest = function(){
-    let data = JSON.parse(localStorage.getItem("data")||"{}");
-    if(data.games && data.games.length){
-        alert("Try: "+data.games[0].name);
-    }
-};
-
-/* ===== GLOBAL HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-    if(e.key==="F2") listApps();
-    if(e.key==="F3") aiSuggest();
-});
-</script>
-
-
-<style>
-/* ===== V20 ULTRA CORE ===== */
-body{
-    background: radial-gradient(circle at center, #001a12, #000);
-    overflow:hidden;
-}
-
-/* taskbar */
-#taskbar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:35px;
-    background:#020;
-    display:flex;
-    gap:5px;
-    padding:5px;
-    z-index:999999;
-}
-
-/* start menu */
-#startMenu{
-    position:fixed;
-    bottom:40px;
-    left:5px;
-    width:250px;
-    background:#000;
-    border:1px solid #0f0;
-    display:none;
-    padding:10px;
-    z-index:999999;
-}
-
-/* window focus */
-.window{
-    transition:0.2s;
-}
-.window.active{
-    box-shadow:0 0 40px #0f0;
-}
-
-/* animations */
-@keyframes pulseFast{
-    from{transform:scale(1);}
-    to{transform:scale(1.03);}
-}
-.card{
-    animation:pulseFast 2s infinite alternate;
-}
-</style>
-
-<div id="taskbar">
-<button onclick="toggleStart()">START</button>
-</div>
-
-<div id="startMenu">
-<button onclick="openRequestHub()">Request Hub</button>
-<button onclick="listApps()">Apps</button>
-<button onclick="alert('System V20')">About</button>
-</div>
-
-<script>
-console.log("V20 ULTRA CORE");
-
-/* ===== START MENU ===== */
-function toggleStart(){
-    let m=document.getElementById("startMenu");
-    m.style.display = m.style.display==="block"?"none":"block";
-}
-
-/* ===== WINDOW FOCUS SYSTEM ===== */
-document.addEventListener("click",e=>{
-    document.querySelectorAll(".window").forEach(w=>w.classList.remove("active"));
-    let w=e.target.closest(".window");
-    if(w) w.classList.add("active");
-});
-
-/* ===== BACKGROUND ENGINE V20 ===== */
-(function(){
-function loop(t){
-    document.body.style.backgroundPosition =
-        Math.sin(t/1000)*20 + "px " + Math.cos(t/1000)*20 + "px";
-    requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-
-/* ===== ADVANCED PARTICLE BURST ===== */
-function burst(x,y){
-    for(let i=0;i<20;i++){
-        let p=document.createElement("div");
-        p.style.position="fixed";
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        p.style.width="4px";
-        p.style.height="4px";
-        p.style.background="#0f0";
-        document.body.appendChild(p);
-
-        let vx=Math.random()*8-4;
-        let vy=Math.random()*8-4;
-
-        let life=0;
-        function move(){
-            life++;
-            x+=vx;
-            y+=vy;
-            p.style.left=x+"px";
-            p.style.top=y+"px";
-            if(life<50) requestAnimationFrame(move);
-            else p.remove();
-        }
-        move();
-    }
-}
-
-document.addEventListener("click",e=>{
-    burst(e.clientX,e.clientY);
-});
-
-/* ===== REAL MULTITASK SYSTEM ===== */
-let zIndex=1000;
-document.addEventListener("mousedown",e=>{
-    let w=e.target.closest(".window");
-    if(w){
-        zIndex++;
-        w.style.zIndex=zIndex;
-    }
-});
-
-/* ===== AUTO SAVE SYSTEM ===== */
-window.addEventListener("beforeunload",()=>{
-    localStorage.setItem("v20_state","saved");
-});
-
-/* ===== AI AUTO SUGGEST V20 ===== */
-setInterval(()=>{
-    let data=JSON.parse(localStorage.getItem("data")||"{}");
-    if(data.games && data.games.length>2){
-        console.log("V20 AI Suggest:", data.games[Math.floor(Math.random()*data.games.length)].name);
-    }
-},5000);
-
-/* ===== COMBAT V20 ===== */
-let rage=0;
-window.attack=function(){
-    rage++;
-    createBlood();
-    if(rage>5){
-        document.body.style.filter="hue-rotate(90deg)";
-        setTimeout(()=>document.body.style.filter="",300);
-        rage=0;
-    }
-};
-</script>
-
-
-<style>
-#colorWipe{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999999;
-  background:linear-gradient(90deg, transparent 0%, #0f0 50%, transparent 100%);
-  transform:translateX(-100%);
-  opacity:0;
-}
-.wipeAnim{
-  animation:wipeMove .6s ease;
-}
-@keyframes wipeMove{
-  0%{transform:translateX(-100%);opacity:1;}
-  50%{transform:translateX(0%);opacity:1;}
-  100%{transform:translateX(100%);opacity:0;}
-}
-.splitColor{
-  background:linear-gradient(90deg, var(--c1) 50%, var(--c2) 50%) !important;
-}
-</style>
-
-<div id="colorWipe"></div>
-
-<script>
-const colors=[
-"#00ff88","#00ffff","#ff0088","#ff0000","#ffaa00",
-"#00ff00","#0099ff","#cc00ff","#ff4444","#00ffaa",
-"#ffffff","#8888ff","#ff66cc","#66ff66","#ffaaee"
-];
-
-let currentColor="#00ff88";
-
-function switchColor(){
-  let wipe=document.getElementById("colorWipe");
-  let rare=Math.random()<0.1;
-
-  if(rare){
-    let c1=colors[Math.floor(Math.random()*colors.length)];
-    let c2=colors[Math.floor(Math.random()*colors.length)];
-    document.body.style.setProperty("--c1",c1);
-    document.body.style.setProperty("--c2",c2);
-    document.body.classList.add("splitColor");
-    setTimeout(()=>document.body.classList.remove("splitColor"),1200);
-  } else {
-    currentColor=colors[Math.floor(Math.random()*colors.length)];
-    document.body.style.color=currentColor;
-    document.querySelectorAll(".card,.window,#taskbar,#startMenu").forEach(el=>{
-      el.style.borderColor=currentColor;
-      el.style.boxShadow="0 0 20px "+currentColor;
-    });
-  }
-
-  wipe.style.background=`linear-gradient(90deg, transparent, ${currentColor}, transparent)`;
-  wipe.classList.remove("wipeAnim");
-  void wipe.offsetWidth;
-  wipe.classList.add("wipeAnim");
-}
-
-setInterval(switchColor,8000);
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="c") switchColor();
-});
-</script>
-
-
-<style>
-/* ===== V25 GOD SYSTEM ===== */
-#volumeControl{
-position:fixed;
-top:10px;
-right:10px;
-z-index:999999;
-}
-</style>
-
-<div id="volumeControl">
-<button onclick="toggleSound()">🔊</button>
-</div>
-
-<script>
-console.log("V25 GOD SYSTEM");
-
-/* ===== SOUND SYSTEM ===== */
-let soundOn = true;
-
-let hitSound = new Audio("https://www.soundjay.com/button/sounds/button-16.mp3");
-let bossSound = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-
-function toggleSound(){
-soundOn = !soundOn;
-alert("Sound: " + (soundOn ? "ON" : "OFF"));
-}
-
-/* hook into attack */
-let oldAttack = window.attack;
-window.attack = function(){
-if(oldAttack) oldAttack();
-
-if(soundOn){
-hitSound.currentTime = 0;
-hitSound.play();
-}
-
-if(Math.random() < 0.2){ // boss hit chance
-if(soundOn){
-bossSound.currentTime = 0;
-bossSound.play();
-}
-document.body.style.boxShadow = "0 0 100px red inset";
-setTimeout(()=>document.body.style.boxShadow="",200);
-}
-};
-
-/* ===== MINI MAP SYSTEM ===== */
-let mini = document.createElement("div");
-mini.style.position="fixed";
-mini.style.bottom="50px";
-mini.style.right="10px";
-mini.style.width="120px";
-mini.style.height="80px";
-mini.style.background="#000";
-mini.style.border="1px solid #0f0";
-mini.innerHTML="<small>Mini System</small>";
-document.body.appendChild(mini);
-
-/* ===== AUTO EVENT SYSTEM ===== */
-setInterval(()=>{
-if(Math.random()<0.1){
-alert("SYSTEM EVENT: BOOST MODE");
-document.body.style.filter="brightness(1.5)";
-setTimeout(()=>document.body.style.filter="",1000);
-}
-},7000);
-
-/* ===== UI SHAKE ENGINE ===== */
-function shake(){
-document.body.style.transform="translate(5px,5px)";
-setTimeout(()=>document.body.style.transform="",100);
-}
-
-/* attach to combat */
-let oldAttack2 = window.attack;
-window.attack = function(){
-if(oldAttack2) oldAttack2();
-shake();
-};
-
-/* ===== FAST OPEN HOTKEY ===== */
-document.addEventListener("keydown",e=>{
-if(e.key==="g"){
-alert("Quick Game Launch!");
-}
-});
-
-/* ===== SYSTEM CLOCK ===== */
-let clock = document.createElement("div");
-clock.style.position="fixed";
-clock.style.top="10px";
-clock.style.left="10px";
-clock.style.color="#0f0";
-document.body.appendChild(clock);
-
-setInterval(()=>{
-let d=new Date();
-clock.textContent=d.toLocaleTimeString();
-},1000);
-
-</script>
-
-
-<style>
-/* ===== V100 ULTIMATE SYSTEM ===== */
-#settingsPanel{
-position:fixed;
-top:50px;
-right:10px;
-width:220px;
-background:#000;
-border:2px solid #0f0;
-padding:10px;
-z-index:999999;
-display:none;
-}
-.desktopIcon{
-position:absolute;
-width:60px;
-text-align:center;
-color:#0f0;
-cursor:pointer;
-}
-</style>
-
-<div id="settingsPanel">
-<b>Settings</b><br>
-<button onclick="toggleParticles()">Particles</button><br>
-<button onclick="toggleColors()">Colors</button><br>
-<button onclick="toggleCombat()">Combat</button>
-</div>
-
-<script>
-console.log("V100 ULTIMATE SYSTEM");
-
-/* ===== SETTINGS ===== */
-let particlesOn=true, colorsOn=true, combatOn=true;
-
-function toggleParticles(){particlesOn=!particlesOn;}
-function toggleColors(){colorsOn=!colorsOn;}
-function toggleCombat(){combatOn=!combatOn;}
-
-document.addEventListener("keydown",e=>{
-if(e.key==="s") document.getElementById("settingsPanel").style.display="block";
-});
-
-/* ===== DESKTOP ICON SYSTEM ===== */
-function createIcon(name,x,y,url){
-let icon=document.createElement("div");
-icon.className="desktopIcon";
-icon.style.left=x+"px";
-icon.style.top=y+"px";
-icon.innerHTML="📁<br>"+name;
-icon.ondblclick=()=>createWindow(name,url);
-document.body.appendChild(icon);
-}
-
-createIcon("Games",100,200,"https://example.com");
-createIcon("Movies",200,200,"https://example.com");
-
-/* ===== BACKGROUND MUSIC ===== */
-let music=new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-music.loop=true;
-
-document.addEventListener("click",()=>{
-if(music.paused) music.play();
-},{once:true});
-
-/* ===== BOSS SYSTEM ===== */
-let bossHP=200;
-
-function bossFight(){
-alert("BOSS APPEARED!");
-}
-
-window.attack=function(){
-if(!combatOn) return;
-
-bossHP-=Math.floor(Math.random()*20)+5;
-createBlood();
-
-if(bossHP<100){
-document.body.style.background="darkred";
-}
-
-if(bossHP<=0){
-alert("BOSS DEFEATED!");
-bossHP=200;
-}
-};
-
-/* ===== ADVANCED PARTICLES ===== */
-function particle(x,y){
-if(!particlesOn) return;
-
-let p=document.createElement("div");
-p.style.position="fixed";
-p.style.left=x+"px";
-p.style.top=y+"px";
-p.style.width="3px";
-p.style.height="3px";
-p.style.background="#0f0";
-document.body.appendChild(p);
-
-let vx=Math.random()*10-5;
-let vy=Math.random()*10-5;
-let life=0;
-
-function move(){
-life++;
-x+=vx;
-y+=vy;
-p.style.left=x+"px";
-p.style.top=y+"px";
-if(life<60) requestAnimationFrame(move);
-else p.remove();
-}
-move();
-}
-
-document.addEventListener("mousemove",e=>{
-if(Math.random()<0.3) particle(e.clientX,e.clientY);
-});
-
-/* ===== COLOR CONTROL ===== */
-setInterval(()=>{
-if(!colorsOn) return;
-document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
-},5000);
-
-/* ===== AUTO EVENTS ===== */
-setInterval(()=>{
-if(Math.random()<0.15){
-bossFight();
-}
-},8000);
-
-</script>
-
-
-<style>
-/* ===== V1000 INFINITY ENGINE ===== */
-#aiCore{
-position:fixed;
-left:10px;
-bottom:50px;
-width:220px;
-background:#000;
-border:2px solid #0ff;
-padding:8px;
-z-index:999999;
-font-size:12px;
-}
-
-.infinityGlow{
-animation:infGlow 1.5s infinite alternate;
-}
-@keyframes infGlow{
-from{box-shadow:0 0 10px #0ff;}
-to{box-shadow:0 0 40px #0ff;}
-}
-</style>
-
-<div id="aiCore" class="infinityGlow">
-<b>AI CORE</b><br>
-<div id="aiLog">System Ready...</div>
-</div>
-
-<script>
-console.log("V1000 INFINITY ENGINE");
-
-/* ===== AI CORE SYSTEM ===== */
-function aiLog(msg){
-let log=document.getElementById("aiLog");
-if(!log) return;
-let div=document.createElement("div");
-div.textContent=msg;
-log.appendChild(div);
-if(log.children.length>6) log.removeChild(log.children[0]);
-}
-
-setInterval(()=>{
-let data=JSON.parse(localStorage.getItem("data")||"{}");
-if(data.games && data.games.length){
-let g=data.games[Math.floor(Math.random()*data.games.length)];
-aiLog("Try: "+g.name);
-}
-},4000);
-
-/* ===== SYSTEM EVOLUTION ===== */
-let level=1;
-setInterval(()=>{
-level++;
-aiLog("System Level ↑ "+level);
-
-if(level%5===0){
-document.body.style.filter="hue-rotate("+Math.random()*360+"deg)";
-}
-},6000);
-
-/* ===== SUPER EVENT ENGINE ===== */
-setInterval(()=>{
-if(Math.random()<0.2){
-aiLog("⚠ EVENT: SYSTEM SURGE");
-document.body.style.transform="scale(1.05)";
-setTimeout(()=>document.body.style.transform="",300);
-}
-},5000);
-
-/* ===== ADVANCED COMBAT ===== */
-let combo=0;
-window.attack=function(){
-combo++;
-createBlood();
-
-aiLog("Combo: "+combo);
-
-if(combo>10){
-aiLog("🔥 OVERDRIVE");
-document.body.style.filter="brightness(2)";
-setTimeout(()=>document.body.style.filter="",200);
-combo=0;
-}
-};
-
-/* ===== PARTICLE FIELD ===== */
-(function(){
-function loop(){
-for(let i=0;i<2;i++){
-let p=document.createElement("div");
-p.style.position="fixed";
-p.style.left=Math.random()*innerWidth+"px";
-p.style.top=Math.random()*innerHeight+"px";
-p.style.width="2px";
-p.style.height="2px";
-p.style.background="#0ff";
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),2000);
-}
-requestAnimationFrame(loop);
-}
-loop();
-})();
-
-/* ===== GLOBAL HOTKEYS ===== */
-document.addEventListener("keydown",e=>{
-if(e.key==="F9") aiLog("Manual Boost Triggered");
-if(e.key==="F10") document.body.style.filter="invert(1)";
-});
-</script>
-
-
-
-
-
-
-
-
-<script id="v12-hard-clean">
-(function(){
-  const root = document.documentElement;
-  root.style.setProperty("--accent", "#00ff88");
-  root.style.setProperty("--accent2", "#7dffd0");
-  localStorage.setItem("accent", "#00ff88");
-  localStorage.setItem("subussy_theme", "green");
-
-  // remove any leftover overlays/widgets from older patches
-  [
-    "bossBarWrap","aiCoreDock","mergedColorPanel","colorWipeFx",
-    "fightScene","bossBtn","aiPanel","idleBox","updateOverlay","tutorialOverlay"
-  ].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.remove();
-  });
-
-  // kill sound and old helpers
-  window.playHitSound = ()=>{};
-  window.playBossSound = ()=>{};
-  window.soundEnabled = false;
-  window.switchColor = ()=>{};
-  window.setAccent = ()=>{};
-
-  // robust loading
-  const boot = document.getElementById("boot");
-  const terminal = document.getElementById("terminal");
-  const bar = document.getElementById("bar");
-
-  if (boot && terminal && bar) {
-    let progress = 0;
-    const errorMode = Math.random() < 0.30;
-    const slow = errorMode ? (1.1 + Math.random()*0.2) : 1;
-
-    const phases = [
-      "BOOTING CORE...",
-      "LOADING MODULES...",
-      "SYNCING DASHBOARD...",
-      "FINALIZING..."
-    ];
-
-    function typeLine(text){
-      return new Promise(resolve=>{
-        let i = 0;
-        const t = setInterval(()=>{
-          terminal.textContent += text[i] || "";
-          i++;
-          if(i > text.length){
-            terminal.textContent += "\n";
-            clearInterval(t);
-            resolve();
-          }
-        }, 8);
-      });
-    }
-
-    (async()=>{
-      terminal.textContent = "";
-      bar.style.width = "0%";
-      boot.style.background = errorMode ? "#200000" : "#000";
-
-      if(errorMode){
-        await typeLine("SYSTEM ERROR...");
-        await typeLine("RECOVERING...");
-      }
-
-      for(const p of phases){
-        await typeLine(p);
-        await new Promise(r=>setTimeout(r, 210 * slow));
-      }
-
-      const int = setInterval(()=>{
-        progress += Math.random() * 6;
-        if(progress >= 100){
-          progress = 100;
-          clearInterval(int);
-          boot.style.opacity = "0";
-          setTimeout(()=>boot.remove(), 420);
-        }
-        bar.style.width = progress + "%";
-      }, 120 * slow);
-    })();
-  }
-
-  // keep card polish only
-  document.querySelectorAll(".card").forEach(card=>{
-    if(card.dataset.cleanwired) return;
-    card.dataset.cleanwired = "1";
-    card.addEventListener("click", ()=>{
-      card.style.transform = "scale(.96)";
-      setTimeout(()=>card.style.transform = "", 110);
-    });
-    card.addEventListener("mousemove", e=>{
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
-      card.style.transform = `rotateX(${y*7}deg) rotateY(${x*7}deg) scale(1.04)`;
-    });
-    card.addEventListener("mouseleave", ()=>{ card.style.transform = ""; });
-  });
-
-  // remove any text blocks that still mention wins/losses from top cards
-  document.querySelectorAll("*").forEach(el=>{
-    if(el.children.length === 0 && el.textContent && /Wins:\s*\d+\s*•\s*Losses:\s*\d+/.test(el.textContent.trim())){
-      el.remove();
-    }
-  });
-
-  // smooth idle dim only
-  let lastMove = Date.now();
-  document.addEventListener("mousemove", ()=>{ lastMove = Date.now(); });
-  setInterval(()=>{
-    document.body.style.filter = (Date.now() - lastMove > 8000) ? "brightness(.85)" : "";
-  }, 1000);
-})();
+fightScene.style.display = "none";
 </script>
 
 </body>
